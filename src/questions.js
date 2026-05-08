@@ -1,1061 +1,1927 @@
-export const quizData = [
-  // ===== ドメイン1: 生成AIの基礎 (1-25) =====
-  {
-    id: 1, domain: "生成AIの基礎",
-    question: "開発チームが複雑な数学的問題を解決するためのアプリケーションを構築しています。Zero-shotプロンプティングではモデルが計算ミスを繰り返すため、思考プロセスをステップバイステップで出力させる必要があります。最も適切なプロンプト手法はどれですか？",
-    choices: ["Few-shot prompting", "Chain-of-Thought (CoT) prompting", "Meta-prompting", "Directional-stimulus prompting"],
-    correct: 1,
-    explanation: "CoTは推論過程をステップごとに書き出させることで論理的精度を高める手法です。複雑な計算や推論タスクに特に有効です。",
-  },
-  {
-    id: 2, domain: "生成AIの基礎",
-    question: "Amazon Bedrockにおいて、極めて高いスループットとミリ秒単位の応答が求められる単純な意図分類タスクに最適な、最もコスト効率の高いモデルはどれですか？",
-    choices: ["Claude 3.5 Sonnet", "Claude 3 Haiku", "Llama 3 70B", "Mistral Large"],
-    correct: 1,
-    explanation: "Claude 3 HaikuはClaudeファミリー中最も速く・安く、単純タスクに最適です。Sonnetはバランス型、Opusは最高性能です。",
-  },
-  {
-    id: 3, domain: "生成AIの基礎",
-    question: "テキストデータから意味的な類似性を計算するために、多次元のベクトル空間に変換するプロセスを何と呼びますか？",
-    choices: ["Tokenization", "Embedding", "Normalization", "Quantization"],
-    correct: 1,
-    explanation: "Embeddingはテキストを数値ベクトルに変換し、コサイン類似度などで意味的な近さを計算できます。RAGの中核技術です。",
-  },
-  {
-    id: 4, domain: "生成AIの基礎",
-    question: "画像生成モデルにおいて、生成された画像の一部を編集し、周囲の文脈に合わせた新しい要素を追加する手法はどれですか？",
-    choices: ["Outpainting", "Inpainting", "Style Transfer", "Text-to-Image"],
-    correct: 1,
-    explanation: "Inpaintingは画像の内側の指定領域を文脈に合わせて修正・追加します。Outpaintingは画像の外側を拡張する手法です。",
-  },
-  {
-    id: 5, domain: "生成AIの基礎",
-    question: "トークナイザーが「unhappiness」という単語を「un」「happi」「ness」のように分割する場合、このトークン化手法は何に分類されますか？",
-    choices: ["Word-level tokenization", "Character-level tokenization", "Subword-level tokenization (BPE/WordPiece)", "Sentence-level tokenization"],
-    correct: 2,
-    explanation: "BPEやWordPieceなどのサブワード分割は、未知語対策と語彙サイズのバランスを保つ現代的なトークン化手法です。",
-  },
-  {
-    id: 6, domain: "生成AIの基礎",
-    question: "ハルシネーションを抑制するために、モデルが回答を生成する前に信頼できるソースから情報を検索し、それをプロンプトに組み込むアーキテクチャを何と呼びますか？",
-    choices: ["Fine-tuning", "RLHF", "RAG (Retrieval-Augmented Generation)", "Chain-of-Thought"],
-    correct: 2,
-    explanation: "RAGは外部の信頼できるデータソースを検索してコンテキストに組み込むことで、ハルシネーションを大幅に抑制できます。",
-  },
-  {
-    id: 7, domain: "生成AIの基礎",
-    question: "モデルが「プロンプトインジェクション」攻撃を受け、システムプロンプトの制限を無視して機密情報を出力するリスクがあります。これを防ぐための最も効果的なAWSマネージドサービスはどれですか？",
-    choices: ["Amazon GuardDuty", "Amazon Bedrock Guardrails", "AWS WAF (標準設定)", "Amazon Inspector"],
-    correct: 1,
-    explanation: "Bedrock Guardrailsはプロンプトインジェクションや有害コンテンツのフィルタリングを行うAWSのベストプラクティスです。",
-  },
-  {
-    id: 8, domain: "生成AIの基礎",
-    question: "Amazon Bedrockにおいて、モデルが次のトークンを選択する際、累積確率が特定のしきい値に達するまでの上位候補から選択するパラメータはどれですか？",
-    choices: ["Temperature", "Top-K", "Top-P (Nucleus Sampling)", "Stop sequences"],
-    correct: 2,
-    explanation: "Top-P（ nucleus sampling）は累積確率がしきい値に達するまでの候補からサンプリングします。Top-Kは上位K個から選択します。",
-  },
-  {
-    id: 9, domain: "生成AIの基礎",
-    question: "モデルが学習時に使用したデータセットに含まれない、最新のニュースや株価情報を回答させるための最適な方法はどれですか？",
-    choices: ["モデルを毎日再学習させる", "大規模なコンテキストウィンドウを持つモデルにすべてのニュースを流し込む", "Amazon Bedrock Agentsを使用してリアルタイム検索ツールと連携する", "モデルのTemperatureを最大にする"],
-    correct: 2,
-    explanation: "Bedrock AgentsでリアルタイムAPIや検索エンジンと連携するのが最も効率的で、モデルの再学習は不要です。",
-  },
-  {
-    id: 10, domain: "生成AIの基礎",
-    question: "基盤モデル（Foundation Model）の「知識のカットオフ」とは何を指しますか？",
-    choices: ["モデルが一度に出力できる最大トークン数", "モデルのトレーニングデータが収集された最後の日付", "モデルが処理できるコンテキストウィンドウのサイズ", "推論時に課金が停止される時間制限"],
-    correct: 1,
-    explanation: "知識のカットオフはトレーニングデータの収集終了日であり、それ以降の情報はモデルが知らないためRAGやAgentsで補完します。",
-  },
-  {
-    id: 11, domain: "生成AIの基礎",
-    question: "マルチモーダルモデルの主な特徴は何ですか？",
-    choices: ["複数の異なるプログラミング言語を同時に生成できること", "テキスト、画像、音声など、異なる種類のデータを単一のモデルで処理できること", "複数のAWSリージョンで同時に稼働すること", "複数のユーザーが同時にアクセスできること"],
-    correct: 1,
-    explanation: "マルチモーダルモデルはテキスト・画像・音声などの異なるモダリティを統合的に処理できます。Claude 3はその代表例です。",
-  },
-  {
-    id: 12, domain: "生成AIの基礎",
-    question: "トークン化において、辞書にない単語（OOV）が発生した場合の一般的な対処法はどれですか？",
-    choices: ["単語を無視して削除する", "単語を未知のトークン（[UNK]）に置き換える、またはサブワードに分割する", "エラーを返して処理を中断する", "ランダムな単語に置き換える"],
-    correct: 1,
-    explanation: "現代のトークナイザーはOOVをサブワード分割（BPE等）で対処するか、[UNK]トークンで表現します。",
-  },
-  {
-    id: 13, domain: "生成AIの基礎",
-    question: "Claude 3.5 Sonnetのコンテキストウィンドウが200kトークンである場合、これは何を意味しますか？",
-    choices: ["20万文字の回答を生成できること", "入力プロンプトと出力回答の合計として20万トークンまで処理できること", "1秒間に20万リクエストを処理できること", "20万個のパラメータを持っていること"],
-    correct: 1,
-    explanation: "コンテキストウィンドウは入力+出力の合計トークン数の上限です。200kトークンは長い文書の処理に非常に有利です。",
-  },
-  {
-    id: 14, domain: "生成AIの基礎",
-    question: "プロンプトエンジニアリングにおいて、回答のフォーマットをJSON形式に固定したい場合に最も効果的な方法はどれですか？",
-    choices: ["「JSONで答えてください」と1回だけ書く", "Few-shotプロンプトでJSON形式の例示を複数提供し、スキーマを明示する", "モデルのTemperatureを0にする", "ストリーミングを無効にする"],
-    correct: 1,
-    explanation: "具体的なJSONスキーマの例示（Few-shot）とスキーマの明示が出力フォーマット制御に最も効果的です。",
-  },
-  {
-    id: 15, domain: "生成AIの基礎",
-    question: "自律的なエージェントを設計する際、思考、行動、観察を繰り返すループを何と呼びますか？",
-    choices: ["ReAct (Reasoning and Acting)", "RLHF", "Backpropagation", "Gradient Descent"],
-    correct: 0,
-    explanation: "ReActは推論（Reason）と行動（Act）を組み合わせるエージェントの基本フレームワークです。Bedrock Agentsで採用されています。",
-  },
-  {
-    id: 16, domain: "生成AIの基礎",
-    question: "Stable Diffusionのような拡散モデル（Diffusion Model）が画像を生成する仕組みはどれですか？",
-    choices: ["既存の画像を切り貼りする", "ノイズから始まり、ステップごとにノイズを除去して画像を構築する", "ピクセルをランダムに配置する", "テキストをそのまま画像データに変換する"],
-    correct: 1,
-    explanation: "拡散モデルはランダムノイズから始まり、逆拡散プロセスで徐々にノイズを除去して高品質な画像を生成します。",
-  },
-  {
-    id: 17, domain: "生成AIの基礎",
-    question: "Amazon Titan Text Embeddings v2を使用する際、出力されるベクトルの次元数（Dimensions）を増やすと一般的にどうなりますか？",
-    choices: ["検索精度が向上する可能性があるが、計算コストとストレージ容量が増える", "検索精度が低下する", "推論速度が速くなる", "コストが安くなる"],
-    correct: 0,
-    explanation: "次元数を増やすと表現力・精度が向上する可能性がありますが、ストレージと計算コストが増加します。Matryoshka Embeddingsで調整可能です。",
-  },
-  {
-    id: 18, domain: "生成AIの基礎",
-    question: "モデルが特定の単語やフレーズを生成しないように制御する最も簡単な方法はどれですか？",
-    choices: ["フルファインチューニング", "Stop sequences (停止シーケンス) の設定", "VPCエンドポイントの使用", "リージョンの変更"],
-    correct: 1,
-    explanation: "Stop sequencesは指定した文字列が出力された時点で生成を停止します。特定フレーズの除外にも活用できます。",
-  },
-  {
-    id: 19, domain: "生成AIの基礎",
-    question: "プロンプトの最後に「ステップバイステップで考えてみましょう」と付け加える手法は、どのテクニックの典型例ですか？",
-    choices: ["Few-shot", "Zero-shot CoT", "Role prompting", "Self-consistency"],
-    correct: 1,
-    explanation: "「ステップバイステップで」という一言を追加するだけでCoTを誘発するZero-shot CoTは、例示なしで推論精度を向上させます。",
-  },
-  {
-    id: 20, domain: "生成AIの基礎",
-    question: "基盤モデルを特定のタスク（例：特定の業界のQ&A）に特化させるために、比較的少量のラベル付きデータで調整することを何と呼びますか？",
-    choices: ["Pre-training", "Fine-tuning", "Quantization", "Distillation"],
-    correct: 1,
-    explanation: "Fine-tuningは少量のタスク固有データでモデルを調整し、特定ドメインでの性能を向上させます。RAGとの使い分けが重要です。",
-  },
-  {
-    id: 21, domain: "生成AIの基礎",
-    question: "生成AIにおける「アテンション・メカニズム（Attention Mechanism）」の役割は何ですか？",
-    choices: ["GPUのメモリ消費を抑えること", "入力シーケンス内の各要素の重要度を動的に重み付けし、関連性の高い情報を強調すること", "ユーザーの入力をフィルタリングすること", "モデルのパラメータをゼロにすること"],
-    correct: 1,
-    explanation: "アテンション機構はトランスフォーマーの中核で、文中の各単語が他の単語に対してどれだけ「注目」するかを動的に計算します。",
-  },
-  {
-    id: 22, domain: "生成AIの基礎",
-    question: "Amazon Bedrockでモデルを選択する際、「スループット（Throughput）」とは何を測定するものですか？",
-    choices: ["モデルの学習時間", "単位時間あたりに処理できるトークン数やリクエスト数", "モデルの重みのファイルサイズ", "ベクトルDBの容量"],
-    correct: 1,
-    explanation: "スループットは単位時間あたりの処理能力を示します。高トラフィックのアプリではProvisioned Throughputで保証する必要があります。",
-  },
-  {
-    id: 23, domain: "生成AIの基礎",
-    question: "「Temperature」パラメータを 0 に設定した場合の挙動として正しいものはどれですか？",
-    choices: ["回答が最もランダムで創造的になる", "常に最も確率の高いトークンが選択され、決定論的な回答になる", "回答が生成されなくなる", "入力プロンプトが無視される"],
-    correct: 1,
-    explanation: "Temperature=0では最高確率のトークンのみを選択するため、同じ入力に対して常に同じ出力が得られます。コード生成や事実確認に適しています。",
-  },
-  {
-    id: 24, domain: "生成AIの基礎",
-    question: "LLMにおいて「パラメータ数」が多いことは、一般的に何を意味しますか？",
-    choices: ["モデルがより複雑なパターンを学習できる可能性があるが、推論に多くのリソースを必要とする", "モデルが常に正確であることを保証する", "モデルが無料で利用できる", "モデルがオフラインで動作する"],
-    correct: 0,
-    explanation: "パラメータ数は表現力に影響しますが、推論コスト・メモリも増加します。タスクに応じた適切なサイズのモデル選択が重要です。",
-  },
-  {
-    id: 25, domain: "生成AIの基礎",
-    question: "画像生成における「ネガティブプロンプト（Negative Prompt）」の用途は何ですか？",
-    choices: ["生成したいものを強調する", "生成画像に含めたくない要素（例：「低品質」「余分な指」）を指定する", "モデルの学習を停止する", "画像を白黒にする"],
-    correct: 1,
-    explanation: "ネガティブプロンプトは生成画像から除外したい要素を指定します。品質向上や特定のアーティファクト（余分な指など）の除去に効果的です。",
-  },
-
-  // ===== ドメイン2: データ準備 (26-40) =====
-  {
-    id: 26, domain: "データ準備",
-    question: "RAGシステムのために大量のPDFドキュメントをベクトルDBに取り込む際、検索精度を維持するためにドキュメントを分割するプロセスを何と呼びますか？",
-    choices: ["Partitioning", "Chunking", "Sharding", "Indexing"],
-    correct: 1,
-    explanation: "Chunkingはドキュメントを検索に適したサイズに分割するプロセスです。チャンクサイズとオーバーラップの設定がRAG精度に大きく影響します。",
-  },
-  {
-    id: 27, domain: "データ準備",
-    question: "チャンキングにおいて、隣接するチャンク間で一部のテキストを重複させる「オーバーラップ」を設ける主な目的は何ですか？",
-    choices: ["データの冗長性を高めてバックアップにする", "チャンク境界での文脈（コンテキスト）の喪失を防ぐ", "ベクトルDBのストレージ使用量を増やす", "検索速度を速める"],
-    correct: 1,
-    explanation: "オーバーラップにより、チャンク境界で分断される文脈の欠落を防ぎ、検索時に適切なコンテキストが取得できるようになります。",
-  },
-  {
-    id: 28, domain: "データ準備",
-    question: "Amazon Bedrock Knowledge Basesでサポートされている、サーバーレスで自動スケーリング可能なベクトルエンジンはどれですか？",
-    choices: ["Amazon Aurora (pgvector)", "Amazon OpenSearch Serverless", "Amazon RDS for MySQL", "Amazon DynamoDB"],
-    correct: 1,
-    explanation: "Amazon OpenSearch Serverlessのベクトルエンジンはフルマネージドでサーバーレス、Bedrock Knowledge Basesの推奨構成です。",
-  },
-  {
-    id: 29, domain: "データ準備",
-    question: "高次元の埋め込みベクトル（Embeddings）を比較して類似性を計算する際、最も一般的に使用される数学的指標はどれですか？",
-    choices: ["L1 距離", "コサイン類似度 (Cosine Similarity)", "ハミング距離", "ピアソン相関係数"],
-    correct: 1,
-    explanation: "コサイン類似度はベクトルの向きの近さを測定し、テキストの意味的類似度計算に最も広く使われます。値が1に近いほど類似しています。",
-  },
-  {
-    id: 30, domain: "データ準備",
-    question: "Amazon Titan Text Embeddings v2 で利用可能な、ベクトルサイズを柔軟に変更しても精度を維持できる機能を何と呼びますか？",
-    choices: ["Scalable Embeddings", "Matryoshka Embeddings", "Dynamic Indexing", "Sparse Vector Encoding"],
-    correct: 1,
-    explanation: "Matryoshka Embeddingsは入れ子構造で重要情報を前方に集約し、次元削減後も高精度を維持します。ストレージと速度のバランス調整が可能です。",
-  },
-  {
-    id: 31, domain: "データ準備",
-    question: "ベクトルデータベースにおいて、膨大なデータから近似的な最近傍を高速に検索する手法を何と呼びますか？",
-    choices: ["Exact Match", "ANN (Approximate Nearest Neighbor)", "Full Table Scan", "Binary Search"],
-    correct: 1,
-    explanation: "ANN（近似最近傍探索）はHNSWやIVF等のアルゴリズムを使い、完全一致を犠牲にして大幅な高速化を実現します。",
-  },
-  {
-    id: 32, domain: "データ準備",
-    question: "非構造化データ（テキストファイル）からRAG用のデータセットを作成する際、メタデータ（例：作成日、著者、カテゴリ）を付与する利点は何ですか？",
-    choices: ["検索結果を特定の条件でフィルタリングして精度を高めることができる", "ベクトルの次元数を減らすことができる", "暗号化が不要になる", "モデルのTemperatureを制御できる"],
-    correct: 0,
-    explanation: "メタデータフィルタリングにより、特定の期間・カテゴリ・著者のドキュメントのみを検索対象にでき、RAGの精度と関連性が向上します。",
-  },
-  {
-    id: 33, domain: "データ準備",
-    question: "多言語のドキュメントを扱うRAGシステムにおいて、日本語のクエリで英語の資料を検索したい場合、何が必要ですか？",
-    choices: ["英語を日本語に自動翻訳するLambda", "多言語（Multilingual）対応の埋め込みモデル", "別々のベクトルDB", "モデルのファインチューニング"],
-    correct: 1,
-    explanation: "多言語対応の埋め込みモデルは異なる言語のテキストを同一のベクトル空間に変換するため、言語を超えた類似性検索が可能になります。",
-  },
-  {
-    id: 34, domain: "データ準備",
-    question: "埋め込みモデルが、特定の業界用語（例：自社製品の専門型番）を正しくベクトル化できない場合、精度を向上させるための「データ側」の対策はどれですか？",
-    choices: ["モデルのコンテキストウィンドウを増やす", "業界用語とその説明を含む用語集をコンテキストとして追加、または埋め込みモデルの微調整を検討する", "チャンクサイズを極端に大きくする", "全てのテキストを大文字にする"],
-    correct: 1,
-    explanation: "専門用語集をコンテキストに追加することで、モデルが用語を正しく解釈できるようになります。埋め込みモデルの微調整も有効な対策です。",
-  },
-  {
-    id: 35, domain: "データ準備",
-    question: "Amazon OpenSearch Serverlessでベクトルエンジンを使用する際、インデックス作成に必要な設定項目はどれですか？",
-    choices: ["インスタンスのインスタンスタイプ", "ベクトルの次元数（Dimensions）と類似度指標（例：nmslib/faiss）", "モデルのパラメータ数", "APIキーの有効期限"],
-    correct: 1,
-    explanation: "ベクトルインデックスには次元数（使用する埋め込みモデルの出力次元に合わせる）と類似度計算エンジンの指定が必須です。",
-  },
-  {
-    id: 36, domain: "データ準備",
-    question: "データの機密性が高い場合、S3に保存されたRAG用データを暗号化するための最適な方法はどれですか？",
-    choices: ["パスワード付きZIPファイルにする", "AWS KMS を使用したサーバーサイド暗号化（SSE-KMS）", "データをBase64エンコードする", "データをランダムな文字で置き換える"],
-    correct: 1,
-    explanation: "SSE-KMSはAWS KMSのカスタムキーでS3データを暗号化し、誰がいつアクセスしたかの監査ログも取得できます。",
-  },
-  {
-    id: 37, domain: "データ準備",
-    question: "RAGにおいて「ハイブリッド検索（Hybrid Search）」とは何を指しますか？",
-    choices: ["複数のLLMを同時に使うこと", "キーワードベースの検索（BM25等）とベクトルベースの検索（k-NN等）を組み合わせること", "S3とDynamoDBを同時に検索すること", "CPUとGPUを同時に使うこと"],
-    correct: 1,
-    explanation: "ハイブリッド検索は意味検索（ベクトル）と完全一致検索（キーワード）を組み合わせ、固有名詞や型番の検索精度も向上させます。",
-  },
-  {
-    id: 38, domain: "データ準備",
-    question: "Amazon Bedrock Knowledge Basesの「データ取り込み（Ingestion）」プロセスに含まれないステップはどれですか？",
-    choices: ["文書の分割（Chunking）", "埋め込みベクトルの生成", "ベクトルストアへの保存", "モデルのフルファインチューニング"],
-    correct: 3,
-    explanation: "Ingestionプロセスはチャンキング→埋め込み生成→ベクトルストア保存の3ステップです。フルファインチューニングは別の最適化手法です。",
-  },
-  {
-    id: 39, domain: "データ準備",
-    question: "チャンキング戦略として「意味論的チャンキング（Semantic Chunking）」を採用する主なメリットは何ですか？",
-    choices: ["計算コストが最も低い", "固定長での分割よりも、トピックの区切りを考慮したより関連性の高い情報のまとまりが作れる", "実装が最も簡単である", "全てのチャンクが同じサイズになる"],
-    correct: 1,
-    explanation: "Semantic Chunkingは文の意味的なまとまりを考慮して分割するため、文脈が途切れにくく、RAGの検索精度が向上します。",
-  },
-  {
-    id: 40, domain: "データ準備",
-    question: "ベクトルデータベースの「インデックス（Index）」を再構築（再同期）する必要があるのはどのような場合ですか？",
-    choices: ["モデルのTemperature設定を変更したとき", "S3のソースデータが更新されたとき", "ユーザーがログインしたとき", "リージョンを切り替えたとき"],
-    correct: 1,
-    explanation: "S3のソースデータ（ドキュメント）が追加・更新・削除された場合、ベクトルインデックスを再同期して最新の状態に保つ必要があります。",
-  },
-
-  // ===== ドメイン3: アプリケーション開発 (41-82) =====
-  {
-    id: 41, domain: "アプリ開発",
-    question: "Amazon Bedrock Agentsが、指示されたタスクを完了するために必要な外部ツールを呼び出すために使用する設定はどれですか？",
-    choices: ["Knowledge Bases", "Action Groups", "Guardrails", "Routing"],
-    correct: 1,
-    explanation: "Action GroupsはOpenAPIスキーマとLambda関数を組み合わせ、エージェントが外部APIやデータベースを呼び出せるようにします。",
-  },
-  {
-    id: 42, domain: "アプリ開発",
-    question: "Amazon Bedrock AgentsとAWS Lambdaを連携させる際、Lambdaが返すレスポンスに必要な特定のフォーマットを記述する仕様書は何ですか？",
-    choices: ["OpenAPI 仕様 (Swagger)", "XML スキーマ", "Dockerfile", "IAM ポリシー"],
-    correct: 0,
-    explanation: "Action GroupsはOpenAPI仕様（Swagger）でAPIの構造・パラメータ・レスポンスを定義し、エージェントが正しくツールを呼び出せるようにします。",
-  },
-  {
-    id: 43, domain: "アプリ開発",
-    question: "Amazon Bedrockの「InvokeModelWithResponseStream」APIを使用する際の主なメリットは何ですか？",
-    choices: ["料金が安くなる", "回答全体が生成されるのを待たずに、生成されたチャンクを順次クライアントに表示できる（UXの向上）", "回答の精度が向上する", "暗号化が自動的に強化される"],
-    correct: 1,
-    explanation: "ストリーミングAPIはトークンが生成されるたびにリアルタイムで表示し、ユーザーの待ち時間体験を改善します。ChatGPT風のUIに必須です。",
-  },
-  {
-    id: 44, domain: "アプリ開発",
-    question: "複数のモデル（Claude、Llama、Mistral等）を単一のコード構造で呼び出すことができ、会話履歴の管理も容易にするBedrockの新しいAPIは何ですか？",
-    choices: ["InvokeModel", "Converse API", "ApplyGuardrail", "ListFoundationModels"],
-    correct: 1,
-    explanation: "Converse APIは統一されたmessages配列形式でモデルを呼び出せ、モデル切り替えのコード変更を最小化します。プロ開発の推奨APIです。",
-  },
-  {
-    id: 45, domain: "アプリ開発",
-    question: "Amazon Bedrock Knowledge Basesを使用して、回答の「根拠（引用元）」をユーザーに提示したい場合、どのAPIメソッドを使用し、レスポンスのどのフィールドを確認すべきですか？",
-    choices: ["InvokeModel の body", "RetrieveAndGenerate の citations フィールド", "GetAgent の status", "CreateKnowledgeBase の arn"],
-    correct: 1,
-    explanation: "RetrieveAndGenerateのcitationsフィールドには参照元ドキュメントの情報が含まれ、回答の透明性と信頼性の確保に活用できます。",
-  },
-  {
-    id: 46, domain: "アプリ開発",
-    question: "オーケストレーションツール（LangChainなど）で、モデルへの過去のメッセージ履歴を保存し、コンテキストとして再送するために使用される機能はどれですか？",
-    choices: ["Chain", "Memory (ChatMessageHistory)", "Agent", "Loader"],
-    correct: 1,
-    explanation: "LangChainのMemoryモジュール（ChatMessageHistory等）が会話履歴を管理し、ステートレスなLLMに文脈を提供します。",
-  },
-  {
-    id: 47, domain: "アプリ開発",
-    question: "Amazon Bedrock Agentsにおいて、エージェントがユーザーの入力を受け取ってから最終的な回答を生成するまでの「内部的な推論のトレース」をデバッグするために有効な機能はどれですか？",
-    choices: ["CloudWatch Metrics", "Trace capability", "AWS X-Ray (標準設定のみ)", "CloudTrail"],
-    correct: 1,
-    explanation: "Trace capabilityによりReActループの各ステップ（思考→アクション→観察）を可視化でき、エージェントの動作デバッグに不可欠です。",
-  },
-  {
-    id: 48, domain: "アプリ開発",
-    question: "Amazon Bedrockで「プロビジョニング済みスループット（Provisioned Throughput）」が必要となる主なシナリオはどれですか？",
-    choices: ["テスト環境で時々モデルを呼び出す場合", "カスタムモデル（ファインチューニング済み）を使用する場合、またはミッションクリティカルなアプリでトラフィックを保証する場合", "S3からデータを読み込む場合", "モデルのパラメータを確認する場合"],
-    correct: 1,
-    explanation: "Provisioned Throughputはカスタムモデルの利用に必須であり、本番環境でのスループット保証にも使用します。",
-  },
-  {
-    id: 49, domain: "アプリ開発",
-    question: "サーバーレスフロントエンドからBedrockを呼び出す際、APIキーを直接フロントエンドに持たせないためのベストプラクティスはどれですか？",
-    choices: ["APIキーを暗号化してJavaScriptに埋め込む", "Amazon API Gateway と AWS Lambda を介して、IAMロールによる一時的な認証を使用する", "APIキーをS3で公開する", "プロキシサーバーを通さず直接呼び出す"],
-    correct: 1,
-    explanation: "API GatewayとLambdaをバックエンドとし、IAMロールで認証することで、クライアント側にAWS認証情報を公開せずに済みます。",
-  },
-  {
-    id: 50, domain: "アプリ開発",
-    question: "BedrockのKnowledge Basesで Retrieve API（検索のみ）を使用し、その結果を自前のプロンプトに組み込んで InvokeModel を呼び出す構成を何と呼びますか？",
-    choices: ["Fully Managed RAG", "Custom RAG", "Model Fine-tuning", "Prompt Compression"],
-    correct: 1,
-    explanation: "Custom RAGはRetrieve APIで検索を行い、取得したコンテキストを独自に整形してモデルに渡す高度なRAG構成です。プロンプト制御の自由度が高まります。",
-  },
-  {
-    id: 51, domain: "アプリ開発",
-    question: "AWS Step Functions を生成AIアプリの開発で使用する主な利点はどれですか？",
-    choices: ["埋め込みベクトルを作成するため", "長時間実行される複数のステップ（例：要約 → 翻訳 → メール送信）を伴うワークフローを確実に管理するため", "モデルの推論速度を上げるため", "S3バケットを作成するため"],
-    correct: 1,
-    explanation: "Step Functionsは複数のLambda・Bedrock呼び出しを含む複雑なワークフローを視覚的に管理し、エラーハンドリングも容易にします。",
-  },
-  {
-    id: 52, domain: "アプリ開発",
-    question: "Amazon Bedrockにおいて、不適切なプロンプトや不適切な回答をフィルタリングするために、アプリケーションレベルで構成すべき機能は何ですか？",
-    choices: ["VPCエンドポイント", "Bedrock Guardrails", "AWS Shield", "Amazon Inspector"],
-    correct: 1,
-    explanation: "Bedrock Guardrailsはコンテンツフィルタ・PIIマスキング・禁止トピック・ウォードフィルタなど多層的な保護を提供します。",
-  },
-  {
-    id: 53, domain: "アプリ開発",
-    question: "エージェントがアクションを実行する前に、ユーザーに最終的な承認（はい/いいえ）を求める機能を実装するにはどうすればよいですか？",
-    choices: ["Lambda関数のタイムアウトを長くする", "Action Group の定義で「User Confirmation」を要求するように設定する", "モデルのTemperatureを0にする", "エージェントを削除して作り直す"],
-    correct: 1,
-    explanation: "User Confirmation設定により、不可逆的な操作（メール送信・注文確定など）の前にユーザーの明示的な承認を求めることができます。",
-  },
-  {
-    id: 54, domain: "アプリ開発",
-    question: "Amazon Bedrockのモデル評価（Model Evaluation）機能で、人間が回答の「ブランドの声」や「創造性」を評価する際に使用できるワークフォースはどれですか？",
-    choices: ["Amazon Mechanical Turk", "AWS Managed Workforce (または自社/ベンダーのワークフォース)", "AWS Lambda", "Amazon EC2"],
-    correct: 1,
-    explanation: "Bedrock Model EvaluationのHuman評価では、AWSマネージドワークフォースまたは自社の評価者チームを指定して主観的な品質評価ができます。",
-  },
-  {
-    id: 55, domain: "アプリ開発",
-    question: "BedrockのKnowledge Basesで、特定のドキュメントのみを検索対象にしたい場合、どのように実装しますか？",
-    choices: ["全ドキュメントを1つのファイルにする", "RetrievalConfiguration でメタデータフィルタリングを適用する", "ベクトルDBを毎回作り直す", "モデルのプロンプトで「そのユーザー以外は見ないで」と頼む"],
-    correct: 1,
-    explanation: "メタデータフィルタリングを使うと、ユーザーIDやカテゴリ等のメタデータに基づいて検索対象ドキュメントを絞り込めます。",
+export const questions = [
+  {
+    id: 1,
+    question: "ある金融サービス企業が、Amazon Bedrock を使用して、生成型 AI 駆動の顧客サービスチャットボットを構築しています。開発チームは、本格的なデプロイの前に、ソリューションの実現可能性とパフォーマンス特性を検証したいと考えています。この検証フェーズにおける最適のアプローチはどれですか。",
+    options: [
+      "A. 本番環境と同じ大規模なデータセットを使用して、最初から Amazon Titan モデルのフルファインチューニングを実行する。",
+      "B. 実現可能性、パフォーマンス特性、および全体的なビジネス価値を検証するために、限定的なスコープと目標を定めて概念実証 (PoC) を開発する。",
+      "C. AWS Step Functions を使用して、既存のオンプレミスのすべての複雑なビジネスロジックをプロンプトのみで代替できるかテストする。",
+      "D. 公開されているベンチマークスコアのみに基づき、プロトタイプを作成せずに特定の基盤モデル (FM) を最終決定する。"
+    ],
+    answer: 1,
+    explanation: "本格的なデプロイの前にPoC（概念実証）を実施することで、ビジネス要件への適合性やコスト効率、パフォーマンスを低リスクで検証できます。"
+  },
+  {
+    id: 2,
+    question: "ある e コマース企業が、Amazon Bedrock を使用して製品推奨エンジンを構築しています。特定のリージョンで Amazon Bedrock の特定の基盤モデル (FM) の可用性が一時的に低下した場合でも、継続的な運用を確保するための最も適切なレジリエンス戦略はどれですか。",
+    options: [
+      "A. Amazon Bedrock のクロスリージョン推論機能を使用して、トラフィックを自動的に他の利用可能なリージョンに分散させる。",
+      "B. すべてのユーザープロンプトを Amazon S3 に保存し、AWS Glue Data Quality を使用して定期的データ整合性をチェックする。",
+      "C. すべてのモデル呼び出しを Amazon SQS キューに送り、手動での介入が必要なデッドレターキューにのみ配置する。",
+      "D. 単一のリージョンでプロビジョンドスループットのクォータを最大化し、リージョン全体の障害に対する冗長性を確保する。"
+    ],
+    answer: 0,
+    explanation: "クロスリージョン推論により、リージョン障害時でも他リージョンへ自動的にルーティングし、アプリケーションの可用性を維持できます。"
+  },
+  {
+    id: 3,
+    question: "ヘルスケア企業が、専門的な医療用語を含む臨床データを分析するために Amazon Bedrock を利用したいと考えています。開発コストと計算リソースを最小限に抑えつつ、基盤モデル (FM) をこのドメイン固有の知識に適応させるために、どの手法を選択すべきですか。",
+    options: [
+      "A. 基盤モデルのすべてのパラメータを更新するフルファインチューニングを実行する。",
+      "B. 基盤モデルの重みを固定し、少数の追加パラメータのみを学習させる、低ランク適応 (LoRA) などのパラメータ効率の高いファインチューニング (PEFT) 手法を適用する。",
+      "C. Amazon Bedrock のデフォルトモデルを使用し、すべての医療知識をプロンプトのコンテキストウィンドウ内に含めて送信する。",
+      "D. 推論速度のみを向上させるために、AWS Lambda のプロビジョニング済み同時実行数を設定する。"
+    ],
+    answer: 1,
+    explanation: "PEFT（特にLoRA）は、フルファインチューニングに比べて劇的に少ない計算リソースでドメイン固有の適応が可能です。"
+  },
+  {
+    id: 4,
+    question: "ある開発者が、Amazon Bedrock を使用したアプリケーションを構築しており、アプリケーションコードをデプロイし直すことなく、テスト環境で Amazon Bedrock 上のモデルを動的に切り替えることができるようにしたいと考えています。この要件をサポートするために使用すべきサービスはどれですか。(2つ選択してください)",
+    options: [
+      "A. Amazon API Gateway (ステージ変数を使用)",
+      "B. AWS AppConfig",
+      "C. AWS AppSync",
+      "D. AWS Systems Manager Parameter Store",
+      "E. Amazon Route 53"
+    ],
+    answer: [1, 3],
+    explanation: "AppConfig や Parameter Store にモデルIDを保存し、アプリから参照することで、再デプロイなしで動的なモデル切り替えが実現できます。"
+  },
+  {
+    id: 5,
+    question: "AWS Well-Architected Tool の Generative AI Lens を活用してアーキテクチャレビューを行う主な目的は何ですか。",
+    options: [
+      "A. モデルが使用する最適な GPU インスタンスのタイプを、コストに基づいて自動的に推奨させるため。",
+      "B. 生成型 AI 特有の技術コンポーネント、設計原則、およびベストプラクティスを、AWS 環境のワークロードに適用するため。",
+      "C. トークンコストを削減するために、アプリケーションのソースコードを AI によって自動的にリファクタリングするため。",
+      "D. ベクトルデータベースにおけるインデックス作成プロセスを、特定のクエリパターンに合わせて自動的に最適化するため。"
+    ],
+    answer: 1,
+    explanation: "GenAI Lensは、生成AIワークロードにおける標準的なコンポーネントやベストプラクティスを設計に組み込むためのガイダンスを提供します。"
+  },
+  {
+    id: 6,
+    question: "プロンプトインジェクション攻撃からアプリケーションを保護し、不適切なコンテンツをフィルタリングするために、Amazon Bedrock で一元的に管理および適用できるセキュリティ機能はどれですか。",
+    options: [
+      "A. Amazon Bedrock Model Evaluation",
+      "B. Guardrails for Amazon Bedrock",
+      "C. Amazon Bedrock Agents",
+      "D. Provisioned Throughput"
+    ],
+    answer: 1,
+    explanation: "Guardrails for Amazon Bedrockは、有害なコンテンツのフィルタリングやPIIリダクション、プロンプト攻撃の防御を一元的に管理できます。"
+  },
+  {
+    id: 7,
+    question: "Amazon Bedrock のナレッジベース (Knowledge Bases) を使用して RAG アーキテクチャを実装する際、外部データソース（Amazon S3など）から情報を取得するプロセスで、ベクトルデータベースに格納されるデータの形式は何ですか。",
+    options: [
+      "A. 元のドキュメントの PDF ファイルそのもの",
+      "B. テキストの意味的な関係性を表現する数値配列（埋め込みベクトル）",
+      "C. SQL クエリによるリレーショナルデータのダンプ",
+      "D. すべての機密情報を取り除いたプレーンテキスト"
+    ],
+    answer: 1,
+    explanation: "埋め込みモデルによってテキストを数値配列（ベクトル）に変換し、それをベクトルデータベースに格納することで意味的な検索を可能にします。"
+  },
+  {
+    id: 8,
+    question: "ある企業が、Amazon Bedrock で非常に高いトラフィックが予想される基盤モデル (FM) を使用したアプリケーションを運用する予定です。一貫したスループットを確保し、API のスロットリングを回避するために使用すべき機能はどれですか。",
+    options: [
+      "A. On-demand Throughput",
+      "B. Provisioned Throughput",
+      "C. Dedicated Instances",
+      "D. AWS Lambda プロビジョニング済み同時実行"
+    ],
+    answer: 1,
+    explanation: "Provisioned Throughput は、特定のモデルに対して一定の処理能力（スループット）を専用のモデルユニットとして予約できる機能です。"
+  },
+  {
+    id: 9,
+    question: "Amazon Bedrock エージェント (Agents for Amazon Bedrock) が、ユーザーの要求に応じて外部の API 呼び出しやデータベースクエリなどのアクションを自動的に実行するために、開発者が定義する必要があるコンポーネントはどれですか。",
+    options: [
+      "A. セキュリティグループ",
+      "B. アクショングループ (Action Groups)",
+      "C. インターネットゲートウェイ",
+      "D. Amazon Bedrock ガードレール"
+    ],
+    answer: 1,
+    explanation: "アクショングループは、エージェントが実行すべきタスクとそのために必要な Lambda 関数や OpenAPI スキーマを定義します。"
+  },
+  {
+    id: 10,
+    question: "Amazon Bedrock モデル評価 (Model Evaluation) において、モデルの回答の「親しみやすさ」、「関連性」、「個人的な好み」など、自動化されたメトリクスでは測定が難しい品質を評価するために最適な手法は何ですか。",
+    options: [
+      "A. 決定論的な Python スクリプトによる評価ジョブ",
+      "B. 人間の評価者による評価ジョブ (Human Evaluation)",
+      "C. AWS CloudTrail によるログ分析",
+      "D. Amazon QuickSight による自動ダッシュボード生成"
+    ],
+    answer: 1,
+    explanation: "スタイルやトーン、主観的な関連性は人間の評価者による評価が必要になります。"
+  },
+  {
+    id: 11,
+    question: "Amazon Bedrock のプロビジョンドスループット (Provisioned Throughput) を購入する際、最低コミットメント期間を設けることで得られる主なメリットは何ですか。",
+    options: [
+      "A. すべての AWS サービスの料金が 50% 割引になる。",
+      "B. オンデマンド料金と比較して、大幅な割引価格でスループットを確保できる。",
+      "C. モデルの推論レイテンシが自動的に半分になる。",
+      "D. モデルのパラメータに直接アクセスして変更できるようになる。"
+    ],
+    answer: 1,
+    explanation: "1ヶ月または6ヶ月のコミットメント期間を設定することで、スループットを割引価格で予約・確保できます。"
+  },
+  {
+    id: 12,
+    question: "Amazon Bedrock エージェントの動作をトラブルシューティングしており、エージェントがどのようにユーザーの質問を推論し、どのアクショングループを呼び出すことを決定したかを確認したいと考えています。どの機能を使用すべきですか。",
+    options: [
+      "A. Amazon VPC フローログ",
+      "B. エージェントトレース (Agent Trace)",
+      "C. AWS X-Ray",
+      "D. Amazon CloudWatch カスタムメトリクス"
+    ],
+    answer: 1,
+    explanation: "エージェントトレースにより、エージェントの推論ステップ（思考の連鎖）やアクショングループ呼び出しの詳細を確認できます。"
+  },
+  {
+    id: 13,
+    question: "Amazon Bedrock を使用した RAG アプリケーションにおいて、検索されたドキュメントのチャンクがモデルのコンテキストウィンドウを大幅に超えてしまい、回答が途切れたり不正確になったりしています。この問題を解決するための最も効果的な前処理ステップはどれですか。",
+    options: [
+      "A. 入力されるすべてのドキュメントを削除し、短文のみを許可する。",
+      "B. チャンク化戦略 (Chunking strategy) を調整し、各チャンクのサイズを小さくして、モデルに渡される情報の関連度を高める。",
+      "C. モデルの Temperature（温度）パラメータを 1.0 に上げる。",
+      "D. 出力トークン制限 (Max Tokens) を 1 に設定する。"
+    ],
+    answer: 1,
+    explanation: "チャンクサイズを適切に調整し、関連性の高い情報のみをモデルに提供することで、コンテキストウィンドウ内での効率的な回答生成が可能になります。"
+  },
+  {
+    id: 14,
+    question: "新しい生成型 AI プロンプトやモデル構成をデプロイする際、一部のトラフィックのみを新しいバージョンに誘導し、品質や安定性を確認しながら徐々に展開範囲を広げていく手法は何ですか。",
+    options: [
+      "A. インプレースアップデート",
+      "B. カナリア展開 (Canary deployment)",
+      "C. ブルー/グリーン展開",
+      "D. バルクデプロイメント"
+    ],
+    answer: 1,
+    explanation: "カナリア展開は、一部のユーザーでテストしながらリスクを最小限に抑えて段階的にロールアウトする手法です。"
+  },
+  {
+    id: 15,
+    question: "ある企業が、Amazon Bedrock で独自のラベルなしデータセットを使用して、特定のドメイン知識（例：独自の技術文書や法務用語）を基盤モデル (FM) に深く統合させたいと考えています。どの手法が最適ですか。",
+    options: [
+      "A. インストラクションベースのファインチューニング",
+      "B. 継続的プリトレーニング (Continued Pre-training)",
+      "C. ゼロショットプロンプティング",
+      "D. モデルの量子化"
+    ],
+    answer: 1,
+    explanation: "継続的プリトレーニングは、ラベルなしデータを使用してモデルが新しいドメインや知識を学習するのを支援します。"
+  },
+  {
+    id: 16,
+    question: "Amazon Bedrock のガードレールにおいて、社会保障番号 (SSN) やクレジットカード番号などの機密情報をモデルの出力から自動的に検出し、伏せ字にするために使用する機能はどれですか。",
+    options: [
+      "A. PII (個人を特定できる情報) のリダクション",
+      "B. ネットワーク ACL",
+      "C. S3 バケットポリシー",
+      "D. データの圧縮"
+    ],
+    answer: 0,
+    explanation: "ガードレールのPIIリダクション機能により、定義された機密情報を自動的にマスク（伏せ字）にできます。"
+  },
+  {
+    id: 17,
+    question: "Amazon Bedrock モデル評価において、F1 スコアや ROUGE-N などの標準的なメトリクスを自動的に算出するために必要なジョブのタイプは何ですか。",
+    options: [
+      "A. 人間の評価ジョブ",
+      "B. 自動評価ジョブ (Automatic evaluation)",
+      "C. リアルタイム・プレイグラウンド評価",
+      "D. AWS Config ルール評価"
+    ],
+    answer: 1,
+    explanation: "自動評価ジョブは、用意されたテストデータセットに対してROUGEやF1などの客観的指標を自動計算します。"
+  },
+  {
+    id: 18,
+    question: "RAG システムにおいて、ユーザーの質問（クエリ）と最も関連性の高いドキュメントを検索するために、クエリをベクトル形式に変換するモデルは何と呼ばれますか。",
+    options: [
+      "A. 分類モデル",
+      "B. 埋め込みモデル (Embedding model)",
+      "C. 拡散モデル",
+      "D. 音声認識モデル"
+    ],
+    answer: 1,
+    explanation: "埋め込みモデルは、テキストを数値ベクトルに変換し、意味的な類似度計算を可能にします。"
+  },
+  {
+    id: 19,
+    question: "Amazon Bedrock ナレッジベースで「ハイブリッド検索」を使用する場合、どのような検索手法が組み合わされますか。",
+    options: [
+      "A. ベクトル検索（意味的）とキーワード検索（語彙的）",
+      "B. オンプレミス検索とクラウド検索",
+      "C. 音声検索とテキスト検索",
+      "D. 画像検索とベクトル検索"
+    ],
+    answer: 0,
+    explanation: "ハイブリッド検索は、意味の類似性と、特定のキーワードや用語の一致の両方を考慮して精度を高めます。"
+  },
+  {
+    id: 20,
+    question: "Amazon Bedrock でプロビジョンドスループットを使用してカスタマイズしたモデルをデプロイする際、スループットの単位としてカウントされるものは何ですか。",
+    options: ["A. インスタンス数", "B. モデルユニット (Model units)", "C. vCPU 数", "D. ストレージ容量"],
+    answer: 1,
+    explanation: "プロビジョンドスループットのキャパシティはモデルユニット単位で購入・管理します。"
+  },
+  {
+    id: 21,
+    question: "基盤モデル (FM) に特定のタスクを実行する方法を教えるために、ラベル付きの（入力と出力がセットになった）小規模なデータセットを提供して学習させる手法は何ですか。",
+    options: [
+      "A. 継続的プリトレーニング",
+      "B. ファインチューニング (Fine-tuning)",
+      "C. 強化学習 (RLHF)",
+      "D. モデルのプルーニング"
+    ],
+    answer: 1,
+    explanation: "ファインチューニングは、特定のタスクやスタイルに適応させるためにラベル付きデータでモデルを微調整します。"
+  },
+  {
+    id: 22,
+    question: "Amazon Bedrock モデル評価ジョブの結果が保存される AWS サービスはどれですか。",
+    options: ["A. Amazon DynamoDB", "B. Amazon S3", "C. AWS Artifact", "D. Amazon RDS"],
+    answer: 1,
+    explanation: "評価レポートや出力データは、ユーザーが指定した Amazon S3 バケットに保存されます。"
+  },
+  {
+    id: 23,
+    question: "Amazon Bedrock の推論 API を呼び出す際、モデルの出力が決定論的（常に同じ回答）になるように調整するために最も適切なパラメータは何ですか。",
+    options: ["A. Temperature (温度) を 0 に設定する", "B. Max Tokens を最大にする", "C. Top-P を 1.0 に設定する", "D. Stop Sequences を空にする"],
+    answer: 0,
+    explanation: "温度パラメータを 0 に近づけるほど、モデルは最も確率の高いトークンを選択し続け、一貫した回答を生成します。"
+  },
+  {
+    id: 24,
+    question: "Amazon Bedrock のガードレールで、特定のトピック（例えば「投資アドバイス」）に関連する質問を拒否するように設定する場合、どの機能を構成すべきですか。",
+    options: ["A. 機密情報フィルタ", "B. コンテンツフィルタ (トピックフィルタ)", "C. 単語フィルタ", "D. モデルアクセス制御"],
+    answer: 1,
+    explanation: "コンテンツフィルタ内の「トピック」設定を使用すると、特定の望ましくないトピックに関する会話をブロックできます。"
+  },
+  {
+    id: 25,
+    question: "基盤モデルが学習データに含まれていない事実（社内規定など）に基づいて回答できるようにするための最も低コストな手法は何ですか。",
+    options: ["A. フルファインチューニング", "B. 検索拡張生成 (RAG)", "C. 継続的プリトレーニング", "D. モデルの再構築"],
+    answer: 1,
+    explanation: "RAGは再学習コストをかけずに外部データをプロンプトに注入できるため、非常にコスト効率が良い手法です。"
+  },
+  {
+    id: 26,
+    question: "Amazon Bedrock エージェントを構成する際、ユーザーがアップロードしたファイルをエージェントが読み取れるようにするために連携させるべき機能は何ですか。",
+    options: ["A. ナレッジベース (Knowledge Bases)", "B. セキュリティグループ", "C. AWS Lambda レイヤー", "D. Amazon Route 53"],
+    answer: 0,
+    explanation: "ナレッジベースを連携させることで、エージェントはドキュメントを検索・参照できるようになります。"
+  },
+  {
+    id: 27,
+    question: "Amazon Bedrock へのすべての API リクエストとレスポンスのメタデータを、監査やガバナンスの目的で記録するために使用すべき AWS サービスはどれですか。",
+    options: ["A. Amazon Inspector", "B. AWS CloudTrail", "C. AWS CloudFormation", "D. AWS Trusted Advisor"],
+    answer: 1,
+    explanation: "CloudTrail は API 呼び出し履歴を記録し、誰が・いつ・どのリソースを操作したかを追跡可能にします。"
+  },
+  {
+    id: 28,
+    question: "人間の評価者による Amazon Bedrock モデル評価ジョブを設定する際、評価者が回答を比較するために使用するインターフェースを提供するのはどのサービスですか。",
+    options: ["A. Amazon SageMaker Ground Truth", "B. Amazon Bedrock の評価コンソール", "C. AWS Cloud9", "D. Amazon QuickSight"],
+    answer: 1,
+    explanation: "Bedrockのコンソール上で人間の評価者が回答を評価・比較するための専用UIが提供されます。"
+  },
+  {
+    id: 29,
+    question: "モデルの回答に含まれるトークンの最大長を制限し、コスト管理やレスポンスの簡潔さを維持するために調整すべきパラメータはどれですか。",
+    options: ["A. Temperature", "B. Max Tokens", "C. Stop Sequences", "D. Top-K"],
+    answer: 1,
+    explanation: "Max Tokens パラメータにより、モデルが一度に生成するトークンの上限を指定できます。"
+  },
+  {
+    id: 30,
+    question: "Amazon Bedrock において、カスタマイズに使用するトレーニングデータの品質を確保するために推奨されるデータセットの最小行数は一般的にどの程度ですか（ファインチューニングの場合）。",
+    options: ["A. 1行", "B. 10～100行以上", "C. 100万行以上", "D. 数十億行"],
+    answer: 1,
+    explanation: "ファインチューニングを効果的に行うには、通常数十から数百件以上の質の高いトレーニングサンプルが必要です。"
+  },
+  {
+    id: 31,
+    question: "Amazon Bedrock エージェントを使用する際、エージェントが複数のステップを組み合わせて複雑な問題を解決する能力を何と呼びますか。",
+    options: ["A. オーケストレーション能力", "B. データの冗長化", "C. バッチ処理能力", "D. ストリーミング能力"],
+    answer: 0,
+    explanation: "エージェントのオーケストレーションは、タスクを分割し、適切な順序で実行・思考するプロセスです。"
+  },
+  {
+    id: 32,
+    question: "Amazon Bedrock で Anthropic の Claude 3 モデルを使用する主なメリットは何ですか。",
+    options: ["A. 画像生成に特化している点", "B. 高度な視覚能力、高い精度、および長いコンテキストウィンドウを備えている点", "C. AWS 以外の環境でのみ動作する点", "D. モデルのソースコードが完全にオープンソースである点"],
+    answer: 1,
+    explanation: "Claude 3シリーズは、マルチモーダル能力（視覚）と長大なテキスト処理能力に優れています。"
+  },
+  {
+    id: 33,
+    question: "Amazon Bedrock のガードレールにおいて、差別的な発言や憎悪に満ちた表現をブロックするために設定すべきカテゴリはどれですか。",
+    options: ["A. ヘイト (Hate)", "B. 公共性 (Publicity)", "C. 冗長性 (Redundancy)", "D. スループット"],
+    answer: 0,
+    explanation: "ヘイトカテゴリのフィルタリングを設定することで、差別的・攻撃的なコンテンツを遮断できます。"
+  },
+  {
+    id: 34,
+    question: "Amazon Bedrock ナレッジベースでドキュメントをベクトル化する際に、元のテキストと重複を持たせて分割する（Overlap）主な理由は何ですか。",
+    options: ["A. ストレージ容量を増やすため", "B. チャンク間の文脈の連続性を維持し、検索時の精度を高めるため", "C. ベクトル化の速度を 2 倍にするため", "D. モデルの計算コストを削減するため"],
+    answer: 1,
+    explanation: "オーバーラップを設けることで、分割によって重要な文脈が途切れるのを防ぎ、検索結果の質を向上させます。"
+  },
+  {
+    id: 35,
+    question: "Amazon Bedrock エージェントと Lambda 関数のやり取りにおいて、エージェントから送信されるリクエストに含まれる重要な情報は何ですか。",
+    options: ["A. エージェント ID、セッション ID、およびアクショングループ名", "B. AWS ルートアカウントのパスワード", "C. S3 の全バケットのリスト", "D. VPC のルートテーブル"],
+    answer: 0,
+    explanation: "Lambda関数は、どのエージェントのどのセッションから呼び出されたかを知る必要があります。"
+  },
+  {
+    id: 36,
+    question: "Amazon Bedrock でカスタムモデルを作成するための「継続的プリトレーニング」ジョブにおいて、使用できる基盤モデルの例はどれですか。",
+    options: ["A. Amazon Titan Text モデル", "B. すべてのサードパーティモデル", "C. 埋め込みモデルのみ", "D. 画像生成モデルのみ"],
+    answer: 0,
+    explanation: "現在、継続的プリトレーニングなどのカスタマイズ機能は主に Amazon Titan モデルなどでサポートされています。"
+  },
+  {
+    id: 37,
+    question: "Amazon Bedrock のオンデマンド推論料金において、処理コストを抑えるための最も有効なプロンプトエンジニアリング手法は何ですか。",
+    options: ["A. 回答を簡潔にするよう指示し、不要な出力トークンを減らす。", "B. 同じ質問を何度も繰り返す。", "C. 可能な限り長い背景情報をプロンプトに含める。", "D. 英語ではなく常に日本語で入力する。"],
+    answer: 0,
+    explanation: "トークン量に基づいた課金であるため、必要な情報に絞った入出力を行うことがコスト抑制に直結します。"
+  },
+  {
+    id: 38,
+    question: "Amazon Bedrock モデル評価の結果を Amazon QuickSight で視覚化したい場合、最初に何をすべきですか。",
+    options: ["A. S3 に保存された CSV 形式のレポートを QuickSight のデータソースとして登録する。", "B. QuickSight で新しい基盤モデルを作成する。", "C. Bedrock コンソールで QuickSight ボタンを押す。", "D. AWS CodeBuild を起動する。"],
+    answer: 0,
+    explanation: "S3に保存された評価データをQuickSightに読み込ませることで、グラフ化や分析が可能になります。"
+  },
+  {
+    id: 39,
+    question: "RAG システムにおいて、特定のキーワード（例：製品の型番）を正確に一致させて検索したい場合に最適な検索戦略はどれですか。",
+    options: ["A. セマンティック検索のみ", "B. ハイブリッド検索 (ベクトル + キーワード)", "C. 画像検索", "D. 全文翻訳"],
+    answer: 1,
+    explanation: "キーワード検索を組み合わせることで、意味の類似度では拾いきれない固有の識別番号などを正確にヒットさせることができます。"
+  },
+  {
+    id: 40,
+    question: "Amazon Bedrock のガードレールで設定した内容が、実際に正しくコンテンツをブロックするかテストするために最も適した場所はどこですか。",
+    options: ["A. Amazon Bedrock プレイグラウンド (ガードレールを適用して実行)", "B. Amazon EC2 インスタンス", "C. AWS IAM コンソール", "D. Amazon Route 53 ダッシュボード"],
+    answer: 0,
+    explanation: "プレイグラウンドでは、特定のガードレールを選択して、プロンプトに対する動作を即座にテストできます。"
+  },
+  {
+    id: 41,
+    question: "Amazon Bedrock エージェントのプロンプトをカスタマイズして、エージェントの性格や話し方を変更したい場合に編集すべき設定は何ですか。",
+    options: ["A. オーケストレーション・プロンプト・テンプレート", "B. S3 バケット名", "C. VPC エンドポイント", "D. KMS キー"],
+    answer: 0,
+    explanation: "エージェントの動作を規定するテンプレートを編集することで、回答のスタイルや推論の仕方を調整できます。"
+  },
+  {
+    id: 42,
+    question: "Amazon Bedrock のプロビジョンドスループットを使用している場合でも、オンデマンド推論と同じ API エンドポイントを共有しますか。",
+    options: ["A. いいえ、プロビジョンドスループット専用の ARN (Amazon Resource Name) をエンドポイントとして使用します。", "B. はい、完全に同じエンドポイントです。", "C. はい、ただしパスワードが異なります。", "D. いいえ、物理的なケーブルを差し替える必要があります。"],
+    answer: 0,
+    explanation: "プロビジョンドスループットを利用する際は、プロビジョニングされたリソースのARNをAPIリクエストで指定します。"
+  },
+  {
+    id: 43,
+    question: "Amazon Bedrock の自動モデル評価において、出力の「多様性」を測定するための指標は何ですか。",
+    options: ["A. 自己 BLEU (Self-BLEU)", "B. CPU 負荷", "C. ネットワーク・スループット", "D. ディスク I/O"],
+    answer: 0,
+    explanation: "Self-BLEUは、生成されたテキスト同士の類似度を測り、どれだけ多様な表現があるかを評価します。"
+  },
+  {
+    id: 44,
+    question: "Amazon Bedrock ナレッジベースのデータソースとして Amazon S3 を指定した際、特定のフォルダのみをスキャン対象にするために使用する機能は何ですか。",
+    options: ["A. S3 プレフィックス (Prefix)", "B. セキュリティグループ", "C. S3 ライフサイクルポリシー", "D. Amazon CloudFront"],
+    answer: 0,
+    explanation: "プレフィックス（フォルダパス）を指定することで、同期対象を特定の階層に絞り込めます。"
+  },
+  {
+    id: 45,
+    question: "Amazon Bedrock エージェントにおいて、ユーザーが特定の情報を入力し忘れた場合に、不足している情報を聞き出す能力を何と呼びますか。",
+    options: ["A. スロットフィリング (Slot filling)", "B. パケットロス", "C. データクリーニング", "D. キャッシュミス"],
+    answer: 0,
+    explanation: "スロットフィリングは、必要なパラメータ（スロット）が埋まるまでユーザーに追加質問を促す対話制御です。"
+  },
+  {
+    id: 46,
+    question: "AWS KMS (Key Management Service) を Amazon Bedrock と併用する主な目的は何ですか。",
+    options: ["A. 通信速度の向上", "B. カスタムモデルやナレッジベースのデータを、ユーザー独自のキーで暗号化するため", "C. ユーザーパスワードの保存", "D. サーバーの物理的な施錠"],
+    answer: 1,
+    explanation: "KMSを使用することで、保存されているデータの機密性を、自身で管理する暗号化キーによって保護できます。"
+  },
+  {
+    id: 47,
+    question: "Amazon Bedrock でモデルをカスタマイズする際、学習ジョブの進行状況や損失関数（Loss function）の推移を確認できる AWS サービスはどれですか。",
+    options: ["A. Amazon CloudWatch", "B. Amazon S3", "C. AWS Direct Connect", "D. Amazon Glacier"],
+    answer: 0,
+    explanation: "CloudWatch Logsやメトリクスを通じて、トレーニング中の詳細な統計情報をリアルタイムに監視できます。"
+  },
+  {
+    id: 48,
+    question: "生成型 AI において、モデルに以前の会話内容を伝えるために、過去のやり取りを現在のプロンプトに含めて送信する手法は何と呼ばれますか。",
+    options: ["A. コンテキスト注入", "B. 履歴削除", "C. バッチ処理", "D. データの正規化"],
+    answer: 0,
+    explanation: "過去の履歴をコンテキストとして渡すことで、一貫性のある対話が可能になります。"
+  },
+  {
+    id: 49,
+    question: "Amazon Bedrock で Cohere Command モデルを使用する際、このモデルが特に得意とするタスクはどれですか。",
+    options: ["A. 映画の作成", "B. ビジネス向けの実用的なテキスト生成、要約、および抽出", "C. 3D モデルのレンダリング", "D. オペレーティングシステムのインストール"],
+    answer: 1,
+    explanation: "Cohere Command はビジネス用途のテキスト生成や抽出タスクに最適化されています。"
+  },
+  {
+    id: 50,
+    question: "Amazon Bedrock エージェントを作成する際、エージェントがユーザーの会話を一時的に保存するために必要な IAM 権限は何に関連するものですか。",
+    options: ["A. DynamoDB への読み書き権限（エージェントが内部的に使用する場合）", "B. S3 の削除権限", "C. Route 53 の更新権限", "D. IAM ユーザーの作成権限"],
+    answer: 0,
+    explanation: "エージェントが会話の状態を永続化する場合、背後のデータベースへの適切なアクセス権限が必要になります。"
+  }
+];
+  {
+    id: 51,
+    question: "Amazon Bedrock で基盤モデルをカスタマイズする際、トレーニングデータセット内の各サンプルに含まれるべき必須のフィールドは何ですか（ファインチューニングの場合）。",
+    options: ["A. 'prompt' と 'completion'", "B. 'input' と 'output'", "C. 'instruction' と 'response'", "D. 'context' と 'answer'"],
+    answer: 0,
+    explanation: "Amazon Bedrock のファインチューニング用 JSONL データセットでは、各行に 'prompt' フィールドと 'completion' フィールドを含める必要があります。"
+  },
+  {
+    id: 52,
+    question: "Amazon Bedrock ナレッジベースにおいて、ベクトル検索の結果をさらに絞り込むために、作成日やドキュメントタイプなどの属性を使用する機能を何と呼びますか。",
+    options: ["A. メタデータフィルタリング", "B. スキーマ定義", "C. パーティション分割", "D. インデックスの再構築"],
+    answer: 0,
+    explanation: "メタデータフィルタリングを使用すると、ベクトル検索に加えて、特定の属性（日付、カテゴリ等）に基づいた厳密なフィルタリングが可能になります。"
+  },
+  {
+    id: 53,
+    question: "Amazon Bedrock エージェントが、ユーザーの要求を複数のステップに分解し、どのアクショングループをどの順番で呼び出すかを決定するプロセスを何と呼びますか。",
+    options: ["A. インジェクション", "B. オーケストレーション・ストラテジー (Orchestration strategy)", "C. データレプリケーション", "D. モデルアクセス管理"],
+    answer: 1,
+    explanation: "オーケストレーションは、複雑なタスクを推論ステップに分解し、実行プランを立てるエージェントの中核機能です。"
+  },
+  {
+    id: 54,
+    question: "ある企業が、Amazon Bedrock を使用してマルチモーダルアプリケーションを構築しています。テキストと画像の両方を入力として受け取ることができるモデルを選択したい場合、どのモデルが最適ですか。",
+    options: ["A. Amazon Titan Text G1 - Express", "B. Claude 3 (Haiku, Sonnet, or Opus)", "C. Meta Llama 3", "D. Cohere Command"],
+    answer: 1,
+    explanation: "Claude 3 シリーズは、テキストに加えて画像入力を処理できるマルチモーダル機能を備えています。"
+  },
+  {
+    id: 55,
+    question: "Amazon Bedrock のガードレールにおいて、モデルが回答を生成する際に特定のトピック（例：「競合製品の比較」）を避けるよう定義するために使用する機能はどれですか。",
+    options: ["A. 機密情報フィルタ", "B. コンテンツフィルタ内の『トピックフィルタ』", "C. 単語フィルタ", "D. ユーザーアクセス制御"],
+    answer: 1,
+    explanation: "トピックフィルタを使用すると、アプリケーションの目的にそぐわない特定の話題をブロックするように定義できます。"
+  },
+  {
+    id: 56,
+    question: "Amazon Bedrock でプロビジョンドスループット（Provisioned Throughput）を割り当てた後、そのリソースが不要になった場合に課金を停止するために行うべき操作は何ですか。",
+    options: ["A. S3 バケットを削除する", "B. プロビジョンドスループットの割り当てを削除（リリース）する", "C. AWS アカウントを解約する", "D. モデルの API キーを無効化する"],
+    answer: 1,
+    explanation: "プロビジョンドスループットはリソースが確保されている間課金されるため、不要になったら割り当てを削除する必要があります。"
+  },
+  {
+    id: 57,
+    question: "Amazon Bedrock ナレッジベースのインジェストジョブ（同期）において、エラーが発生した場合に詳細なトラブルシューティング情報を確認できる場所はどこですか。",
+    options: ["A. AWS CloudTrail", "B. Amazon CloudWatch Logs", "C. AWS Config", "D. S3 イベント通知"],
+    answer: 1,
+    explanation: "ナレッジベースの処理ログやエラーの詳細は、CloudWatch Logs に記録されます。"
+  },
+  {
+    id: 58,
+    question: "RAG アーキテクチャにおいて、検索された複数のドキュメントチャンクから最も関連性の高い情報を抽出し、回答を生成する際の「生成」フェーズを担うコンポーネントは何ですか。",
+    options: ["A. ベクトルデータベース", "B. 基盤モデル (FM)", "C. 埋め込みモデル", "D. API ゲートウェイ"],
+    answer: 1,
+    explanation: "検索されたコンテキストを基に、自然な文章で最終的な回答を作成するのは基盤モデルの役割です。"
   },
-  {
-    id: 56, domain: "アプリ開発",
-    question: "Bedrock APIの呼び出しで「ThrottlingException（429）」が発生しました。最も適切なクライアント側の対応はどれですか？",
-    choices: ["即座に無限ループで再試行する", "指数バックオフ（Exponential Backoff）とジッター（Jitter）を伴うリトライロジックを実装する", "リージョンを変更して再度試す", "AWSサポートに電話する"],
-    correct: 1,
-    explanation: "指数バックオフはリトライ間隔を指数的に延ばし、ジッターはランダム性を加えることでサービスへの負荷集中を防ぎます。",
-  },
-  {
-    id: 57, domain: "アプリ開発",
-    question: "Amazon Bedrockで大規模なバッチ推論ジョブ（数百万件のデータ）を非同期で実行したい場合に最適なAPIはどれですか？",
-    choices: ["InvokeModel", "CreateModelInvocationJob", "RetrieveAndGenerate", "InvokeAgent"],
-    correct: 1,
-    explanation: "CreateModelInvocationJob（Batch Inference）は非同期で大量データを処理し、リアルタイムクォータを消費せず、コストも最大50%削減できます。",
-  },
-  {
-    id: 58, domain: "アプリ開発",
-    question: "ストリーミングレスポンスにおいて、各チャンクがどのような形式で配信されるかを知るために参照すべき技術概念は何ですか？",
-    choices: ["REST", "EventStream (Server-Sent Events 形式)", "GraphQL", "SOAP"],
-    correct: 1,
-    explanation: "BedrockのストリーミングはEventStream形式でチャンクを配信します。クライアント側でイベントを受け取りリアルタイム表示します。",
-  },
-  {
-    id: 59, domain: "アプリ開発",
-    question: "Bedrockのエージェントをデプロイする際、開発用と本番用でバージョンを分けるために使用される仕組みは何ですか？",
-    choices: ["IAM グループ", "エージェントのエイリアス（Aliases）とバージョン（Versions）", "S3 バケット名", "リージョン名"],
-    correct: 1,
-    explanation: "エージェントのバージョン管理にはAliasとVersionを使用します。エイリアスで本番/開発を切り替え、ロールバックも容易です。",
-  },
-  {
-    id: 60, domain: "アプリ開発",
-    question: "LangChainの「Chain」が果たす主な役割は何ですか？",
-    choices: ["ベクトルを保存すること", "LLM、プロンプト、データ処理などの一連のコンポーネントを連結し、一つのタスクとして実行すること", "ネットワークの帯域を広げること", "モデルをトレーニングすること"],
-    correct: 1,
-    explanation: "LangChainのChainはプロンプトテンプレート・LLM呼び出し・出力パーサーなどを直列に連結して複雑な処理フローを構築します。",
-  },
-  {
-    id: 61, domain: "アプリ開発",
-    question: "BedrockのConverse APIにおいて、会話の文脈を維持するためにリクエストに含めるべき主要なパラメータは何ですか？",
-    choices: ["systemPrompt", "messages (過去の対話履歴を含む配列)", "stopSequences", "guardrailConfig"],
-    correct: 1,
-    explanation: "Converse APIのmessages配列に過去のuser/assistantのやり取りを含めることで、LLMに会話の文脈を提供します。",
-  },
-  {
-    id: 62, domain: "アプリ開発",
-    question: "RAGシステムにおいて、検索されたコンテキストが長すぎてモデルの入力制限を超える場合、どのような対策が有効ですか？",
-    choices: ["モデルを削除する", "プロンプト圧縮（Prompt Compression）を使用するか、検索結果のランク付け（Reranking）を行い、上位のみを採用する", "コンテキストをすべて無視する", "全てのテキストを画像にする"],
-    correct: 1,
-    explanation: "Rerankingで最も関連性の高いチャンクを選別するか、プロンプト圧縮で情報を凝縮することでコンテキスト長を管理します。",
-  },
-  {
-    id: 63, domain: "アプリ開発",
-    question: "Amazon Bedrock Agentsで、指示（Instructions）に記述すべき内容として適切でないものはどれですか？",
-    choices: ["エージェントの役割（例：親切な旅行ガイド）", "エージェントが実行すべきタスクのステップ", "データベースのルートパスワード", "エージェントが守るべきトーンや制約"],
-    correct: 2,
-    explanation: "機密情報（パスワード・APIキー等）はAgentのInstructionsに記述すべきではありません。Secrets Managerなど適切なサービスを使用します。",
-  },
-  {
-    id: 64, domain: "アプリ開発",
-    question: "モデルが特定のツール（Action Group）を呼び出すべきかどうかを判断するために、内部で行っているのはどのようなプロセスですか？",
-    choices: ["ユーザーの入力をランダムに処理する", "モデルが入力からインテント（意図）とパラメータを抽出し、事前定義されたツール記述と比較する", "全てのツールを順番に実行する", "何もしない"],
-    correct: 1,
-    explanation: "モデルはOpenAPI仕様で定義されたツールの説明文とユーザーの意図を照合し、適切なツールとパラメータを選択します。",
-  },
-  {
-    id: 65, domain: "アプリ開発",
-    question: "Bedrockの RetrieveAndGenerate APIで、回答の引用元ドキュメントのS3パスを表示したい場合、フロントエンドで何を処理する必要がありますか？",
-    choices: ["レスポンスの text だけを表示する", "レスポンスの citations 内の retrievedReferences から location 情報を取得し表示する", "ユーザーにS3を検索させる", "S3バケットをパブリックにする"],
-    correct: 1,
-    explanation: "citationsフィールド内のretrievedReferences.locationにS3パスが含まれます。これをUIで表示することで回答の根拠を示せます。",
-  },
-  {
-    id: 66, domain: "アプリ開発",
-    question: "Amazon Bedrockにおいて、モデルが「自分が何を知らないか」を認め、不確かな回答を避けるようにするためのプロンプトの工夫はどれですか？",
-    choices: ["「自信がなくても何でも答えてください」と書く", "「提供された情報に答えが含まれていない場合は、正直に分かりませんと答えてください」と指示する", "Temperatureを1.0にする", "回答の長さを最小限にする"],
-    correct: 1,
-    explanation: "不確実性を認めるよう明示的に指示することで、ハルシネーションを抑制し、信頼性の高いRAGシステムを構築できます。",
-  },
-  {
-    id: 67, domain: "アプリ開発",
-    question: "AWS LambdaをBedrock Agentsのアクションとして使用する際、Lambda関数のタイムアウト設定に関する注意点は何ですか？",
-    choices: ["常に1秒にする必要がある", "モデルの推論時間やAPI呼び出しにかかる時間を考慮し、エージェントのデフォルト制限内で適切に設定する必要がある", "タイムアウトは無視される", "タイムアウトを1時間にする必要がある"],
-    correct: 1,
-    explanation: "Lambdaのタイムアウトはエージェントの処理時間（推論+外部API呼び出し）を考慮して設定します。デフォルトの3秒では不十分なことが多いです。",
-  },
-  {
-    id: 68, domain: "アプリ開発",
-    question: "生成AIアプリにおいて、ユーザーのセッション情報をDynamoDBに保存する主な理由は何ですか？",
-    choices: ["画像を保存するため", "ステートレスなLambda関数の実行間で、会話履歴（セッション状態）を永続化し維持するため", "モデルの重みを保存するため", "ネットワークを高速化するため"],
-    correct: 1,
-    explanation: "LambdaはステートレスなのでDynamoDBに会話履歴を保存し、次のリクエスト時に読み込んでコンテキストとして使用します。",
-  },
-  {
-    id: 69, domain: "アプリ開発",
-    question: "Bedrock Guardrailsにおいて「PiiEntitiesConfig」は何を設定するために使用しますか？",
-    choices: ["サーバーのIPアドレス", "住所、氏名、電話番号などの個人を特定できる情報（PII）の検知としきい値", "モデルのパラメータ", "ベクトルDBのサイズ"],
-    correct: 1,
-    explanation: "PiiEntitiesConfigでPIIの種類（氏名・住所・クレジットカード番号など）とアクション（マスク・ブロック等）を設定します。",
-  },
-  {
-    id: 70, domain: "アプリ開発",
-    question: "「ReAct」フレームワークにおいて、モデルが行う「Observation（観察）」とは何を指しますか？",
-    choices: ["モデルが自分の考えを述べること", "外部ツールや検索から返ってきた結果を確認すること", "ユーザーが画面を見ること", "モデルがシャットダウンすること"],
-    correct: 1,
-    explanation: "ReActのObservationはツール実行結果（API応答・検索結果等）を受け取って確認するステップです。次のThoughtの入力となります。",
-  },
-  {
-    id: 71, domain: "アプリ開発",
-    question: "Amazon Bedrockのモデル呼び出しにおける「トークン数」のカウント方法に最も影響を与えるのはどれですか？",
-    choices: ["使用している文字コード（UTF-8）のバイト数", "モデル固有のトークナイザーによる単語や部分単語の分割", "ネットワークのパケット数", "CPUのクロック数"],
-    correct: 1,
-    explanation: "トークン数はモデル固有のトークナイザーによって決まります。同じテキストでもモデルによって異なるトークン数になります。",
-  },
-  {
-    id: 72, domain: "アプリ開発",
-    question: "BedrockのConverse APIで「Tool use（ツール使用）」機能を実装する際、ツール（関数）の定義に含めるべき情報はどれですか？",
-    choices: ["サーバーのログイン情報", "ツールの名前、説明、および入力引数のJSONスキーマ", "ツールのソースコード全体", "全ての過去の実行ログ"],
-    correct: 1,
-    explanation: "ツール定義には名前・説明（モデルが判断に使う）・入力パラメータのJSONスキーマが必要です。説明が明確なほどモデルの判断精度が向上します。",
-  },
-  {
-    id: 73, domain: "アプリ開発",
-    question: "RAGアプリケーションにおいて、ユーザーの質問を一度モデルに渡し、より検索に適したクエリに変換させる手法を何と呼びますか？",
-    choices: ["Query Rewriting (クエリの書き換え)", "Vector Normalization", "Model Quantization", "Token Pruning"],
-    correct: 0,
-    explanation: "Query Rewritingはユーザーの口語的・曖昧な質問を検索に最適化されたクエリに変換し、RAGの検索精度を向上させます。",
-  },
-  {
-    id: 74, domain: "アプリ開発",
-    question: "Amazon Bedrockで「カスタムモデル（Custom Model）」を作成した後、そのモデルを削除せずに維持する際のコストに関連するコンポーネントはどれですか？",
-    choices: ["モデルのダウンロード料金", "モデルのストレージ料金（カスタムモデル自体の保存コスト）", "CPU使用料", "入力トークン料のみ"],
-    correct: 1,
-    explanation: "カスタムモデルは作成後、使用しない期間もストレージ料金が発生します。不要なカスタムモデルは削除してコストを管理することが重要です。",
-  },
-  {
-    id: 75, domain: "アプリ開発",
-    question: "モデルの出力を構造化データ（例：CSV）として取得したい場合に、プロンプトに含めるべき最良の指示はどれですか？",
-    choices: ["「表形式にして」", "「以下のヘッダー（列名）を持つCSV形式で出力し、他の説明文は一切含めないでください」と具体的に指示し、例を示す", "「なるべく短くして」", "何も書かない"],
-    correct: 1,
-    explanation: "具体的なフォーマット指定と例示が最も効果的です。「説明文を含めない」と明示することで後処理が不要なクリーンな出力が得られます。",
-  },
-  {
-    id: 76, domain: "アプリ開発",
-    question: "Amazon Bedrockで複数のリージョン（例：東京とバージニア）を利用するマルチリージョン構成にする主なメリットは何ですか？",
-    choices: ["料金が常に半分になる", "1つのリージョンで障害やクォータ制限が発生した場合の可用性とレジリエンスの向上", "モデルのパラメータが増える", "管理が簡単になる"],
-    correct: 1,
-    explanation: "マルチリージョン構成はフェイルオーバーとクォータ制限回避のために使用します。Cross-Region Inferenceを使うと自動ルーティングも可能です。",
-  },
-  {
-    id: 77, domain: "アプリ開発",
-    question: "BedrockのKnowledge Basesで「Hybrid Search」を有効にした場合、どのように動作しますか？",
-    choices: ["2つのLLMが同時に答える", "ベクトル検索とキーワード検索（テキストマッチング）を並行して行い、結果を統合（Rerank）して最適なコンテキストを抽出する", "データベースが2つ必要になる", "暗号化が2回行われる"],
-    correct: 1,
-    explanation: "Hybrid SearchはベクトルとBM25の両方で検索し、RRF等でスコアを統合します。固有名詞と意味検索の両方に強い構成です。",
-  },
-  {
-    id: 78, domain: "アプリ開発",
-    question: "開発者がBedrockのAPIを使用して画像からテキストを抽出（OCR）したい場合、どのモデルファミリーが一般的に適していますか？",
-    choices: ["Titan Text", "Claude 3 (Vision機能を備えたモデル)", "Llama 2", "Cohere Command"],
-    correct: 1,
-    explanation: "Claude 3はVision機能を持つマルチモーダルモデルで、画像の解析・テキスト抽出・説明生成などが可能です。",
-  },
-  {
-    id: 79, domain: "アプリ開発",
-    question: "Bedrockの RetrieveAndGenerate APIを使用する際、デフォルトのシステムプロンプトを上書きして、回答のトーンを変更することは可能ですか？",
-    choices: ["いいえ、変更できません", "はい、GenerationConfiguration 内のプロンプトテンプレートを指定することで可能です", "はい、ベクトルDBの設定を変更すれば可能です", "いいえ、モデル自体を再学習する必要があります"],
-    correct: 1,
-    explanation: "GenerationConfigurationのpromptTemplateでシステムプロンプトをカスタマイズでき、ブランドのトーンや言語スタイルを指定できます。",
-  },
-  {
-    id: 80, domain: "アプリ開発",
-    question: "エージェントがアクションを実行する際に必要なパラメータが不足している場合、Bedrock Agentsはどう動作しますか？",
-    choices: ["エラーを出して終了する", "ユーザーに不足している情報を尋ねる（指示に基づき対話を継続する）", "適当な値を捏造する", "無限ループに入る"],
-    correct: 1,
-    explanation: "Bedrock Agentsはパラメータが不足している場合、エラーを出す前にユーザーに必要な情報を質問して対話的に収集します。",
-  },
-  {
-    id: 81, domain: "アプリ開発",
-    question: "Bedrockの「Batch Inference（バッチ推論）」ジョブの入力データとして使用されるファイル形式は何ですか？",
-    choices: [".exe", "JSONL (JSON Lines)", ".mp3", ".png"],
-    correct: 1,
-    explanation: "Batch InferenceはJSONL形式（1行1リクエスト）をS3に配置して実行します。大量データの非同期処理に最適です。",
-  },
-  {
-    id: 82, domain: "アプリ開発",
-    question: "Amazon Bedrockで提供される「マーケットプレイスモデル」を使用するために、まず何を行う必要がありますか？",
-    choices: ["独自のサーバーを立てる", "Bedrockのコンソール（Model access）で使用したいモデルのアクセス権をリクエストし、有効化する", "モデルをダウンロードする", "AWSに個別に電話で申請する"],
-    correct: 1,
-    explanation: "Bedrockのモデルはデフォルトで無効です。コンソールのModel accessページでモデルごとにアクセスを有効化する必要があります。",
-  },
-
-  // ===== ドメイン4: 評価と最適化 (83-123) =====
-  {
-    id: 83, domain: "評価と最適化",
-    question: "要約タスクにおいて、モデルが生成した要約が正解（リファレンス）の要約とどの程度語彙が重なっているかを測定する、最も一般的な指標はどれですか？",
-    choices: ["BLEU", "ROUGE", "Perplexity", "F1"],
-    correct: 1,
-    explanation: "ROUGEは要約評価の標準指標で、特にROUGE-Nは単語の重複、ROUGE-Lは最長共通部分列を測定します。再現率重視の指標です。",
+  {
+    id: 59,
+    question: "Amazon Bedrock エージェントにおいて、ユーザーとのセッション中に保持される一時的なデータ（例えば、ユーザーの氏名など）をアクション間で受け渡すために使用される仕組みは何ですか。",
+    options: ["A. セッション属性 (Session attributes)", "B. 環境変数", "C. S3 オブジェクトのタグ", "D. グローバル変数"],
+    answer: 0,
+    explanation: "セッション属性を使用すると、エージェントと Lambda 関数の間でユーザー固有の情報を保持・共有できます。"
   },
   {
-    id: 84, domain: "評価と最適化",
-    question: "Amazon Bedrockで「ファインチューニング（Fine-tuning）」を実行する際、基盤モデルの全ての重みを変更するのではなく、特定の小さな行列を追加して学習させる効率的な手法を何と呼びますか？",
-    choices: ["Full fine-tuning", "LoRA (Low-Rank Adaptation)", "Continuous Pre-training", "Direct Preference Optimization (DPO)"],
-    correct: 1,
-    explanation: "LoRAは低ランク行列を元のパラメータに追加し、少ないメモリと時間でファインチューニングできます。Bedrockでサポートされています。",
+    id: 60,
+    question: "Amazon Bedrock モデル評価において、評価結果レポートを他のチームメンバーと共有するために最適な方法はどれですか。",
+    options: ["A. 評価結果が保存された S3 バケットへのアクセス権を付与する", "B. Bedrock コンソールのスクリーンショットを送る", "C. IAM ユーザーパスワードを共有する", "D. CloudWatch アラートを作成する"],
+    answer: 0,
+    explanation: "評価データは S3 に出力されるため、バケットへの適切なアクセス制御を行うことで安全に共有可能です。"
   },
   {
-    id: 85, domain: "評価と最適化",
-    question: "RAGシステムにおいて、検索されたドキュメントがユーザーの質問に答えるためにどれだけ適切（関連性がある）かを評価する指標をRAGASでは何と呼びますか？",
-    choices: ["Faithfulness", "Answer Relevance", "Context Precision", "Context Recall"],
-    correct: 1,
-    explanation: "Answer Relevanceは生成された回答がユーザーの質問にどれだけ直接的に答えているかを評価します。RAGASの主要指標の一つです。",
+    id: 61,
+    question: "Amazon Bedrock でモデルのカスタマイズ（ファインチューニングなど）を実行する際、トレーニングデータに使用される S3 バケットにはどのような IAM 権限が必要ですか。",
+    options: ["A. すべての AWS リソースへのフルアクセス権限", "B. Bedrock サービスプリンシパルが S3 オブジェクトを読み取るためのアクセス権限", "C. 外部ユーザーがインターネット経由でアクセスするための公開権限", "D. 他のリージョンのバケットを削除する権限"],
+    answer: 1,
+    explanation: "Bedrock がトレーニングデータを読み取るためには、S3 への GetObject 権限などを含む適切な IAM ロールが必要です。"
   },
   {
-    id: 86, domain: "評価と最適化",
-    question: "モデルが生成した回答の中に、検索されたコンテキストに基づかない情報（ハルシネーション）が含まれていないかを評価する指標を何と呼びますか？",
-    choices: ["Faithfulness (忠実性)", "Answer Relevance", "Latency", "BLEU"],
-    correct: 0,
-    explanation: "Faithfulnessは回答が検索されたソース（根拠）に基づいているかを評価し、ハルシネーションを検出するRAGASの核心的な指標です。",
+    id: 62,
+    question: "Amazon Bedrock のガードレールにおいて、個人情報 (PII) を検出した際の挙動として、「伏せ字にする (Masking)」以外に選択できるものはどれですか。",
+    options: ["A. 回答を完全にブロックする", "B. データを自動的に暗号化する", "C. SNS 通知を送信するのみ", "D. 回答を他の言語に翻訳する"],
+    answer: 0,
+    explanation: "ガードレールでは、機密情報の検出時に回答そのものをブロックする（提供を拒否する）設定も可能です。"
   },
   {
-    id: 87, domain: "評価と最適化",
-    question: "Amazon Bedrockの「モデル評価（Model Evaluation）」で「自動（Automatic）」を選択した場合、どのような評価が実行されますか？",
-    choices: ["実際のユーザーが評価する", "設定したデータセットに基づき、アルゴリズムが正確性、毒性、堅牢性などの指標を計算する", "AIが自ら学習をやり直す", "回答がSNSに投稿される"],
-    correct: 1,
-    explanation: "自動評価では定義済みのデータセットを使ってROUGE・BERTScore・毒性スコアなどを自動計算します。人手なしで大規模評価が可能です。",
+    id: 63,
+    question: "Amazon Bedrock などの生成型 AI サービスを利用する際、ハルシネーション（もっともらしい嘘）のリスクを軽減するための最も効果的な手法はどれですか。",
+    options: ["A. モデルの Temperature を最大値にする", "B. 検索拡張生成 (RAG) を導入し、信頼できるソースに基づいた回答を行わせる", "C. 入力プロンプトを短くする", "D. モデルのパラメータを減らす"],
+    answer: 1,
+    explanation: "RAG を用いて根拠となる情報を直接提供することで、モデルが事実に基づかない内容を生成する確率を下げられます。"
   },
   {
-    id: 88, domain: "評価と最適化",
-    question: "推論コストを最適化するために、モデルの精度を保ちつつメモリ使用量を減らすための技術で、重みのデータ型を（FP32からINT8など）変換することを何と呼びますか？",
-    choices: ["Distillation", "Quantization (量子化)", "Pruning (枝刈り)", "Sharding"],
-    correct: 1,
-    explanation: "量子化はパラメータの数値精度を下げてモデルを軽量化します。FP16やINT8への変換でメモリと推論速度が改善されます。",
+    id: 64,
+    question: "Amazon Bedrock エージェントをデプロイする際、特定のバージョンを指し示すために使用される静的な識別子を何と呼びますか。",
+    options: ["A. セッション ID", "B. エイリアス (Alias)", "C. バケット名", "D. タグ"],
+    answer: 1,
+    explanation: "エイリアスを使用することで、アプリケーション側がコードを変更することなく、背後のエージェントのバージョンを切り替えられます。"
   },
   {
-    id: 89, domain: "評価と最適化",
-    question: "特定のタスクに特化させるために、大きな教師モデル（Teacher）の出力を、より小さな生徒モデル（Student）に学習させる手法を何と呼びますか？",
-    choices: ["Fine-tuning", "Knowledge Distillation (蒸留)", "RLHF", "Batch Inference"],
-    correct: 1,
-    explanation: "Knowledge Distillationは大モデルの「軟らかい出力（確率分布）」を使って小モデルを訓練し、小さなモデルで高性能を実現します。",
+    id: 65,
+    question: "ある開発者が Amazon Bedrock を使用して、機密性の高い財務データを処理するアプリケーションを設計しています。データが転送中および保管中に保護されていることを確認するために使用すべき機能はどれですか。",
+    options: ["A. TLS による転送中暗号化と、AWS KMS による保管中暗号化", "B. HTTP プロトコルの使用", "C. パブリック S3 バケット", "D. 暗号化は不要"],
+    answer: 0,
+    explanation: "AWS はデフォルトで TLS 転送暗号化を提供し、KMS を用いることでデータの保管時も強力に保護できます。"
   },
   {
-    id: 90, domain: "評価と最適化",
-    question: "Amazon Bedrockで「プロビジョニング済みスループット（Provisioned Throughput）」を時間単位で購入する際、最小の購入単位は何ですか？",
-    choices: ["1秒", "1分", "1時間（ただし購入単位は通常モデルユニット数に依存）", "1ヶ月"],
-    correct: 2,
-    explanation: "Provisioned Throughputは最小1時間単位で購入します。長期（1ヶ月・6ヶ月）の割引オプションも提供されています。",
+    id: 66,
+    question: "Amazon Bedrock モデル評価ジョブにおいて、基盤モデルが「指示にどれだけ正確に従ったか」を評価する指標として最も適切なものはどれですか。",
+    options: ["A. スループット", "B. 指示忠実度 (Instruction Following)", "C. モデルのファイルサイズ", "D. リージョン間のレイテンシ"],
+    answer: 1,
+    explanation: "指示忠実度は、ユーザーのプロンプトで与えられた制約や指示をモデルがどれだけ守ったかを測る指標です。"
   },
   {
-    id: 91, domain: "評価と最適化",
-    question: "モデルが次にくる単語を予測する際の「迷い」の度合いを示し、言語モデルの性能を評価する代表的な指標は何ですか？",
-    choices: ["Perplexity (パープレキシティ)", "Accuracy", "Recall", "Precision"],
-    correct: 0,
-    explanation: "Perplexityはモデルがテストデータをどれだけ驚き少なく予測できるかを示します。低いほど良い言語モデルであることを示します。",
+    id: 67,
+    question: "Amazon Bedrock ナレッジベースにおいて、PDF 内の図表や画像に含まれるテキストを検索対象に含めたい場合に検討すべき技術は何ですか。",
+    options: ["A. データの正規化", "B. 光学的文字認識 (OCR) または高度な文書解析 (Amazon Textract など)", "C. ベクトルの量子化", "D. キャッシュの有効化"],
+    answer: 1,
+    explanation: "非構造化データ内の画像要素をテキスト化するには、OCR などの文書解析技術との組み合わせが有効です。"
   },
   {
-    id: 92, domain: "評価と最適化",
-    question: "RAGの検索精度を向上させるために、ベクトル検索で得られた上位N件の結果を、より高性能なモデルやアルゴリズムで再度ランク付けし直す手法を何と呼びますか？",
-    choices: ["Pre-ranking", "Reranking", "Chunking", "Normalization"],
-    correct: 1,
-    explanation: "Rerankingは初期検索（高速・大量）の後に精密な関連性スコアリングを行い、最終的なコンテキストの質を向上させます。",
+    id: 68,
+    question: "生成型 AI モデルにおいて、同じ入力に対して毎回異なる回答が生成される度合いを調整するパラメータはどれですか。",
+    options: ["A. Max Tokens", "B. Temperature (温度)", "C. Stop Sequences", "D. Region"],
+    answer: 1,
+    explanation: "温度設定を低く（0に近く）すると決定論的になり、高くすると創造的・多様な回答になります。"
   },
   {
-    id: 93, domain: "評価と最適化",
-    question: "Amazon SageMaker Clarifyを使用する主な目的は何ですか？",
-    choices: ["モデルの学習を加速すること", "モデルのバイアス（偏り）を検出し、予測結果の説明可能性を提供すること", "データベースをバックアップすること", "VPCの設定をチェックすること"],
-    correct: 1,
-    explanation: "SageMaker ClarifyはSHAP値を使ってモデルの予測根拠を説明し、データ・モデルのバイアスを検出します。責任あるAIの実践に重要です。",
+    id: 69,
+    question: "Amazon Bedrock でプロビジョンドスループットを購入する際、キャパシティユニットの数を選択する基準となる要素は何ですか。",
+    options: ["A. 予想される最大のリクエスト量と、必要なレスポンスのレイテンシ", "B. S3 バケットの総容量", "C. 開発チームの人数", "D. プロンプトに含まれる文字数のみ"],
+    answer: 0,
+    explanation: "必要な同時処理能力や応答速度の要件に基づいて、モデルユニットの数を決定します。"
   },
   {
-    id: 94, domain: "評価と最適化",
-    question: "LoRAを使用してファインチューニングを行う際の「ランク（Rank）」パラメータについて、正しい説明はどれですか？",
-    choices: ["ランクが高いほど学習可能なパラメータが増え、表現力が上がるが、メモリと時間がかかる", "ランクは常に1であるべきである", "ランクが高いほど推論が速くなる", "ランクはモデルの層数を表す"],
-    correct: 0,
-    explanation: "LoRAのRankは学習する低ランク行列のサイズを決定します。高いRankは表現力増大の一方でメモリと計算コストが増加します。",
+    id: 70,
+    question: "Amazon Bedrock エージェントにおいて、各ステップの推論内容を Amazon S3 に保存して長期的な分析に使用したい場合、どの機能を活用すべきですか。",
+    options: ["A. エージェントトレースの CloudWatch 経由でのエクスポート", "B. IAM ポリシーの更新", "C. プレーンテキストでの手動コピー", "D. データベースのレプリケーション"],
+    answer: 0,
+    explanation: "エージェントのログやトレース情報は CloudWatch に送られるため、そこから S3 へエクスポートして分析可能です。"
   },
   {
-    id: 95, domain: "評価と最適化",
-    question: "Amazon Bedrockにおいて、ファインチューニングがサポートされているモデルはどれですか？（2024年時点の一般的知識）",
-    choices: ["すべてのマーケットプレイスモデル", "Amazon Titan、一部のClaude、Llama、Cohereなどの対応モデル", "自作のモデルのみ", "モデルは一切変更できない"],
-    correct: 1,
-    explanation: "Bedrockのファインチューニングは全モデルで使えるわけではありません。Amazon Titan・一部のClaude・Llama・Cohereなどが対応しています。",
+    id: 71,
+    question: "Amazon Bedrock ナレッジベースのデータソースとして使用している S3 バケットのパスを変更しました。この変更を反映させるために必要な操作はどれですか。",
+    options: ["A. データソースの設定を更新し、再度同期（Sync）を実行する", "B. 新しい AWS アカウントを作成する", "C. モデルを再学習させる", "D. 何もする必要はない"],
+    answer: 0,
+    explanation: "データソースの設定変更後は、同期プロセスを行ってインデックスを最新の状態に更新する必要があります。"
   },
   {
-    id: 96, domain: "評価と最適化",
-    question: "モデル評価における「堅牢性（Robustness）」とは何を測定するものですか？",
-    choices: ["モデルの回答速度", "プロンプトのわずかな変化（例：誤字、言い回しの変更）に対して、回答がどれだけ一貫性を保てるか", "サーバーの耐久性", "ネットワークの安定性"],
-    correct: 1,
-    explanation: "堅牢性は入力の微妙な変化に対してモデルが一貫した高品質な回答を維持できるかを評価します。実運用での信頼性に直結します。",
+    id: 72,
+    question: "モデルの回答から特定の不適切な表現（卑猥な言葉など）を完全に排除したい場合、Amazon Bedrock のガードレールで構成すべき最も直接的な機能はどれですか。",
+    options: ["A. PII フィルタ", "B. 単語フィルタ (Word filters)", "C. スループット制限", "D. セッション ID の変更"],
+    answer: 1,
+    explanation: "単意フィルタを使用すると、禁止したい特定の単語やフレーズを明示的に指定してブロックできます。"
   },
   {
-    id: 97, domain: "評価と最適化",
-    question: "生成AIのモデル評価において「Ground Truth（グラウンド・トゥルース）」とは何を指しますか？",
-    choices: ["モデルの重みの値", "人間が作成した「正解データ」", "データベースの名前", "インターネット上の全データ"],
-    correct: 1,
-    explanation: "Ground Truthは人間の専門家が作成した正解データで、自動評価指標（ROUGE・BLEU等）の比較基準として使用します。",
+    id: 73,
+    question: "Amazon Bedrock プレイグラウンドでテストを行っている際、特定の単語（例：「EOF」）が出現した瞬間にテキスト生成を打ち切りたい場合、どの設定を使用しますか。",
+    options: ["A. Max Tokens", "B. Stop Sequences (停止シーケンス)", "C. Top-P", "D. Temperature"],
+    answer: 1,
+    explanation: "停止シーケンスに特定の文字列を指定すると、その文字列が生成された時点でモデルが処理を終了します。"
   },
   {
-    id: 98, domain: "評価と最適化",
-    question: "RLHF（Reinforcement Learning from Human Feedback）において、人間が行う主な作業は何ですか？",
-    choices: ["モデルのコードを書くこと", "複数のモデルの回答を比較し、より良いものにランクを付けること", "サーバーを物理的に管理すること", "プロンプトを削除すること"],
-    correct: 1,
-    explanation: "RLHFでは人間がモデルの複数の回答を比較評価し、そのフィードバックを使って報酬モデルを学習し、PPOなどで最適化します。",
+    id: 74,
+    question: "Amazon Bedrock エージェントにおいて、アクションの実行に必要な情報の入力が不足している場合、エージェントが自律的にユーザーへ問い返す挙動は何によって制御されますか。",
+    options: ["A. エージェントのオーケストレーションロジック", "B. ネットワークのタイムアウト設定", "C. AWS Lambda のメモリエラー", "D. S3 のアクセス拒否"],
+    answer: 0,
+    explanation: "エージェントの推論エンジンが、目標達成に不足している情報を判断し、ユーザーに対話を促します。"
   },
   {
-    id: 99, domain: "評価と最適化",
-    question: "Amazon Bedrockの「Batch Inference」を使用する際、コスト削減以外に期待できるメリットは何ですか？",
-    choices: ["リアルタイム性が向上する", "数百万のリクエストを同時実行しても、リアルタイム推論のクォータを消費せずに大量処理できる", "モデルの精度が劇的に上がる", "ネットワーク遅延がゼロになる"],
-    correct: 1,
-    explanation: "Batch Inferenceはリアルタイムクォータを消費せず大量処理でき、データ分析・バルク評価・非同期処理に最適です。",
+    id: 75,
+    question: "Amazon Bedrock で Anthropic Claude 3 モデルを使用している際、XML タグ（例： <context></context> ）をプロンプトに使用する主な目的は何ですか。",
+    options: ["A. プロンプトの構造を明確にし、モデルが各パーツ（指示、背景、例など）を正確に理解しやすくするため", "B. Web ページとして公開するため", "C. AWS への課金を減らすため", "D. モデルの実行速度を 10 倍にするため"],
+    answer: 0,
+    explanation: "Claude モデルは XML タグを用いた構造化されたプロンプトを非常に正確に解釈する特性があります。"
   },
   {
-    id: 100, domain: "評価と最適化",
-    question: "RAGシステムの評価で、検索された情報がどれだけ「過不足なく」質問に答えるために必要十分であるかを評価する指標は何ですか？",
-    choices: ["Context Precision (適合率) と Context Recall (再現率)", "ROUGE-L", "Token count", "Cost per query"],
-    correct: 0,
-    explanation: "Context Precisionは検索結果の中で関連するものの割合（精度）、Context Recallは必要な情報が検索できているかの割合（再現率）を測定します。",
+    id: 76,
+    question: "Amazon Bedrock モデル評価（自動評価）において、生成された回答の『事実への忠実度（Faithfulness）』を測定するために参照されるデータは何ですか。",
+    options: ["A. ユーザーが提供したグラウンドトゥルース（正解）データセット", "B. モデルのトレーニングログ", "C. インターネット上の最新ニュース", "D. 他のモデルの回答"],
+    answer: 0,
+    explanation: "事実への忠実度を自動評価する場合、あらかじめ用意した信頼できる正解データとの比較が行われます。"
   },
   {
-    id: 101, domain: "評価と最適化",
-    question: "モデルの量子化において「FP16」から「INT8」に変換すると、メモリ消費量は理論上どうなりますか？",
-    choices: ["変わらない", "約半分になる", "2倍になる", "0になる"],
-    correct: 1,
-    explanation: "FP16は16ビット、INT8は8ビットなので、理論上メモリ消費量は約半分になります。推論速度も向上します。",
+    id: 77,
+    question: "Amazon Bedrock のナレッジベースを作成する際に選択できる『ベクトルストア』のオプションとして正しいものはどれですか。(2つ選択してください)",
+    options: ["A. Amazon OpenSearch Serverless", "B. Pinecone", "C. Amazon RDS (PostgreSQL with pgvector)", "D. Amazon S3", "E. AWS Glue"],
+    answer: [0, 2],
+    explanation: "Bedrock ナレッジベースは、OpenSearch Serverless や pgvector を有効にした Aurora/RDS などをベクトルストアとして利用できます。"
   },
   {
-    id: 102, domain: "評価と最適化",
-    question: "AWS Trainium や AWS Inferentia を使用する主な目的は何ですか？",
-    choices: ["プログラミングを自動化するため", "深層学習のトレーニング（Trainium）や推論（Inferentia）において、高いコストパフォーマンスとパフォーマンスを実現するため", "ストレージ容量を増やすため", "画像を編集するため"],
-    correct: 1,
-    explanation: "TrainiumはMLトレーニング向け、InferentiaはML推論向けのAWSカスタムチップです。GPUより高いコストパフォーマンスを実現します。",
+    id: 78,
+    question: "Amazon Bedrock でカスタマイズしたモデル（ファインチューニング済みモデルなど）の管理において、バージョン管理を行うための機能は何ですか。",
+    options: ["A. モデルのタグ付け", "B. カスタムモデルのコピー作成", "C. スナップショット", "D. モデルのプロビジョニング"],
+    answer: 0,
+    explanation: "カスタムモデルに対してタグや名前付けを行うことで、異なるバージョンや学習段階のモデルを識別管理します。"
   },
   {
-    id: 103, domain: "評価と最適化",
-    question: "「DPO (Direct Preference Optimization)」がRLHFの代替として注目されている主な理由は何ですか？",
-    choices: ["より大規模なサーバーが必要だから", "報酬モデル（Reward Model）の学習を必要とせず、直接人間の好みを学習できるため実装がシンプルになる", "精度が低いから", "無料だから"],
-    correct: 1,
-    explanation: "DPOはRLHFの複雑な報酬モデル学習+RL最適化を、シンプルな分類問題として定式化することで実装を大幅に簡略化します。",
+    id: 79,
+    question: "Amazon Bedrock へのリクエストにおいて、出力トークンをサンプリングする際に上位 K 個の候補から選択するように制限するパラメータを何と呼びますか。",
+    options: ["A. Top-P", "B. Top-K", "C. Temperature", "D. Max Tokens"],
+    answer: 1,
+    explanation: "Top-K は、次に生成する単語の候補を、確率の高い上位 K 個に絞り込むパラメータです。"
   },
   {
-    id: 104, domain: "評価と最適化",
-    question: "モデルが「特定の文体（例：シェイクスピア風）」を学習するのに最も適した手法はどれですか？",
-    choices: ["ネットワークを高速化する", "スタイルを反映したデータセットを用いたファインチューニング", "モデルを削除する", "リージョンを変更する"],
-    correct: 1,
-    explanation: "特定の文体・スタイルを習得させるにはその文体のデータでファインチューニングするのが最も効果的です。",
+    id: 80,
+    question: "Amazon Bedrock エージェントとナレッジベースを組み合わせて使用する際、エージェントが情報を検索するために使用するクエリ（検索文）はどのように生成されますか。",
+    options: ["A. エージェントがユーザーの質問に基づいて最適な検索クエリを自動生成する", "B. 開発者がすべての質問に対して手動でクエリを定義する", "C. ユーザーが SQL 文を直接入力する", "D. クエリは生成されず、すべてのドキュメントを読み込む"],
+    answer: 0,
+    explanation: "エージェントはユーザーの意図を汲み取り、情報を得るために必要な検索文を自律的に作成します。"
   },
   {
-    id: 105, domain: "評価と最適化",
-    question: "Amazon Bedrockで「Provisioned Throughput」を削除（解除）すると、関連付けられたカスタムモデルはどうなりますか？",
-    choices: ["モデル自体が削除される", "モデルは保存されたままだが、再度スループットを割り当てるまで推論に使用できなくなる", "モデルが一般公開される", "モデルがベースモデルに戻る"],
-    correct: 1,
-    explanation: "Provisioned Throughputを解除してもカスタムモデル自体は保存されます。再利用するには再度スループットを割り当てる必要があります。",
+    id: 81,
+    question: "Amazon Bedrock モデル評価の結果をダウンロードしたい場合、どの形式で提供されますか。",
+    options: ["A. JSON または CSV 形式のファイル", "B. 物理的な紙のレポート", "C. 実行バイナリファイル", "D. 動画ファイル"],
+    answer: 0,
+    explanation: "評価レポートは、詳細な分析が可能なように JSONL や CSV などの構造化データ形式で S3 に保存されます。"
   },
   {
-    id: 106, domain: "評価と最適化",
-    question: "モデル評価における「毒性（Toxicity）」の定義は何ですか？",
-    choices: ["モデルが動作しなくなるバグ", "ヘイトスピーチ、差別、暴力的な表現など、有害な内容を含む度合い", "電力の消費量", "ファイルのウイルス感染"],
-    correct: 1,
-    explanation: "毒性スコアはモデルが生成するヘイトスピーチ・差別・暴力的表現の割合を測定します。コンテンツポリシー遵守の評価に使用します。",
+    id: 82,
+    question: "ある企業が Amazon Bedrock を使用して多言語翻訳サービスを構築しています。サポートされているモデルが特定の言語において不自然な表現を生成する場合、改善のために最初に行うべきアクションはどれですか。",
+    options: ["A. プロンプトエンジニアリングによって出力のスタイルやコンテキストを詳細に指定する", "B. すぐにモデルをフルファインチューニングする", "C. 別のクラウドプロバイダーに乗り換える", "D. モデルの使用を中止する"],
+    answer: 0,
+    explanation: "多くの場合、プロンプトに制約や例（Few-shot）を追加することで、出力品質を大幅に向上させることが可能です。"
   },
   {
-    id: 107, domain: "評価と最適化",
-    question: "「Few-shotプロンプティング」で、例示の数を増やす（例：1件から10件）と、一般的にモデルの挙動はどう変化しますか？",
-    choices: ["常に精度が下がる", "特定のタスク形式に従いやすくなるが、プロンプトのトークン消費量と計算コストが増える", "推論速度が速くなる", "何も変わらない"],
-    correct: 1,
-    explanation: "例示数を増やすとモデルがパターンをより強く学習しますが、トークン消費が増え、コストと入力制限に注意が必要です。",
+    id: 83,
+    question: "Amazon Bedrock のガードレールを API 経由で使用する際、リクエストに含める必要があるパラメータは何ですか。",
+    options: ["A. guardrailIdentifier と guardrailVersion", "B. ユーザーのメールアドレス", "C. クレジットカード番号", "D. AWS ルートパスワード"],
+    answer: 0,
+    explanation: "API 呼び出し時に、適用したいガードレールの ID とバージョンを指定することで、安全な推論が実行されます。"
   },
   {
-    id: 108, domain: "評価と最適化",
-    question: "RAGにおいて、埋め込みモデル自体をファインチューニングする（Embedding Fine-tuning）ことが有効なのはどのような場合ですか？",
-    choices: ["一般的な用語しか使わない場合", "業界固有の専門用語や、特殊な意味を持つ略語が頻出する独自のドメイン知識を扱う場合", "ネットワークが遅い場合", "モデルのアイコンを変えたい場合"],
-    correct: 1,
-    explanation: "専門用語・業界固有の略語は汎用埋め込みモデルで適切にベクトル化されないことがあります。ドメイン固有のデータでの微調整が有効です。",
+    id: 84,
+    question: "Amazon Bedrock ナレッジベースで同期プロセスを実行中、進行状況を確認するために確認すべきコンソール画面はどれですか。",
+    options: ["A. データソースの詳細画面（同期のステータス）", "B. IAM ロールの詳細画面", "C. S3 バケットのプロパティ画面", "D. Billing ダッシュボード"],
+    answer: 0,
+    explanation: "ナレッジベース内のデータソース設定画面で、現在の同期状況や過去の履歴を確認できます。"
   },
   {
-    id: 109, domain: "評価と最適化",
-    question: "ユーザーが「回答が長すぎる」と苦情を言っています。コストとユーザー体験を最適化するための最も簡単な対策はどれですか？",
-    choices: ["モデルをより大きくする", "プロンプトで回答の最大語数を指定するか、モデルパラメータの maxTokens を制限する", "ユーザーをブロックする", "サーバーを増設する"],
-    correct: 1,
-    explanation: "maxTokensパラメータで出力長を制限し、プロンプトでも「〇〇語以内で」と指示することで、コストとUXの両方を改善できます。",
+    id: 85,
+    question: "Amazon Bedrock エージェントにおいて、ユーザーとの対話を終了させ、セッションをクリーンアップするためにアプリケーション側で送信すべき特別なフラグは何ですか。",
+    options: ["A. endSession", "B. deleteAgent", "C. terminateProcess", "D. stopApp"],
+    answer: 0,
+    explanation: "InvokeAgent API のリクエストで endSession フラグを送信することで、そのセッションを明示的に終了できます。"
   },
   {
-    id: 110, domain: "評価と最適化",
-    question: "LLM-as-a-judge（LLMを評価者として使う）手法のメリットは何ですか？",
-    choices: ["人間による評価よりも常に正確である", "大規模な評価を高速かつ低コストに実施でき、人間と相関の高い評価が得られる可能性がある", "評価が不要になる", "コンピュータの電源を切れる"],
-    correct: 1,
-    explanation: "LLM-as-a-judgeは人間評価者の代替として大量の回答を自動評価でき、スケーラブルな品質管理に活用されます。",
+    id: 86,
+    question: "Amazon Bedrock で提供される Meta Llama モデルの一般的な特徴は何ですか。",
+    options: ["A. 画像生成に特化している点", "B. オープンな重みをベースとした高いパフォーマンスと、幅広い用途への適応性", "C. Amazon が開発した独自モデルである点", "D. 音声データのみを処理する点"],
+    answer: 1,
+    explanation: "Llama は Meta によって開発された強力なモデルシリーズであり、開発者の間で広く普及しています。"
   },
   {
-    id: 111, domain: "評価と最適化",
-    question: "モデルの「パラメータ効率の高い微調整（PEFT）」とは何を目的としていますか？",
-    choices: ["全パラメータを学習させること", "モデルのごく一部のパラメータのみを更新し、元のモデルの知識を維持しつつ低リソースで特定のタスクに適応させること", "モデルを大きくすること", "パラメータをランダムに変えること"],
-    correct: 1,
-    explanation: "PEFTはLoRA・Adapter・Prefix Tuningなどの手法で少量のパラメータのみ更新し、フルファインチューニングより低コスト・高効率です。",
+    id: 87,
+    question: "Amazon Bedrock のガードレールにおいて、特定の単語を『*』などの記号で置き換える設定を何と呼びますか。",
+    options: ["A. マスキング (Masking)", "B. 削除 (Deletion)", "C. フィルタリング", "D. 暗号化"],
+    answer: 0,
+    explanation: "機密情報などを特定の記号で隠し、データの意味を保ちつつ秘匿することをマスキングと呼びます。"
   },
   {
-    id: 112, domain: "評価と最適化",
-    question: "Amazon Bedrockでファインチューニングジョブが失敗した場合、まず確認すべきことは何ですか？",
-    choices: ["S3のトレーニングデータのパス、フォーマット、およびIAMロールの権限", "インターネットの速度", "マウスの電池", "SNSの通知設定"],
-    correct: 0,
-    explanation: "ファインチューニング失敗の主な原因はS3パスの誤り・データフォーマットエラー・IAM権限不足です。CloudWatch Logsで詳細を確認します。",
+    id: 88,
+    question: "Amazon Bedrock ナレッジベースでベクトルデータベースとして Amazon OpenSearch Serverless を使用する場合、データのアクセスを制御するために必要な設定は何ですか。",
+    options: ["A. データアクセスポリシー (Data access policy)", "B. セキュリティグループの全開放", "C. Windows ファイアウォールの設定", "D. S3 静的ウェブサイトホスティング"],
+    answer: 0,
+    explanation: "OpenSearch Serverless では、アクセスポリシーを使用して、誰がインデックスを操作・検索できるかを定義します。"
   },
   {
-    id: 113, domain: "評価と最適化",
-    question: "「セマンティック検索」の弱点は何ですか？",
-    choices: ["意味が似ているものを探せないこと", "特定の製品番号や固有名詞などの「完全一致」が必要な検索において、キーワード検索より精度が落ちる場合があること", "速度が速すぎること", "誰でも使えること"],
-    correct: 1,
-    explanation: "セマンティック検索は意味的類似性が得意ですが、「ABC-123」のような固有のコードや型番の完全一致検索はキーワード検索が優れています。",
+    id: 89,
+    question: "Amazon Bedrock エージェントのテストプレイグラウンドにおいて、モデルによる回答の生成にかかった時間を確認したい場合に参照する項目は何ですか。",
+    options: ["A. レイテンシ (Latency)", "B. トークン数", "C. リージョン名", "D. エージェント ARN"],
+    answer: 0,
+    explanation: "レスポンスのパフォーマンスを評価するために、ミリ秒単位のレイテンシ情報が表示されます。"
   },
   {
-    id: 114, domain: "評価と最適化",
-    question: "評価指標「METEOR」がBLEUよりも優れているとされる点はどこですか？",
-    choices: ["計算が速い", "語形変化（動詞の活用など）や類義語を考慮して評価できる点", "名前がかっこいい", "全てのモデルで使える"],
-    correct: 1,
-    explanation: "METEORはステミング・同義語・語順を考慮した柔軟な評価が可能で、BLEUより人間の評価との相関が高いとされています。",
+    id: 90,
+    question: "Amazon Bedrock でカスタマイズしたモデル（ファインチューニング済みなど）を削除したい場合、どのような制約がありますか。",
+    options: ["A. そのモデルを使用しているアクティブなプロビジョンドスループットがある場合は削除できない", "B. 削除には 1 週間かかる", "C. 削除すると AWS アカウント全体が削除される", "D. 削除ボタンは存在しない"],
+    answer: 0,
+    explanation: "リソースの整合性を守るため、使用中のモデルはプロビジョニングを解除するまで削除できません。"
   },
   {
-    id: 115, domain: "評価と最適化",
-    question: "RAGにおいて「Reciprocal Rank Fusion (RRF)」は何に使用されますか？",
-    choices: ["画像の圧縮", "キーワード検索とベクトル検索という異なる手法の検索結果を統合し、最終的なランキングを決定するため", "パスワードの暗号化", "S3の並列読み込み"],
-    correct: 1,
-    explanation: "RRFは複数の検索手法のランキングを組み合わせるアルゴリズムで、ハイブリッド検索の結果統合に広く使用されます。",
+    id: 91,
+    question: "Amazon Bedrock モデル評価ジョブにおいて、モデルに『答えが分からない場合は正直にそう答える』ように促すための評価基準は何ですか。",
+    options: ["A. 事実への忠実度 / 堅実さ (Robustness)", "B. 回答の長さ", "C. CPU 消費量", "D. 日本語の流暢さ"],
+    answer: 0,
+    explanation: "モデルが知らないことに対してハルシネーションを起こさず、適切に回答を拒否できるかを評価します。"
   },
   {
-    id: 116, domain: "評価と最適化",
-    question: "モデルが「同じフレーズを何度も繰り返す」現象（繰り返し問題）を改善するために調整すべきパラメータは何ですか？",
-    choices: ["Temperatureを0にする", "Presence penalty (存在ペナルティ) や Frequency penalty (頻度ペナルティ) を上げる", "ストリーミングをオフにする", "入力トークンを減らす"],
-    correct: 1,
-    explanation: "Presence penaltyは既出のトークンにペナルティを与え、Frequency penaltyは出現頻度に応じてペナルティを増やします。繰り返しの抑制に効果的です。",
+    id: 92,
+    question: "Amazon Bedrock への API リクエスト時に、出力トークンの累積確率が一定値（例：0.9）に達するまでの候補のみから選択するパラメータを何と呼びますか。",
+    options: ["A. Top-P (Nucleus sampling)", "B. Top-K", "C. Temperature", "D. Stop Sequences"],
+    answer: 0,
+    explanation: "Top-P は確率の合計値に基づいてサンプリングの範囲を動的に調整する手法です。"
   },
   {
-    id: 117, domain: "評価と最適化",
-    question: "Amazon Bedrockでの「継続的な事前学習（Continuous Pre-training）」の用途は何ですか？",
-    choices: ["1つずつのプロンプトに答える", "モデルに特定のドメイン（例：医学、法律）の膨大な「ラベルなしテキスト」を学習させ、ドメイン知識を深めること", "モデルを削除する", "ロゴを作成する"],
-    correct: 1,
-    explanation: "Continuous Pre-trainingはラベルなしの大量ドメインテキストでモデルの基礎知識を拡張します。Fine-tuningと組み合わせて使用されます。",
+    id: 93,
+    question: "Amazon Bedrock ナレッジベースでドキュメントの同期（Sync）が失敗した場合、S3 バケットのどの設定を最初に確認すべきですか。",
+    options: ["A. バケットの暗号化設定と、Bedrock サービスロールに KMS キーの使用権限があるか", "B. バケットのウェブサイトホスティング機能がオンか", "C. バケット名がアルファベット順か", "D. バケットのリージョンが東京以外か"],
+    answer: 0,
+    explanation: "暗号化された S3 バケットを使用する場合、Bedrock がその暗号を解くための権限がないと同期に失敗します。"
   },
   {
-    id: 118, domain: "評価と最適化",
-    question: "推論時のコストを計算する際、最も影響を与える要素は何ですか？",
-    choices: ["入力トークン数と出力トークン数（および使用モデルの単価）", "画面の明るさ", "ユーザーの所在地", "ブラウザの種類"],
-    correct: 0,
-    explanation: "Bedrockの推論コストは入力トークン数×入力単価＋出力トークン数×出力単価で計算されます。出力トークンの方が高いことが多いです。",
+    id: 94,
+    question: "Amazon Bedrock エージェントでアクショングループを追加する際、Lambda 関数の入出力を定義するために使用する標準的なフォーマットは何ですか。",
+    options: ["A. OpenAPI (Swagger) スキーマ", "B. HTML テーブル", "C. XML スキーマ", "D. CSV ヘッダー"],
+    answer: 0,
+    explanation: "OpenAPI 仕様書（JSON または YAML）を提供することで、エージェントは API の呼び出し方を理解します。"
   },
   {
-    id: 119, domain: "評価と最適化",
-    question: "「Few-shot」の例示を選ぶ際、どのような例を選ぶのが最も効果的ですか？",
-    choices: ["全く関係ないジャンルの例", "多様性があり、且つユーザーが実際に行うタスクに近い形式と難易度の例", "最も簡単な例だけ", "最も長い例だけ"],
-    correct: 1,
-    explanation: "実際のユースケースに近い多様な例示を選ぶことで、モデルが期待するタスク形式を正確に学習し、精度が向上します。",
+    id: 50,
+    question: "Amazon Bedrock エージェントを作成する際、エージェントがユーザーの会話を一時的に保存するために必要な IAM 権限は何に関連するものですか。",
+    options: ["A. DynamoDB への読み書き権限", "B. S3 の削除権限", "C. Route 53 の更新権限", "D. IAM ユーザーの作成権限"],
+    answer: 0,
+    explanation: "エージェントが会話の状態を永続化する場合、背後のデータベースへの適切なアクセス権限が必要になります。"
   },
   {
-    id: 120, domain: "評価と最適化",
-    question: "Amazon Bedrockのモデル評価の結果を可視化するために統合できるサービスはどれですか？",
-    choices: ["Amazon QuickSight (S3経由のレポート分析など)", "AWS Glue", "AWS IoT Core", "Amazon WorkMail"],
-    correct: 0,
-    explanation: "モデル評価の結果はS3に出力され、Amazon QuickSightやAthenaで可視化・分析できます。",
+    id: 95,
+    question: "Amazon Bedrock で使用される「モデル ID」の形式として正しいものはどれですか。",
+    options: ["A. anthropic.claude-3-sonnet-20240229-v1:0", "B. claude-model-123", "C. http://aws.amazon.com/bedrock/claude", "D. user-custom-id-999"],
+    answer: 0,
+    explanation: "Bedrock では、プロバイダー名とモデル名、バージョンを含む一意の ID が定義されています。"
   },
   {
-    id: 121, domain: "評価と最適化",
-    question: "モデルの量子化によって引き起こされる可能性がある主なデメリットは何ですか？",
-    choices: ["推論が遅くなる", "僅かな推論精度の低下（パープレキシティの上昇）", "コストが上がる", "サーバーが物理的に壊れる"],
-    correct: 1,
-    explanation: "量子化はメモリと速度を改善しますが、数値精度の低下により推論品質が若干落ちることがあります。精度と効率のトレードオフです。",
-  },
-  {
-    id: 122, domain: "評価と最適化",
-    question: "RAGの「リトリーバル（検索）」フェーズを最適化するために、ユーザーのクエリを拡張して複数の類似クエリを生成する手法を何と呼びますか？",
-    choices: ["Query Expansion (クエリ拡張)", "Index Pruning", "Token Masking", "Model Sharding"],
-    correct: 0,
-    explanation: "Query Expansionはユーザーの一つの質問から複数のバリエーションを生成し、検索の網羅性を高めてRAGの再現率を向上させます。",
-  },
-  {
-    id: 123, domain: "評価と最適化",
-    question: "生成AIのガバナンスにおいて「説明可能性（Explainability）」が必要とされる主な理由はどれですか？",
-    choices: ["ユーザーを楽しませるため", "なぜモデルがその回答を出したのか、特に倫理的・法的判断が関わる場合に、その根拠やプロセスを透明にするため", "プログラミングを難しくするため", "AWSの料金を下げるため"],
-    correct: 1,
-    explanation: "説明可能性は医療・金融・法律など高リスク分野でのAI採用に不可欠で、規制対応と信頼確保のために必要です。",
-  },
-
-  // ===== ドメイン5: セキュリティとガバナンス (124-150) =====
-  {
-    id: 124, domain: "セキュリティ",
-    question: "Amazon Bedrockを利用する際、顧客データがモデルプロバイダー（Anthropic等）のモデル改善や再学習に使用されることはありますか？",
-    choices: ["はい、デフォルトで使用されます", "いいえ、Amazon Bedrockに入力されたデータがベースモデルの学習に使用されることはありません", "オプトアウトを申請した場合のみ使用されません", "AWSがデータをすべて公開します"],
-    correct: 1,
-    explanation: "AWSはBedrockに入力された顧客データをモデルの学習・改善に使用しないことを保証しています。これはエンタープライズ採用の重要な前提です。",
-  },
-  {
-    id: 125, domain: "セキュリティ",
-    question: "金融機関において、Amazon Bedrockへの通信をインターネットに公開せず、AWSのプライベートネットワーク内に閉じるために必要な構成要素は何ですか？",
-    choices: ["インターネットゲートウェイ", "Interface VPC Endpoint (AWS PrivateLink)", "公開S3バケット", "SSHトンネル"],
-    correct: 1,
-    explanation: "AWS PrivateLinkのInterface VPC Endpointを使うと、インターネットを経由せずVPCからBedrockに安全に接続できます。",
-  },
-  {
-    id: 126, domain: "セキュリティ",
-    question: "特定のユーザーグループにのみ「Claude 3」の使用を許可し、他のモデルの使用を禁止したい場合、どのように制御しますか？",
-    choices: ["全員を管理者にする", "IAMポリシーの Resource セクションで、特定のモデルARNへの bedrock:InvokeModel 権限のみを許可する", "モデルのパスワードを教えない", "物理的にアクセスを遮断する"],
-    correct: 1,
-    explanation: "IAMポリシーでモデルARNを指定してbedrock:InvokeModelを制限することで、特定のモデルへのアクセスを細かく制御できます。",
-  },
-  {
-    id: 127, domain: "セキュリティ",
-    question: "Amazon Bedrock Guardrailsを使用して、入力と出力の両方で「氏名」や「クレジットカード番号」を自動的に検出してマスクしたい場合、どの機能を使用しますか？",
-    choices: ["Content filters", "Sensitive information filters (PII)", "Denied topics", "Word filters"],
-    correct: 1,
-    explanation: "Sensitive information filters（PIIフィルタ）は氏名・住所・電話番号・クレジットカード番号などを自動検出してマスクまたはブロックします。",
-  },
-  {
-    id: 128, domain: "セキュリティ",
-    question: "生成AIの利用状況を監査するために、誰がどのモデルに何を尋ねたかのログ（入出力の全文）を保存するBedrockの機能は何ですか？",
-    choices: ["AWS CloudTrail (API実行履歴のみ)", "Model Invocation Logging", "Amazon Inspector", "AWS Artifact"],
-    correct: 1,
-    explanation: "Model Invocation LoggingはプロンプトとレスポンスをS3またはCloudWatch Logsに保存します。監査・デバッグ・品質管理に使用します。",
-  },
-  {
-    id: 129, domain: "セキュリティ",
-    question: "「責任あるAI（Responsible AI）」の5つの柱に含まれないものはどれですか？",
-    choices: ["公平性 (Fairness)", "透明性 (Explainability)", "堅牢性 (Robustness)", "最大の利益 (Maximum Profit)"],
-    correct: 3,
-    explanation: "責任あるAIの柱は公平性・透明性・堅牢性・プライバシー・安全性です。「最大の利益」は含まれません。",
-  },
-  {
-    id: 130, domain: "セキュリティ",
-    question: "Amazon BedrockでAWS KMSを使用してデータを暗号化する際、カスタムキー（CMK）で暗号化できる対象はどれですか？",
-    choices: ["基盤モデルの元の重み", "カスタムモデルの重み、知識ベースのデータソースのインデックス、モデル呼び出しログなど", "インターネット全体のデータ", "AWSの請求書"],
-    correct: 1,
-    explanation: "AWS KMSのCMKでカスタムモデル・知識ベースインデックス・呼び出しログを暗号化でき、鍵管理の完全な制御が可能になります。",
-  },
-  {
-    id: 131, domain: "セキュリティ",
-    question: "プロンプトインジェクションの対策として、システムプロンプトとユーザー入力を明確に区切るために使用される「###」や「---」などの記号を何と呼びますか？",
-    choices: ["Token", "Delimiter (デリミタ/区切り文字)", "Stop sequence", "Mask"],
-    correct: 1,
-    explanation: "Delimiter（区切り文字）でシステムプロンプトとユーザー入力を明確に分離することで、インジェクション攻撃のリスクを低減できます。",
-  },
-  {
-    id: 132, domain: "セキュリティ",
-    question: "開発者が誤ってモデルに不適切なリクエストをした際、Guardrailsがそれをブロックしました。このブロックされたイベントのログはどこで確認できますか？",
-    choices: ["Amazon S3 または CloudWatch Logs (ログ設定が有効な場合)", "AWS Trusted Advisor", "コンソールのベルマーク", "IAM ダッシュボード"],
-    correct: 0,
-    explanation: "GuardrailsのブロックイベントはModel Invocation Loggingを有効にしてS3またはCloudWatch Logsで記録・確認できます。",
-  },
-  {
-    id: 133, domain: "セキュリティ",
-    question: "Amazon Bedrockにおいて、モデルが生成する画像に目に見えない「透かし」を入れ、AI生成画像であることを識別可能にする技術は何と呼ばれますか？",
-    choices: ["Encryption", "Digital Watermarking", "Steganography", "Image Masking"],
-    correct: 1,
-    explanation: "Digital Watermarkingは人間の目には見えない透かしをAI生成画像に埋め込みます。Titan画像生成モデルがこの機能をサポートしています。",
-  },
-  {
-    id: 134, domain: "セキュリティ",
-    question: "データの主権（Data Sovereignty）を確保するために、特定のリージョン（例：東京リージョン）内でのみデータを処理および保存するように設定することは重要ですか？",
-    choices: ["いいえ、どこでも同じです", "はい、法的・規制上の要件を満たすために特定のリージョンを指定し、クロスリージョン推論を制限する必要があります", "はい、ただし料金が高くなります", "いいえ、AWSが勝手に決めます"],
-    correct: 1,
-    explanation: "GDPRや個人情報保護法などの規制要件を満たすために、データの処理・保存リージョンを明示的に制御することが重要です。",
-  },
+    id: 96,
+    question: "Amazon Bedrock のナレッジベースで「事前定義されたチャンク化」を選択せずに、独自のロジックでテキストを分割したい場合、どのような方法がありますか。",
+    options: ["A. ドキュメントを S3 にアップロードする前に、手動またはカスタムスクリプトでチャンク化して JSON ファイルにする", "B. AWS Lambda で同期中にリアルタイム分割する機能を使用する", "C. S3 のタグにチャンク位置を書き込む", "D. 方法はない"],
+    answer: 0,
+    explanation: "カスタムチャンク化を行いたい場合は、あらかじめ分割したデータを適切な形式で用意する必要があります。"
+  },
   {
-    id: 135, domain: "セキュリティ",
-    question: "Guardrailsの「しきい値」設定について、有害でない短い会話を過剰にブロックしないようにするには？",
-    choices: ["しきい値を最大にする", "フィルタの感度を適切に調整し、有害でない短い会話を過剰にブロックしないようにテストと評価を繰り返す", "すべてをブロックする", "何もしない"],
-    correct: 1,
-    explanation: "Guardrailsのしきい値はユースケースに合わせて調整が必要です。過剰なブロックはUXを損ないます。継続的なテストと評価が重要です。",
+    id: 97,
+    question: "Amazon Bedrock モデル評価ジョブを実行する際、モデルのパフォーマンス（応答時間）を測定するために使用される標準的な単位は何ですか。",
+    options: ["A. ミリ秒 (ms)", "B. グラム (g)", "C. メートル (m)", "D. ボルト (V)"],
+    answer: 0,
+    explanation: "IT システムのレスポンス時間は一般的にミリ秒 (ms) で測定・表示されます。"
   },
-  {
-    id: 136, domain: "セキュリティ",
-    question: "Amazon Bedrockのモデルアクセス（Model Access）を管理できるのは、どのような権限を持つユーザーですか？",
-    choices: ["すべてのユーザー", "適切なIAM権限（bedrock:GetModelInferencePolicy等）を持つ管理者", "モデルプロバイダー", "外部のハッカー"],
-    correct: 1,
-    explanation: "モデルアクセスの有効化・無効化には適切なIAM権限（bedrock:*）が必要です。最小権限の原則に従って管理者のみに付与します。",
-  },
-  {
-    id: 137, domain: "セキュリティ",
-    question: "AWS CloudTrailで記録されるBedrockのイベントには何が含まれますか？",
-    choices: ["プロンプトの全文", "InvokeModel などのAPIが「誰によって、いつ、どのIPから」呼び出されたかという管理プレーンの履歴", "回答の全文", "モデルのパラメータ"],
-    correct: 1,
-    explanation: "CloudTrailはAPI操作の管理プレーンログ（誰が・いつ・どこから・何をしたか）を記録します。プロンプト内容はModel Invocation Loggingで記録します。",
-  },
-  {
-    id: 138, domain: "セキュリティ",
-    question: "生成AIのモデルが特定の集団（例：性別、人種）に対して不当な偏りがある回答をすることを防ぐ取り組みを何と呼びますか？",
-    choices: ["Bias mitigation (バイアス軽減)", "Overfitting", "Underfitting", "Backpropagation"],
-    correct: 0,
-    explanation: "バイアス軽減はデータの多様性確保・公平性評価・GuardrailsによるフィルタリングなどでAIの差別的出力を防ぐ取り組みです。",
-  },
-  {
-    id: 139, domain: "セキュリティ",
-    question: "Amazon Bedrock Guardrailsを複数のアプリケーションで共通して使いたい場合、どうすればよいですか？",
-    choices: ["毎回作り直す", "作成したGuardrailのIDを、各アプリケーションのAPI呼び出し時のパラメータとして指定する", "アプリケーションを1つにまとめる", "リージョンを1つにする"],
-    correct: 1,
-    explanation: "GuardrailはIDで識別されます。複数のアプリから同一のGuardrailを参照することで、一元管理とポリシーの一貫性が保てます。",
-  },
-  {
-    id: 140, domain: "セキュリティ",
-    question: "セキュリティ上の理由から、モデルが特定の競合他社について話すのを禁止したい場合、Guardrailsで設定すべき項目はどれですか？",
-    choices: ["Content filters", "Denied topics", "PII filters", "Contextual grounding"],
-    correct: 1,
-    explanation: "Denied topicsは特定のトピック（競合他社・政治・法的アドバイス等）についてモデルが話すことを禁止する機能です。",
-  },
-  {
-    id: 141, domain: "セキュリティ",
-    question: "RAGシステムにおいて、検索されたドキュメントが「全くの無関係」である場合にモデルに無理やり答えさせないようにするための Guardrails の新しい機能は何ですか？",
-    choices: ["PII Masking", "Contextual Grounding Check (コンテキストに基づいたグラウンディングチェック)", "Denied Topics", "Token Limit"],
-    correct: 1,
-    explanation: "Contextual Grounding Checkは回答が検索されたコンテキストに基づいているか、質問に関連しているかを確認し、ハルシネーションを防ぎます。",
-  },
-  {
-    id: 142, domain: "セキュリティ",
-    question: "AWSにおいて「責任共有モデル」に基づき、ユーザーが責任を負うのはどの部分ですか？",
-    choices: ["基盤モデルのセキュリティ", "データセンターの物理的保護", "アプリケーションコード、データ、プロンプトの内容、IAMポリシーの設定", "モデルのトレーニングアルゴリズム"],
-    correct: 2,
-    explanation: "AWSはモデルとインフラのセキュリティを担当し、ユーザーはアプリコード・データ・プロンプト設計・IAM設定の責任を負います。",
-  },
-  {
-    id: 143, domain: "セキュリティ",
-    question: "特定の業界（医療など）の規制遵守（HIPAA等）のために、Amazon Bedrockを使用する前に確認すべきドキュメントは何ですか？",
-    choices: ["AWS コンプライアンスレポート (Artifact) や各サービスのコンプライアンス対応状況", "昨日のニュース", "Wikipedia", "SNSの評判"],
-    correct: 0,
-    explanation: "AWS Artifactでコンプライアンスレポートを確認し、BedrockがHIPAA・GDPR等の規制に対応しているかを事前に検証することが必要です。",
-  },
-  {
-    id: 144, domain: "セキュリティ",
-    question: "プロンプトインジェクションによって、モデルが「エージェントに紐付けられた機密性の高いLambda関数」を不正に実行しようとするリスクへの対策はどれですか？",
-    choices: ["Lambdaのコード内で入力パラメータの厳格なバリデーションとサニタイズを行う", "Lambdaを削除する", "エージェントの指示を短くする", "温度を0にする"],
-    correct: 0,
-    explanation: "Lambdaコード内での入力バリデーション・サニタイズは多層防御の重要な要素です。Guardrailsと組み合わせることでより強固な保護が実現できます。",
-  },
-  {
-    id: 145, domain: "セキュリティ",
-    question: "Amazon Bedrockの「Model invocation logging」で「テキスト、画像、音声データ」をすべてログに含める設定にした場合の懸念点は何ですか？",
-    choices: ["ログが綺麗になる", "ログの保存容量が急速に増加し、S3のコストが増えるとともに、ログ内の機密情報の保護がより重要になる", "ログが見えなくなる", "何も起きない"],
-    correct: 1,
-    explanation: "フルロギングは完全な監査証跡を提供しますが、S3コストが増加し、ログ内のPII・機密情報の適切な保護（暗号化・アクセス制御）が必要です。",
-  },
-  {
-    id: 146, domain: "セキュリティ",
-    question: "モデルの出力の「正確性（Accuracy）」を確認するために、AIではなく人間が回答を検証し、フィードバックを行うプロセスを総称して何と呼びますか？",
-    choices: ["Human-in-the-loop (HITL)", "Auto-correction", "Self-healing", "Over-the-air"],
-    correct: 0,
-    explanation: "Human-in-the-loop（HITL）は高リスクの判断や精度が重要なシナリオで人間がAIの出力を検証・修正するプロセスです。",
+  {
+    id: 98,
+    question: "Amazon Bedrock エージェントが複数のアクショングループを持っている場合、どのアクションを呼び出すべきかを判断するために使用される情報はどれですか。",
+    options: ["A. 各アクショングループの説明（Description）", "B. アクショングループの作成日時順", "C. 開発者の氏名", "D. ランダム"],
+    answer: 0,
+    explanation: "エージェントは各機能の説明文を読み、ユーザーの要望に最も合致するものを推論して選択します。"
   },
   {
-    id: 147, domain: "セキュリティ",
-    question: "Bedrock Guardrailsを使用して特定の単語（不適切な言葉など）をブロックしたい場合、単語のリストを登録する機能を何と呼びますか？",
-    choices: ["Word filters", "Sensitive information filters", "Denied topics", "Content filters"],
-    correct: 0,
-    explanation: "Word filtersは特定の単語・フレーズのリストを登録し、入出力でそれらが検出された場合にブロックまたはマスクします。",
-  },
-  {
-    id: 148, domain: "セキュリティ",
-    question: "Amazon Bedrock Knowledge BasesのデータソースとしてS3を使用する際、S3バケットへのアクセス権限をBedrockに与えるために必要なものは何ですか？",
-    choices: ["S3をパブリックにする", "Bedrockのサービスプリンシパルを信頼し、S3への s3:GetObject 等の権限を持つ適切なIAMロールを作成し割り当てる", "rootユーザーでログインする", "バケット名を「bedrock-data」にする"],
-    correct: 1,
-    explanation: "Bedrockサービスプリンシパルを信頼するIAMロールにS3アクセス権限を付与することで、Bedrockがデータを安全に読み込めます。",
-  },
-  {
-    id: 149, domain: "セキュリティ",
-    question: "セキュリティのベストプラクティスとして、Bedrock APIを呼び出すIAMポリシーに Resource: \"*\" を使用することを避けるべきなのはなぜですか？",
-    choices: ["動作しなくなるから", "最小権限の原則（Least Privilege）に従い、必要なモデルのみへのアクセスを許可してリスクを最小化するため", "料金が高くなるから", "AWSが推奨しているから"],
-    correct: 1,
-    explanation: "最小権限の原則に従い、必要なモデルARNのみを明示的に指定することで、不要なモデルへのアクセスリスクを排除します。",
-  },
-  {
-    id: 150, domain: "セキュリティ",
-    question: "生成AIを安全に利用し続けるための「継続的なモニタリング」において、監視すべき対象に含まれないものはどれですか？",
-    choices: ["モデルの推論エラー率", "ユーザーからの不適切コンテンツの報告", "開発者のタイピング速度", "Guardrailsによるブロック率"],
-    correct: 2,
-    explanation: "継続的モニタリングの対象はエラー率・ブロック率・ユーザーフィードバック・コスト・レイテンシなどです。タイピング速度は関係ありません。",
-  },
+    id: 99,
+    question: "Amazon Bedrock でカスタムモデルのトレーニングを開始した後、そのジョブを途中で停止（キャンセル）することは可能ですか。",
+    options: ["A. はい、Bedrock コンソールまたは API からいつでも停止可能です。", "B. いいえ、一度開始すると完了するまで止めることはできません。", "C. はい、ただし AWS サポートへのチケット作成が必要です。", "D. はい、ただしサーバーの電源を物理的に切る必要があります。"],
+    answer: 0,
+    explanation: "不要な課金を防ぐために、トレーニングジョブは実行中にいつでもキャンセルすることができます。"
+  },
+  {
+    id: 100,
+    question: "Amazon Bedrock の「継続的プリトレーニング」ジョブを正常に実行するために推奨される最小のデータセットサイズ（トークン数）は一般的にどの程度ですか。",
+    options: ["A. 100トークン", "B. 数億から数十億トークン", "C. 1トークン", "D. 制限はない"],
+    answer: 1,
+    explanation: "モデルの基礎知識を更新する継続的プリトレーニングには、非常に大規模なコーパス（データ群）が必要です。"
+  },
+  {
+    id: 101,
+    question: "Amazon Bedrock モデル評価 (Model Evaluation) において、モデルの回答の『誠実さ (Faithfulness)』や『有害性 (Harmfulness)』を測定するために、あらかじめ定義された評価指標を使用して自動的にスコアリングする手法は何ですか。",
+    options: [
+      "A. 自動評価 (Automatic evaluation)",
+      "B. 人間の評価者による手動評価",
+      "C. AWS WAF による動的解析",
+      "D. Amazon GuardDuty による脅威検知"
+    ],
+    answer: 0,
+    explanation: "自動評価ジョブでは、特定の基準に基づいてモデルのパフォーマンスを数値化し、迅速に比較することができます。"
+  },
+  {
+    id: 102,
+    question: "Amazon Bedrock エージェントの実行中に、モデルがどのようにユーザーの入力を解釈し、どのナレッジベースを検索して、最終的な回答を生成したかという内部的な推論ステップを確認できる機能はどれですか。",
+    options: [
+      "A. AWS CloudTrail",
+      "B. エージェントトレース (Agent Trace)",
+      "C. Amazon VPC フローログ",
+      "D. AWS Config"
+    ],
+    answer: 1,
+    explanation: "エージェントトレースを使用することで、オーケストレーションの各ステップ（思考、行動、観察）を詳細に診断できます。"
+  },
+  {
+    id: 103,
+    question: "RAG を使用したチャットボットで、非常に長いドキュメントを検索対象にしていますが、回答が途中で切れてしまい、不完全な JSON 形式で返されることがあります。この現象の主な原因として考えられるものはどれですか。",
+    options: [
+      "A. モデルのコンテキストウィンドウの制限、または Max Tokens の設定不足。",
+      "B. S3 バケットの読み取り速度が遅すぎる。",
+      "C. IAM ロールの権限が不足している。",
+      "D. インターネット接続が不安定である。"
+    ],
+    answer: 0,
+    explanation: "生成されるトークン数が制限（コンテキストウィンドウや設定値）に達すると、生成が強制終了され形式が崩れる原因となります。"
+  },
+  {
+    id: 104,
+    question: "Amazon Bedrock でプロビジョンドスループット (Provisioned Throughput) を購入しましたが、不要になったためすぐに削除したいと考えています。コミットメント期間を『なし (No commitment)』に設定していた場合、どのような課金ルールが適用されますか。",
+    options: [
+      "A. 削除した瞬間から課金が停止し、使用した時間分のみ請求される。",
+      "B. 削除しても 1 ヶ月分は全額請求される。",
+      "C. コミットメントなしでも 1 年間の最低利用期間がある。",
+      "D. 削除には別途キャンセル料が発生する。"
+    ],
+    answer: 0,
+    explanation: "コミットメントなしの場合、柔軟にプロビジョニングと解除が可能で、時間単位の従量課金となります。"
+  },
+  {
+    id: 105,
+    question: "Amazon Bedrock のガードレールにおいて、特定の単語（例えば不適切な言葉や競合他社の名前）のリストを独自に作成して、それらがプロンプトや回答に含まれないように設定できる機能は何ですか。",
+    options: [
+      "A. 独自ワードフィルタ (Custom Word Filters)",
+      "B. コンテンツカテゴリフィルタ",
+      "C. PII リダクション",
+      "D. IP アドレス制限"
+    ],
+    answer: 0,
+    explanation: "カスタムワードフィルタを使用すると、組織独自のポリシーに基づいた特定の用語のブロッキングが可能です。"
+  },
+  {
+    id: 106,
+    question: "Amazon Bedrock ナレッジベースにおいて、PDF ファイルからテキストを抽出する際に、図表のキャプション（説明文）と本文を正しく区別して処理するために有効な設定はどれですか。",
+    options: [
+      "A. 高度なパース戦略 (Advanced parsing strategies) の使用",
+      "B. S3 バケットの暗号化の解除",
+      "C. ファイル名の変更",
+      "D. リージョンの変更"
+    ],
+    answer: 0,
+    explanation: "高度なパース機能（Amazon Textract との連携など）を利用することで、複雑なレイアウトの文書からより正確に情報を抽出できます。"
+  },
+  {
+    id: 107,
+    question: "Amazon Bedrock エージェントに、最新の在庫状況を確認するための Lambda 関数を連携させました。エージェントがこの関数をいつ呼び出すべきかを判断するために必要な情報はどれですか。",
+    options: [
+      "A. Lambda 関数のメモリ設定値",
+      "B. アクショングループに関連付けられた OpenAPI スキーマ（関数の説明とパラメータ定義）",
+      "C. Lambda 関数の作成日",
+      "D. AWS アカウント ID"
+    ],
+    answer: 1,
+    explanation: "モデルは OpenAPI スキーマに記述された説明（Description）を読み、どの関数が自分のタスクに必要かを判断します。"
+  },
+  {
+    id: 108,
+    question: "Amazon Bedrock モデル評価において、F1 スコアが測定するものは主に何ですか。",
+    options: [
+      "A. 回答の生成にかかった時間",
+      "B. 適合率 (Precision) と再現率 (Recall) の調和平均",
+      "C. 消費されたトークンの総コスト",
+      "D. ネットワークのパケットロス率"
+    ],
+    answer: 1,
+    explanation: "F1スコアは、モデルの回答がどれだけ正確で、かつ必要な情報を網羅しているかを総合的に評価する指標です。"
+  },
+  {
+    id: 109,
+    question: "基盤モデルのハルシネーション（事実に基づかない回答）を抑制するために、最も直接的な解決策はどれですか。",
+    options: [
+      "A. ナレッジベース (RAG) を使用して、信頼できる最新の事実をコンテキストとして提供する。",
+      "B. モデルの Temperature（温度）を最大にする。",
+      "C. モデルを画像生成専用にする。",
+      "D. ユーザーの入力をすべて無視する。"
+    ],
+    answer: 0,
+    explanation: "RAGは、モデルが知らない情報を外部から補完することで、憶測による誤回答を大幅に減らすことができます。"
+  },
+  {
+    id: 110,
+    question: "Amazon Bedrock でカスタマイズしたモデル（ファインチューニング済みモデル）を複数の AWS アカウント間で共有して使用するために必要な操作はどれですか。",
+    options: [
+      "A. カスタムモデルをパブリック S3 バケットに配置する。",
+      "B. Resource Access Manager (RAM) を使用して、カスタムモデルの ARN を共有する。",
+      "C. モデルを USB メモリにコピーする。",
+      "D. 共有は不可能である。"
+    ],
+    answer: 1,
+    explanation: "AWS RAM を使用することで、他のアカウントからでも特定のカスタムモデルを利用できるようになります。"
+  },
+  {
+    id: 111,
+    question: "Amazon Bedrock ナレッジベースの構築において、テキストをベクトル化するための『埋め込みモデル (Embedding model)』を選択する際、最も重要な考慮事項は何ですか。",
+    options: [
+      "A. モデルが生成できる画像の解像度",
+      "B. モデルがサポートする入力テキストの最大トークン長と、出力されるベクトルの次元数",
+      "C. モデルのアイコンのデザイン",
+      "D. モデルの開発者の名前"
+    ],
+    answer: 1,
+    explanation: "埋め込みモデルの特性（次元数やトークン長）は、検索精度やベクトルデータベースの設計に大きく影響します。"
+  },
+  {
+    id: 112,
+    question: "Amazon Bedrock ガードレールで『PII リダクション』を有効にした場合、マスクされた情報はどのように表示されますか。",
+    options: [
+      "A. 完全に削除され、空白になる。",
+      "B. 設定された識別子（例：[EMAIL], [PHONE_NUMBER] など）に置き換わる。",
+      "C. ランダムな数字に置き換わる。",
+      "D. 赤色で表示される。"
+    ],
+    answer: 1,
+    explanation: "PIIリダクションは機密情報を特定のラベルに置き換えることで、文脈を維持しつつプライバシーを保護します。"
+  },
+  {
+    id: 113,
+    question: "Amazon Bedrock エージェントと会話をしているユーザーの体験（UX）を向上させるために、エージェントの回答が生成されるのを待つ間に進捗を表示するための技術はどれですか。",
+    options: [
+      "A. ストリーミング (Streaming) 応答",
+      "B. バッチ処理",
+      "C. オフラインバックアップ",
+      "D. ファイルのダウンロード"
+    ],
+    answer: 0,
+    explanation: "ストリーミングを使用すると、回答が完成するのを待たずに生成された順に逐次表示できるため、体感待ち時間を短縮できます。"
+  },
+  {
+    id: 114,
+    question: "Amazon Bedrock でプロビジョンドスループットを使用している際、割り当てられたモデルユニット数を増減させるために必要な手順はどれですか。",
+    options: [
+      "A. 既存のプロビジョンドスループット設定を編集し、ユニット数を変更する。",
+      "B. 新しいプロビジョンドスループットを別の名前で作成し直す必要がある。",
+      "C. 物理的なサーバーを増設する。",
+      "D. 自動スケールに任せるため、設定変更は不要である。"
+    ],
+    answer: 0,
+    explanation: "プロビジョンドスループットの設定変更により、必要なキャパシティに応じてユニット数を調整できます。"
+  },
+  {
+    id: 115,
+    question: "Amazon Bedrock モデル評価ジョブを実行する際、評価の精度を高めるために『ゴールドスタンダード (Gold standard)』と呼ばれるデータセットに含まれるべきものは何ですか。",
+    options: [
+      "A. 過去のシステムログのすべて",
+      "B. 質問と、それに対する理想的な正解回答のペア",
+      "C. 意味不明なランダムな単語の羅列",
+      "D. 大量の画像データ"
+    ],
+    answer: 1,
+    explanation: "ゴールドスタンダードは基準となる正解セットであり、モデルの回答の正確さを測定する物差しとなります。"
+  },
+  {
+    id: 116,
+    question: "Amazon Bedrock で Amazon Titan Image Generator モデルを使用して画像を生成する際、画像の中に不可視の電子透かし（ウォーターマーク）を挿入する目的は何ですか。",
+    options: [
+      "A. 画像のファイルサイズを小さくするため",
+      "B. その画像が AI によって生成されたものであることを識別可能にし、責任ある AI を推進するため",
+      "C. 画像の解像度を上げるため",
+      "D. 画像の色合いを鮮やかにするため"
+    ],
+    answer: 1,
+    explanation: "電子透かしは AI 生成物の透明性を高め、不正利用や誤情報の拡散を防ぐための重要な安全策です。"
+  },
+  {
+    id: 117,
+    question: "Amazon Bedrock エージェントの『オーケストレーション』プロセスにおいて、モデルが次のアクションを決定する前に、現在の状況を整理して言語化する手法は何と呼ばれますか。",
+    options: [
+      "A. 思考の連鎖 (Chain of Thought)",
+      "B. データの暗号化",
+      "C. キャッシュのクリア",
+      "D. バイナリ変換"
+    ],
+    answer: 0,
+    explanation: "思考の連鎖を用いることで、モデルは複雑なタスクを段階的に論理立てて処理できるようになります。"
+  },
+  {
+    id: 118,
+    question: "Amazon Bedrock モデル評価において、ROUGE 指標が特に有効なタスクはどれですか。",
+    options: [
+      "A. 画像の分類タスク",
+      "B. テキストの要約タスク",
+      "C. 音声の感情分析タスク",
+      "D. ネットワークの遅延測定"
+    ],
+    answer: 1,
+    explanation: "ROUGEは、モデルが生成した要約が、人間が作成した参照要約とどれだけ一致しているかを評価するのに適しています。"
+  },
+  {
+    id: 119,
+    question: "Amazon Bedrock のナレッジベースで、ドキュメントの同期 (Sync) が失敗した場合に最初に確認すべき場所はどこですか。",
+    options: [
+      "A. Amazon CloudWatch Logs（ナレッジベースに関連付けられたログ）",
+      "B. IAM ユーザーのパスワード変更履歴",
+      "C. ブラウザのブックマーク",
+      "D. ローカル PC の空き容量"
+    ],
+    answer: 0,
+    explanation: "CloudWatch Logs には、同期中に発生したエラーの詳細な原因が記録されています。"
+  },
+  {
+    id: 120,
+    question: "Amazon Bedrock で Meta Llama 3 モデルを使用する際、このモデルが提供されている AWS のリージョンを確認するために使用すべきサービスはどれですか。",
+    options: [
+      "A. AWS Resource Groups",
+      "B. Amazon Bedrock コンソールの『Model availability by region』またはドキュメント",
+      "C. Amazon Route 53",
+      "D. AWS Direct Connect"
+    ],
+    answer: 1,
+    explanation: "各モデルはリージョンごとに利用可否が異なるため、公式ドキュメントやコンソールでの確認が必要です。"
+  },
+  {
+    id: 121,
+    question: "Amazon Bedrock モデル評価ジョブを開始する前に、評価に使用する入力データセットを配置する必要がある場所はどこですか。",
+    options: ["A. Amazon S3 バケット", "B. ローカルの C ドライブ", "C. Google ドライブ", "D. GitHub リポジトリ"],
+    answer: 0,
+    explanation: "評価ジョブは S3 上のデータセットを読み込んで実行されます。"
+  },
+  {
+    id: 122,
+    question: "Amazon Bedrock エージェントにおいて、各セッションの有効期限（デフォルトは 10 分間）を延長またはカスタマイズすることは可能ですか。",
+    options: [
+      "A. はい、エージェントの設定でセッションのタイムアウト時間を任意に変更可能です。",
+      "B. いいえ、10 分間で固定されており変更できません。",
+      "C. はい、ただし AWS への書面による申請が必要です。",
+      "D. いいえ、セッションという概念自体が存在しません。"
+    ],
+    answer: 0,
+    explanation: "セッションタイムアウトの設定を変更することで、ユーザーとの長い対話時間を維持できるようになります。"
+  },
+  {
+    id: 123,
+    question: "Amazon Bedrock において、基盤モデルの推論 API (InvokeModel) を呼び出す際に、クライアント側で設定できるタイムアウト時間の最大値に影響を与える要因は何ですか。",
+    options: [
+      "A. 使用している SDK の設定や API Gateway のタイムアウト制限",
+      "B. モデルの色",
+      "C. 物理的なキーボードのタイピング速度",
+      "D. S3 のバケット名"
+    ],
+    answer: 0,
+    explanation: "ネットワーク経路上のコンポーネント（API Gateway など）の制限が、全体のタイムアウト時間に影響します。"
+  },
+  {
+    id: 124,
+    question: "Amazon Bedrock のガードレールで『不適切なコンテンツカテゴリ』を定義する際、強度の設定を『High』にした場合の結果として正しいものはどれですか。",
+    options: [
+      "A. ほとんどのコンテンツが通過し、フィルタリングが緩くなる。",
+      "B. 非常に厳格にフィルタリングが行われ、わずかでも疑わしい内容はブロックされる。",
+      "C. フィルタリングが完全に無効化される。",
+      "D. モデルの推論速度が 10 倍になる。"
+    ],
+    answer: 1,
+    explanation: "強度が High であるほど、安全性を重視した厳しいフィルタリングが適用されます。"
+  },
+  {
+    id: 125,
+    question: "RAG アーキテクチャにおいて、ドキュメントの検索精度を改善するために、検索された結果の順序を再評価して上位のものを絞り込むプロセスを何と呼びますか。",
+    options: ["A. ベクトル化", "B. リランキング (Reranking)", "C. データ圧縮", "D. インデックス削除"],
+    answer: 1,
+    explanation: "リランキングは、初期検索で得られた候補をより精緻なアルゴリズムで並べ替え、精度の高い情報を抽出する手法です。"
+  },
+  {
+    id: 126,
+    question: "Amazon Bedrock で画像生成を行う際に、プロンプトに『含めたくない要素（例：青色を使わない、など）』を指定するパラメータを何と呼びますか。",
+    options: ["A. Positive prompt", "B. Negative prompt (ネガティブプロンプト)", "C. Image strength", "D. Seed"],
+    answer: 1,
+    explanation: "ネガティブプロンプトを使用すると、生成結果から特定の要素を除外するようにモデルに指示できます。"
+  },
+  {
+    id: 127,
+    question: "AWS CloudTrail で記録された Amazon Bedrock のログを確認したところ、`InvokeModel` イベントの `errorCode` が `AccessDenied` となっていました。考えられる原因はどれですか。",
+    options: [
+      "A. 使用している IAM エンティティに `bedrock:InvokeModel` 権限が付与されていない。",
+      "B. モデルが故障している。",
+      "C. インターネットが切断されている。",
+      "D. クレジットカードの期限が切れている。"
+    ],
+    answer: 0,
+    explanation: "AccessDeniedは権限不足を示しており、適切なIAMポリシーの割り当てが必要です。"
+  },
+  {
+    id: 128,
+    question: "Amazon Bedrock ナレッジベースで、ドキュメントを同期する際にメタデータファイル (JSON) を付随させる主な目的は何ですか。",
+    options: [
+      "A. ドキュメントのファイルサイズを大きくするため",
+      "B. 検索時のフィルタリング条件（作成者、日付、カテゴリなど）として使用するため",
+      "C. モデルのアイコンを変更するため",
+      "D. S3 のストレージ料金を下げるため"
+    ],
+    answer: 1,
+    explanation: "メタデータを活用することで、特定の条件に合致するドキュメントのみを検索対象にするなどの高度なフィルタリングが可能になります。"
+  },
+  {
+    id: 129,
+    question: "Amazon Bedrock で Mistral モデルを使用する場合、そのモデルの特性として一般的に知られているのはどれですか。",
+    options: [
+      "A. 効率性が高く、軽量でありながら高いパフォーマンスを発揮する点",
+      "B. 画像生成しかできない点",
+      "C. AWS のすべてのリージョンで 10 年前から提供されている点",
+      "D. 利用に特別なハードウェアの購入が必須である点"
+    ],
+    answer: 0,
+    explanation: "Mistralは、比較的小規模なパラメータ数でありながら、非常に効率的かつ強力な推論能力を持つことで知られています。"
+  },
+  {
+    id: 130,
+    question: "Amazon Bedrock エージェントのテストを行う際、コンソール上のテストウィンドウで過去の会話履歴をリセットして最初からやり直すために使用するボタンは何ですか。",
+    options: ["A. Save", "B. Clear state / New session", "C. Delete Agent", "D. Refresh browser"],
+    answer: 1,
+    explanation: "セッションの状態をクリアすることで、過去のコンテキストに影響されずに新しいテストを開始できます。"
+  },
+  {
+    id: 131,
+    question: "Amazon Bedrock のモデルプレイグラウンドにおいて、設定できるパラメータ『Top-P』が意味するものは何ですか。",
+    options: [
+      "A. 回答の最大トークン数",
+      "B. 累積確率が P に達するまでの最小限のトークンセットから選択する手法（核サンプリング）",
+      "C. 画像の解像度の高さ",
+      "D. API 呼び出しの優先順位"
+    ],
+    answer: 1,
+    explanation: "Top-P は、確率の高い順にトークンを並べ、その合計確率が P になるまでの範囲に選択肢を絞るパラメータです。"
+  },
+  {
+    id: 132,
+    question: "Amazon Bedrock でプロビジョンドスループットを使用しており、一定期間（1 ヶ月以上）継続して利用する場合、最もコスト効率が良い購入方法はどれですか。",
+    options: [
+      "A. 1 ヶ月または 6 ヶ月のコミットメント期間を設定して購入する。",
+      "B. コミットメントなしのオンデマンドで使い続ける。",
+      "C. 毎日購入と解約を繰り返す。",
+      "D. そもそも購入しない。"
+    ],
+    answer: 0,
+    explanation: "コミットメント（継続利用の約束）を行うことで、時間あたりの単価が大幅に割引されます。"
+  },
+  {
+    id: 133,
+    question: "Amazon Bedrock のナレッジベースを作成する際、既存のベクトルデータベース（例：Amazon OpenSearch Serverless）を使用することは可能ですか。",
+    options: [
+      "A. はい、ナレッジベース作成時に既存のベクトルデータベースを指定して関連付けることができます。",
+      "B. いいえ、必ずナレッジベースが新しく作成するものしか使えません。",
+      "C. はい、ただし AWS サポートへの申請が必要です。",
+      "D. いいえ、ベクトルデータベースは不要です。"
+    ],
+    answer: 0,
+    explanation: "既に構築済みの OpenSearch や Pinecone, Aurora などを Bedrock のベクトルストアとして利用可能です。"
+  },
+  {
+    id: 134,
+    question: "Amazon Bedrock モデル評価において、回答の『スタイル』の一貫性を評価したい場合、評価者に提供すべきガイドラインとして重要なものはどれですか。",
+    options: [
+      "A. 正解データの有無のみ",
+      "B. 期待されるトーン（例：専門的、親しみやすい、簡潔など）の具体的な説明",
+      "C. ネットワーク構成図",
+      "D. モデルのソースコード"
+    ],
+    answer: 1,
+    explanation: "人間による評価では、判断基準を明確にするための評価ガイドラインが結果の信頼性を高めます。"
+  },
+  {
+    id: 135,
+    question: "Amazon Bedrock で基盤モデルを呼び出す際、`Stop Sequences` に `\n` (改行) を設定した場合の動作はどうなりますか。",
+    options: [
+      "A. モデルが改行を生成した瞬間に、その後の生成を停止する。",
+      "B. モデルが改行を生成できなくなる。",
+      "C. 回答のすべての改行が削除される。",
+      "D. 何も変わらない。"
+    ],
+    answer: 0,
+    explanation: "停止シーケンスが検出されると生成が止まるため、1行だけの回答が欲しい場合などに有効です。"
+  },
+  {
+    id: 136,
+    question: "Amazon Bedrock の『ナレッジベース』と『エージェント』の主な違いは何ですか。",
+    options: [
+      "A. ナレッジベースはデータの検索に特化しており、エージェントはアクション（API 実行）や推論の制御を含めた複雑なタスクの実行に特化している。",
+      "B. ナレッジベースは有料で、エージェントは無料である。",
+      "C. ナレッジベースは画像生成用で、エージェントはテキスト用である。",
+      "D. 両者に違いはなく、同じものである。"
+    ],
+    answer: 0,
+    explanation: "ナレッジベースは「情報の引き出し」、エージェントは「考えて動く」という役割分担になっています。"
+  },
+  {
+    id: 137,
+    question: "Amazon Bedrock モデル評価において、モデル間の性能差を統計的に有意に測定するために必要なデータセットの規模は一般的にどの程度ですか。",
+    options: [
+      "A. 1～2問",
+      "B. 数百問以上を推奨",
+      "C. 数十億問が必須",
+      "D. 0問で良い"
+    ],
+    answer: 1,
+    explanation: "十分なサンプル数（数百件程度）を用意することで、偶然の偏りを排除した正確な比較が可能になります。"
+  },
+  {
+    id: 138,
+    question: "Amazon Bedrock で Anthropic Claude モデルに非常に大きな PDF ファイルを読み込ませる場合、どのようなアプローチが最適ですか。",
+    options: [
+      "A. Claude の大きなコンテキストウィンドウを活用して、プロンプトに直接テキストを流し込むか、Bedrock ナレッジベースを使用する。",
+      "B. PDF を画像に変換して 1 枚ずつ送信する。",
+      "C. PDF の内容を手動で要約して 100 文字以内にする。",
+      "D. 送信を諦める。"
+    ],
+    answer: 0,
+    explanation: "Claudeの広いコンテキスト許容量やRAG（ナレッジベース）の仕組みは、大量の情報を扱うのに非常に適しています。"
+  },
+  {
+    id: 139,
+    question: "Amazon Bedrock ガードレールがコンテンツをブロックしたとき、その履歴や詳細を確認するために使用する AWS サービスはどれですか。",
+    options: ["A. Amazon CloudWatch Logs", "B. Amazon S3", "C. AWS IAM", "D. Amazon Route 53"],
+    answer: 0,
+    explanation: "ガードレールの実行結果やブロックの理由は、CloudWatch Logs に詳細なログとして出力されます。"
+  },
+  {
+    id: 140,
+    question: "Amazon Bedrock エージェントにおいて、ユーザーからの入力を受け取った後、最初に行われる『前処理 (Pre-processing)』プロンプトの役割は何ですか。",
+    options: [
+      "A. ユーザーの入力が悪意のあるもの（プロンプトインジェクションなど）でないか、またはエージェントの目的に沿っているかを判断する。",
+      "B. ユーザーの言語を自動的に英語に翻訳する。",
+      "C. ユーザーの銀行残高を確認する。",
+      "D. インターネットの速度を測定する。"
+    ],
+    answer: 0,
+    explanation: "前処理ステップにより、不正な入力の遮断や、エージェントが対応すべき範囲の確認を安全に行います。"
+  },
+  {
+    id: 141,
+    question: "Amazon Bedrock でプロビジョンドスループットを設定した際、特定のモデルに対するスループットが保証される期間はいつまでですか。",
+    options: [
+      "A. 設定（プロビジョニング）を削除するまで、またはコミットメント期間が終了するまで。",
+      "B. API を 1 回呼び出すまで。",
+      "C. 10 分間限定。",
+      "D. 永久に。"
+    ],
+    answer: 0,
+    explanation: "リソースがプロビジョニングされている間は、予約されたスループットが常に確保されます。"
+  },
+  {
+    id: 142,
+    question: "Amazon Bedrock で特定のモデルを使用するために、コンソール上で『モデルアクセス (Model access)』をリクエストした直後に必要なステータスは何ですか。",
+    options: ["A. Access granted", "B. Pending", "C. Forbidden", "D. Expired"],
+    answer: 0,
+    explanation: "ステータスが 'Access granted' になることで、そのモデルに対する API 呼び出しが可能になります。"
+  },
+  {
+    id: 143,
+    question: "RAG アーキテクチャにおいて、検索されたドキュメントの信頼性を高めるために、回答の中に『情報のソース（出典）』を明記する機能を何と呼びますか。",
+    options: ["A. 引用 (Citations)", "B. 暗号化", "C. キャッシング", "D. 圧縮"],
+    answer: 0,
+    explanation: "引用を表示することで、ユーザーはモデルの回答の根拠を元の文書で確認できるようになり、信頼性が向上します。"
+  },
+  {
+    id: 144,
+    question: "Amazon Bedrock で独自の埋め込みモデルを使用してベクトルを作成した場合、そのベクトルを Bedrock ナレッジベースで使用することは可能ですか。",
+    options: [
+      "A. はい、Bedrock がサポートする形式であれば可能です。",
+      "B. いいえ、Bedrock が提供する埋め込みモデルしか使えません。",
+      "C. はい、ただし AWS Lambda を自作して連携させる必要があります。",
+      "D. ベクトルは使用しません。"
+    ],
+    answer: 0,
+    explanation: "適切な統合手順を踏めば、独自のモデルによるベクトルデータを活用した検索システムを構築できます。"
+  },
+  {
+    id: 145,
+    question: "Amazon Bedrock のガードレールにおいて、社会保障番号 (SSN) を検知するための『ビルトイン PII タイプ』は、どの国の形式を主にサポートしていますか。",
+    options: ["A. 米国 (US) を含む複数国", "B. 日本のみ", "C. 北極のみ", "D. 火星のみ"],
+    answer: 0,
+    explanation: "Bedrockはグローバルなサービスであり、米国などの主要なPIIタイプがプリセットとして用意されています。"
+  },
+  {
+    id: 146,
+    question: "Amazon Bedrock で Meta Llama モデルを使用する際、このモデルが特に重視している開発の側面はどれですか。",
+    options: [
+      "A. オープンなイノベーションとコミュニティによる活用",
+      "B. AWS への独占提供",
+      "C. 有料ライセンスのみの配布",
+      "D. 非公開での開発"
+    ],
+    answer: 0,
+    explanation: "Llamaはオープンに公開されている強力なモデルであり、多くの開発者コミュニティに支持されています。"
+  },
+  {
+    id: 147,
+    question: "Amazon Bedrock モデル評価において、推論コストを計算するために出力レポートに含まれる情報はどれですか。",
+    options: [
+      "A. 入力トークン数と出力トークン数の平均や合計",
+      "B. 使用した PC の電気代",
+      "C. 評価者の時給",
+      "D. インターネット回線代"
+    ],
+    answer: 0,
+    explanation: "トークン消費量のデータが含まれるため、そこから実際の推論にかかる費用を算出できます。"
+  },
+  {
+    id: 148,
+    question: "Amazon Bedrock でプロンプトの最後を空けるのではなく、モデルに対して特定の書き出し（例：『承知しました。以下が回答です：』など）を指定する手法を何と呼びますか。",
+    options: ["A. 事前補完 (Prefill)", "B. 後処理", "C. データ消去", "D. ネットワーク遮断"],
+    answer: 0,
+    explanation: "Prefillを使用すると、モデルの回答のトーンや形式をより強力に誘導・固定できます。"
+  },
+  {
+    id: 149,
+    question: "Amazon Bedrock ナレッジベースで OpenSearch Serverless をベクトルストアとして使用する場合、データの永続性を確保するために設定すべきことは何ですか。",
+    options: [
+      "A. OpenSearch のインデックス作成とアクセスポリシーの適切な設定",
+      "B. S3 のファイルを毎日削除する",
+      "C. EC2 を起動し続ける",
+      "D. 何も設定しなくてよい"
+    ],
+    answer: 0,
+    explanation: "適切なアクセスポリシーとネットワーク設定により、検索エンジン内のデータを安全に維持・利用できます。"
+  },
+  {
+    id: 150,
+    question: "Amazon Bedrock エージェントを削除すると、そのエージェントに関連付けられていたアクショングループやナレッジベースも自動的に削除されますか。",
+    options: [
+      "A. いいえ、エージェント自体は削除されますが、アクショングループ（Lambda など）やナレッジベースは独立したリソースとして残ります。",
+      "B. はい、すべて同時に消去されます。",
+      "C. はい、ただし S3 のファイルだけは残ります。",
+      "D. 削除自体が不可能です。"
+    ],
+    answer: 0,
+    explanation: "各コンポーネントは独立しているため、エージェントを削除しても他の設定やデータは再利用可能です。"
+  }
+];
+  {
+    id: 151,
+    question: "Amazon Bedrock モデル評価 (Model Evaluation) において、モデル間の性能を比較するために『サイドバイサイド (SxS)』評価を行う際、評価者が回答の優劣を判断する基準として使用される一般的な尺度はどれですか。",
+    options: [
+      "A. 1～5 のリッカート尺度（非常に悪いから非常に良いまで）",
+      "B. 二進法（0 または 1）",
+      "C. ネットワークのパケット数",
+      "D. モデルのファイルサイズ"
+    ],
+    answer: 0,
+    explanation: "SxS評価では、人間が複数の回答を比較し、多段階の尺度でどちらが優れているか、あるいは同等かを判定します。"
+  },
+  {
+    id: 152,
+    question: "Amazon Bedrock エージェントで『ユーザー入力の解釈』をより正確にするために、開発者が各アクショングループに対して提供すべき最も重要な情報は何ですか。",
+    options: [
+      "A. アクショングループの目的を説明する詳細な『説明 (Description)』",
+      "B. Lambda 関数のタイムアウト設定値",
+      "C. 使用している IAM ロールの ARN",
+      "D. AWS アカウントの連絡先情報"
+    ],
+    answer: 0,
+    explanation: "モデルはアクショングループや関数の「説明」を読み、ユーザーの意図をどの機能で処理すべきかを推論するため、ここが最も重要です。"
+  },
+  {
+    id: 153,
+    question: "Amazon Bedrock ナレッジベースを使用して RAG を実装しており、検索された情報の『鮮度』を優先したいと考えています。この場合、運用上どのような対応が必要ですか。",
+    options: [
+      "A. S3 のデータが更新されるたびに、ナレッジベースのデータソースを同期 (Sync) するジョブを実行する。",
+      "B. モデルを毎日再学習させる。",
+      "C. ベクトルデータベースを削除して作り直す。",
+      "D. インターネット上のすべてのサイトをクロールする。"
+    ],
+    answer: 0,
+    explanation: "同期プロセスにより、最新のドキュメントがベクトル化され検索対象に含まれるようになります。"
+  },
+  {
+    id: 154,
+    question: "Amazon Bedrock のガードレールを API 経由で呼び出す際、特定のガードレールを指定するために必要な識別子は何ですか。",
+    options: [
+      "A. ガードレール ID (Guardrail ID) とバージョン番号",
+      "B. ユーザーのメールアドレス",
+      "C. リージョン名のみ",
+      "D. モデルの販売価格"
+    ],
+    answer: 0,
+    explanation: "APIリクエスト時に特定のガードレールIDとバージョンを指定することで、その安全ルールを適用できます。"
+  },
+  {
+    id: 155,
+    question: "Amazon Bedrock でプロビジョンドスループットを使用する際、作成した『プロビジョニング済みモデル』を削除した場合、その後の課金はどうなりますか。",
+    options: [
+      "A. 削除された瞬間から、そのモデルユニットに対する課金が停止する（コミットメントなしの場合）。",
+      "B. 削除しても 1 年間は請求が続く。",
+      "C. 削除には AWS サポートの承認が必要で、それまで課金される。",
+      "D. 課金は 1 週間単位でしか停止できない。"
+    ],
+    answer: 0,
+    explanation: "コミットメントなしであれば、リソースを削除した時点で時間単位の課金が終了します。"
+  },
+  {
+    id: 156,
+    question: "Amazon Bedrock のモデルプレイグラウンドにおいて、一度に複数のモデルを比較しながらテストすることは可能ですか。",
+    options: [
+      "A. はい、Chat プレイグラウンドなどで複数のモデルを選択して、同時に回答を生成させ比較することができます。",
+      "B. いいえ、一度に 1 つのモデルしか選択できません。",
+      "C. はい、ただし最大で 100 個のモデルを同時に表示できます。",
+      "D. いいえ、プレイグラウンドは画像生成専用です。"
+    ],
+    answer: 0,
+    explanation: "比較モードを使用すると、同じプロンプトに対する異なるモデルの挙動を効率的に検証できます。"
+  },
+  {
+    id: 157,
+    question: "Amazon Bedrock エージェントが、複数のアクショングループの中からどれを使用すべきか迷い、誤った動作をしています。この問題を解決するための最も適切なアクションはどれですか。",
+    options: [
+      "A. 各アクショングループの説明文 (Description) をより具体的かつ明確に書き直す。",
+      "B. モデルの Temperature を 1.0 に上げる。",
+      "C. Lambda 関数をすべて削除する。",
+      "D. VPC エンドポイントを再作成する。"
+    ],
+    answer: 0,
+    explanation: "エージェントは説明文を頼りに判断するため、各機能の役割を明確に記述することが精度向上に直結します。"
+  },
+  {
+    id: 158,
+    question: "Amazon Bedrock モデル評価において、人間の評価者が『評価が完了した』ことをシステムに伝えるために必要な操作は何ですか。",
+    options: [
+      "A. 評価インターフェースで『完了 (Submit)』ボタンを押す。",
+      "B. 評価完了をメールで AWS に送る。",
+      "C. CloudWatch Logs に手動でログを書き込む。",
+      "D. 特に何もする必要はない。"
+    ],
+    answer: 0,
+    explanation: "UI上で評価を入力し、送信を確定させることでジョブの結果が保存されます。"
+  },
+  {
+    id: 159,
+    question: "Amazon Bedrock で使用される Anthropic Claude 3.5 Sonnet モデルの最大の特徴はどれですか。",
+    options: [
+      "A. モデルサイズが非常に大きく、推論に 1 日かかる点",
+      "B. Claude 3 Opus よりも高速でありながら、同等以上の高度な知能と推論能力を備えている点",
+      "C. 英語以外の言語を一切理解しない点",
+      "D. 無料ですべての機能が利用できる点"
+    ],
+    answer: 1,
+    explanation: "Claude 3.5 Sonnetは速度と知能のバランスが極めて高く、幅広い高度なタスクに適しています。"
+  },
+  {
+    id: 160,
+    question: "Amazon Bedrock のガードレールにおいて、社会保障番号などの特定のデータパターンを検出するために使用される技術は何ですか。",
+    options: [
+      "A. 正規表現 (Regex) や機械学習ベースの検出器",
+      "B. 音声認識",
+      "C. 物理的なスキャナー",
+      "D. 手動での目視確認"
+    ],
+    answer: 0,
+    explanation: "パターンマッチングやAIモデルによって、機密情報の流出をリアルタイムで防ぎます。"
+  },
+  {
+    id: 161,
+    question: "RAG アーキテクチャにおいて、ドキュメントの検索結果が多すぎてプロンプトの制限を超えてしまう場合、関連性の高い上位数件のみを選択するプロセスを何と呼びますか。",
+    options: ["A. トップ K (Top-K) フィルタリング", "B. データの冗長化", "C. 全文検索", "D. モデルのプルーニング"],
+    answer: 0,
+    explanation: "Top-K を設定することで、類似度スコアが高い上位 K 件のみをコンテキストとして抽出し、効率化を図ります。"
+  },
+  {
+    id: 162,
+    question: "Amazon Bedrock ナレッジベースで、データソースとして Amazon S3 以外のサービス（ウェブサイトなど）を直接指定してクロールさせることは可能ですか。",
+    options: [
+      "A. はい、ウェブサイトの URL をデータソースとして追加し、クロールさせることができます。",
+      "B. いいえ、S3 にあるファイルしか使えません。",
+      "C. はい、ただし AWS サポートへの個別のリクエストが必要です。",
+      "D. はい、ただし画像しか読み取れません。"
+    ],
+    answer: 0,
+    explanation: "ウェブクローラー機能を使用すると、URLを指定するだけでWebサイト上の情報をナレッジとして統合できます。"
+  },
+  {
+    id: 163,
+    question: "Amazon Bedrock エージェントにおいて、ユーザーが特定のステップで会話を中断し、数時間後に再開した場合でも、それまでの文脈を維持できる理由は何ですか。",
+    options: [
+      "A. セッション ID に紐付けられた会話履歴（セッション・ステート）が保持されているため。",
+      "B. モデルがユーザーの顔を覚えているため。",
+      "C. ブラウザの Cookie がすべての履歴を保存しているため。",
+      "D. 会話履歴は保持されない。"
+    ],
+    answer: 0,
+    explanation: "セッション管理機能により、時間をおいた対話でも一貫性を保つことが可能です。"
+  },
+  {
+    id: 164,
+    question: "Amazon Bedrock モデル評価において、推論結果のテキストデータだけでなく、トークン数や実行時間などのメタデータも S3 に保存されますか。",
+    options: [
+      "A. はい、評価ジョブの詳細な統計情報として JSON 形式などで保存されます。",
+      "B. いいえ、テキスト結果のみが保存されます。",
+      "C. はい、ただし保存するには追加料金が必要です。",
+      "D. 保存されるのは PDF 形式のみです。"
+    ],
+    answer: 0,
+    explanation: "詳細なメタデータが保存されるため、後からコストやパフォーマンスの分析が可能です。"
+  },
+  {
+    id: 165,
+    question: "Amazon Bedrock で Meta Llama 3 モデルを使用する場合、4,096 トークンのコンテキストウィンドウ制限を超えた入力を送信しようとするとどうなりますか。",
+    options: [
+      "A. API がエラーを返し、リクエストが失敗する。",
+      "B. 自動的に入力が切り捨てられて実行される。",
+      "C. 超えた分の料金が 10 倍になる。",
+      "D. モデルが自動的に 2 つに分割される。"
+    ],
+    answer: 0,
+    explanation: "各モデルには最大コンテキスト長があり、それを超えるリクエストはエラーとして拒否されます。"
+  },
+  {
+    id: 166,
+    question: "Amazon Bedrock のガードレールが適用されたことで、回答がブロックされた際、クライアント側のアプリケーションが受け取るレスポンスにはどのような情報が含まれますか。",
+    options: [
+      "A. 回答がガードレールによってブロックされたという事実と、設定されたカスタムメッセージ。",
+      "B. モデルが生成しようとした元の有害なテキスト。",
+      "C. AWS のデータセンターの場所。",
+      "D. 特に何も返されない。"
+    ],
+    answer: 0,
+    explanation: "ユーザーにはあらかじめ設定した安全なメッセージのみが返り、有害な内容は遮断されます。"
+  },
+  {
+    id: 167,
+    question: "RAG において、複数のドキュメントから得られた情報を組み合わせて一つの回答を作る際、情報の矛盾を解消するためにモデルに与える指示として最も適切なものはどれですか。",
+    options: [
+      "A. 『提供された情報に矛盾がある場合は、その旨を述べ、可能な限り信頼できるソースに基づいて回答してください。』",
+      "B. 『適当に想像して埋めてください。』",
+      "C. 『一番短いドキュメントだけを信じてください。』",
+      "D. 『すべての情報を無視してください。』"
+    ],
+    answer: 0,
+    explanation: "プロンプトで矛盾への対処法を明示することで、モデルがハルシネーションを起こすのを防ぎます。"
+  },
+  {
+    id: 168,
+    question: "Amazon Bedrock エージェントをテストコンソールで使用している際、現在のセッションにおける『内部的な思考プロセス』を表示させるためにクリックすべき場所はどこですか。",
+    options: ["A. Show trace (トレースを表示)", "B. Help", "C. Settings", "D. Log out"],
+    answer: 0,
+    explanation: "Show trace をクリックすると、エージェントが各ステップで何を考え、何をしたかが詳細に表示されます。"
+  },
+  {
+    id: 169,
+    question: "Amazon Bedrock モデル評価において、複数の人間の評価者が同じ回答に対して異なる評価をつけた場合、結果はどのように集計されますか。",
+    options: [
+      "A. すべての評価者の平均値や合意形成に基づいた統計がレポートに出力される。",
+      "B. 最初の評価者の意見だけが採用される。",
+      "C. ジョブ全体が失敗する。",
+      "D. コイン投げで決まる。"
+    ],
+    answer: 0,
+    explanation: "複数の評価者のデータを集約することで、主観的な評価における客観性と信頼性を担保します。"
+  },
+  {
+    id: 170,
+    question: "Amazon Bedrock でプロビジョンドスループットのコミットメント期間を『6 ヶ月』に設定した場合、月額料金の支払いはいつ行われますか。",
+    options: [
+      "A. 毎月の AWS 請求サイクルに従って月次で請求される。",
+      "B. 最初に全額一括払いのみ。",
+      "C. 6 ヶ月後に一括払い。",
+      "D. 毎日少額ずつ引き落とされる。"
+    ],
+    answer: 0,
+    explanation: "コミットメント期間中の料金は、通常のAWSの請求サイクルに合わせて月ごとに支払います。"
+  },
+  {
+    id: 171,
+    question: "Amazon Bedrock ナレッジベースにおいて、ベクトルストアとして『Amazon Aurora PostgreSQL』を使用する主なメリットは何ですか。",
+    options: [
+      "A. 既存のリレーショナルデータベースの運用知識を活かしつつ、pgvector 拡張機能を使用してベクトル検索を実現できる点。",
+      "B. OpenSearch よりも 1,000 倍速い点。",
+      "C. 無料である点。",
+      "D. データベースのセットアップが不要な点。"
+    ],
+    answer: 0,
+    explanation: "企業が既に利用しているAuroraをそのままベクトル検索基盤として活用できるため、管理コストを抑えられます。"
+  },
+  {
+    id: 172,
+    question: "Amazon Bedrock エージェントの『前処理プロンプト』を編集して、エージェントが特定のトピックに対してより慎重に回答するように調整しました。この変更を反映させるために必要な操作は何ですか。",
+    options: ["A. エージェントを保存し、新しいバージョンを作成（または準備完了状態に更新）する。", "B. AWS アカウントを一度ログアウトする。", "C. S3 バケットを削除する。", "D. 何もする必要はない。"],
+    answer: 0,
+    explanation: "プロンプトの変更後は、エージェントを再ビルドまたは保存して最新の状態を反映させる必要があります。"
+  },
+  {
+    id: 173,
+    question: "Amazon Bedrock モデル評価において、テストデータセットとして JSONL ファイルを使用する場合、1 行あたりに含まれるべき最小限のキーは何ですか（自動評価の場合）。",
+    options: [
+      "A. prompt (入力) と referenceResponse (正解の参照回答)",
+      "B. id のみ",
+      "C. color と size",
+      "D. ユーザーの名前"
+    ],
+    answer: 0,
+    explanation: "自動評価では、入力に対する「期待される正解」が必要なため、この2つの要素が必須となります。"
+  },
+  {
+    id: 174,
+    question: "Amazon Bedrock のガードレールで『不適切なコンテンツ』としてブロックされた回数を CloudWatch メトリクスで監視したい場合、どのメトリクス名を確認すべきですか。",
+    options: ["A. InvocationClientErrors", "B. GuardrailInvocations / GuardrailInterventions", "C. CPUUtilization", "D. FreeStorageSpace"],
+    answer: 1,
+    explanation: "ガードレール専用のメトリクスを参照することで、どれだけの頻度で安全策が発動したかを追跡できます。"
+  },
+  {
+    id: 175,
+    question: "RAG において、ドキュメントのチャンク間の『オーバーラップ (Overlap)』を 0 に設定した場合に起こりうるリスクは何ですか。",
+    options: [
+      "A. 重要な文脈が分割ポイントで途切れてしまい、検索された情報が不十分になる可能性。",
+      "B. ストレージ容量が不足する可能性。",
+      "C. 検索が高速になりすぎるリスク。",
+      "D. モデルが爆発するリスク。"
+    ],
+    answer: 0,
+    explanation: "オーバーラップがないと、文の中間で分割された際に意味が通じなくなり、検索精度が低下します。"
+  },
+  {
+    id: 176,
+    question: "Amazon Bedrock で Stability AI の Stable Diffusion モデルを使用して画像を生成する際、画像のアスペクト比（縦横比）を指定することは可能ですか。",
+    options: [
+      "A. はい、リクエストパラメータで幅 (width) と高さ (height) を指定することで可能です。",
+      "B. いいえ、正方形 (1:1) しか生成できません。",
+      "C. はい、ただし 16:9 しか使えません。",
+      "D. いいえ、アスペクト比は自動的にランダムで決まります。"
+    ],
+    answer: 0,
+    explanation: "モデルがサポートする範囲内で、任意の解像度やアスペクト比を指定して画像を生成できます。"
+  },
+  {
+    id: 177,
+    question: "Amazon Bedrock の『モデルアクセス』画面で、一度取得したアクセス権を削除することは可能ですか。",
+    options: [
+      "A. はい、編集画面からアクセスのリクエストを取り消す（チェックを外す）ことができます。",
+      "B. いいえ、一度取得すると永久に削除できません。",
+      "C. はい、ただし AWS サポートへの電話連絡が必要です。",
+      "D. はい、ただし追加料金がかかります。"
+    ],
+    answer: 0,
+    explanation: "不要になったモデルへのアクセスは、コンソールから簡単に解除して管理できます。"
+  },
+  {
+    id: 178,
+    question: "Amazon Bedrock ナレッジベースにおいて、複数のデータソース（複数の S3 バケットなど）を一つのナレッジベースに関連付けることは可能ですか。",
+    options: [
+      "A. はい、複数のデータソースを追加して、それらを一元的に検索対象にできます。",
+      "B. いいえ、一つのナレッジベースには一つのバケットしか指定できません。",
+      "C. はい、ただし最大で 2 つまでです。",
+      "D. いいえ、データソースという概念はありません。"
+    ],
+    answer: 0,
+    explanation: "散らばった情報を一つの検索基盤（ナレッジベース）に集約して利用することが可能です。"
+  },
+  {
+    id: 179,
+    question: "Amazon Bedrock エージェントをデプロイするための『エイリアス (Alias)』を作成する主な目的は何ですか。",
+    options: [
+      "A. 特定のエージェントバージョンに名前を付け、アプリケーション側から固定の識別子で呼び出せるようにするため。",
+      "B. エージェントの推論速度を上げるため。",
+      "C. エージェントの利用料金を安くするため。",
+      "D. IAM ポリシーを複雑にするため。"
+    ],
+    answer: 0,
+    explanation: "エイリアスを使用することで、バックエンドのエージェントを更新しても、アプリ側の設定を変更せずに済みます。"
+  },
+  {
+    id: 180,
+    question: "Amazon Bedrock モデル評価において、評価ジョブのステータスが『Failed』になりました。原因を調査するために確認すべき最も適切な場所はどれですか。",
+    options: ["A. CloudWatch Logs の /aws/bedrock/ 関連のロググループ", "B. S3 のルートフォルダ", "C. IAM のパスワードポリシー", "D. VPC のサブネットマスク"],
+    answer: 0,
+    explanation: "ジョブの失敗理由は CloudWatch Logs に出力されるため、そこでのエラーメッセージの確認が不可欠です。"
+  },
+  {
+    id: 181,
+    question: "Amazon Bedrock で特定のモデルの『プロビジョンドスループット』を削除しようとした際、『コミットメント期間中であるため削除できません』というエラーが出ました。この状況でできることはどれですか。",
+    options: [
+      "A. コミットメント期間が終了するまで待機する。",
+      "B. 物理的な電源を切る。",
+      "C. AWS のルートアカウント自体を削除する。",
+      "D. 無視して使い続ける。"
+    ],
+    answer: 0,
+    explanation: "コミットメント（期間契約）を行った場合、その期間が終了するまでリソースを保持・支払う義務があります。"
+  },
+  {
+    id: 182,
+    question: "RAG システムにおいて、ドキュメントの検索結果の中に、ユーザーの質問とは無関係な広告やヘッダー情報が含まれてしまうのを防ぐための対策はどれですか。",
+    options: [
+      "A. ドキュメントの読み込み（パース）段階で、不要なテキストをクレンジング（クリーニング）する。",
+      "B. モデルに『広告を読んでください』と指示する。",
+      "C. すべてのドキュメントを画像として保存する。",
+      "D. 検索を一切行わない。"
+    ],
+    answer: 0,
+    explanation: "データの前処理（クリーニング）によってゴミを取り除くことで、RAGの回答精度は劇的に向上します。"
+  },
+  {
+    id: 183,
+    question: "Amazon Bedrock エージェントで『再呼び出し (Re-invocation)』が発生し、同じタスクをループしています。この原因として考えられるものはどれですか。",
+    options: [
+      "A. アクショングループ（Lambda）からのレスポンスが、エージェントの期待する形式になっていない。",
+      "B. インターネットが速すぎる。",
+      "C. ユーザーが何も入力していない。",
+      "D. モデルが眠っている。"
+    ],
+    answer: 0,
+    explanation: "形式エラーがあるとエージェントは正しく結果を理解できず、何度も同じ処理を試行してしまうことがあります。"
+  },
+  {
+    id: 184,
+    question: "Amazon Bedrock モデル評価において、『評価者ガイドライン』に含めるべき内容として不適切なものはどれですか。",
+    options: [
+      "A. 評価の基準（何を良い回答とするか）",
+      "B. 回答の比較方法の手順",
+      "C. AWS のデータセンターの内部配線図",
+      "D. 良い回答と悪い回答の具体例"
+    ],
+    answer: 2,
+    explanation: "評価に関係のないインフラの詳細などはガイドラインに含める必要はありません。"
+  },
+  {
+    id: 185,
+    question: "Amazon Bedrock で Claude モデルを使用している際、`Stop Sequences` に `Question:` と設定した場合、モデルはいつ生成を止めますか。",
+    options: [
+      "A. 回答の中に `Question:` という文字列を生成しようとした瞬間。",
+      "B. ユーザーが質問をやめたとき。",
+      "C. API 呼び出しから 1 秒後。",
+      "D. 決して止まらない。"
+    ],
+    answer: 0,
+    explanation: "モデルが自ら次の質問を生成し始めるのを防ぎたいときなどに、特定のキーワードを停止条件として設定します。"
+  },
+  {
+    id: 186,
+    question: "Amazon Bedrock ナレッジベースにおいて、ベクトルデータベースのインデックス設定を変更（次元数を変更など）した場合に必要な対応はどれですか。",
+    options: [
+      "A. インデックスを再作成し、全てのデータを再同期（再ベクトル化）する必要がある。",
+      "B. 自動的に反映されるため、何もしなくてよい。",
+      "C. ファイル名を変えるだけでよい。",
+      "D. リージョンを移動する。"
+    ],
+    answer: 0,
+    explanation: "ベクトルの次元数は埋め込みモデルに依存するため、不一致があると検索が不可能になります。"
+  },
+  {
+    id: 187,
+    question: "Amazon Bedrock エージェントとナレッジベースを連携させている際、エージェントが回答にドキュメントの『一部を抜粋』して表示するだけでなく、参照元へのリンクを表示するように設定する場所はどこですか。",
+    options: [
+      "A. ナレッジベースの検索設定（引用の有効化）",
+      "B. IAM ロールの説明欄",
+      "C. S3 のメタデータ",
+      "D. VPC のタグ"
+    ],
+    answer: 0,
+    explanation: "ナレッジベース側でソース（引用元）の提供を有効にすることで、回答の透明性を高められます。"
+  },
+  {
+    id: 188,
+    question: "Amazon Bedrock モデル評価において、自動評価メトリクスの『Perplexity (困惑度)』が示すものは何ですか。",
+    options: [
+      "A. モデルが次の単語をどれだけ自信を持って（または迷わずに）予測できているか。",
+      "B. ユーザーがどれだけ困惑しているか。",
+      "C. ネットワークがどれだけ混雑しているか。",
+      "D. モデルの電気代の高さ。"
+    ],
+    answer: 0,
+    explanation: "Perplexity が低いほど、モデルはそのテキストを「予測しやすい（＝言語モデルとして優秀）」と判断していることを示します。"
+  },
+  {
+    id: 189,
+    question: "Amazon Bedrock でプロンプトを作成する際、重要な指示をプロンプトの最初ではなく『最後』に配置する手法（Recency Bias の活用）の目的は何ですか。",
+    options: [
+      "A. モデルが直近の指示をより重視する傾向を利用して、指示への追従性を高めるため。",
+      "B. 文字数を増やすため。",
+      "C. 読む人を驚かせるため。",
+      "D. データの送信時間を短くするため。"
+    ],
+    answer: 0,
+    explanation: "多くのモデルは入力の終盤にある指示を強く記憶・反映する傾向があるため、最後に念押しをすることが有効です。"
+  },
+  {
+    id: 190,
+    question: "Amazon Bedrock ガードレールにおいて、複数のガードレールを一つのモデル呼び出しに同時に適用することは可能ですか。",
+    options: [
+      "A. いいえ、一回のリクエストに適用できるガードレールは一つだけです。",
+      "B. はい、最大 10 個まで同時に適用できます。",
+      "C. はい、ただしすべて同じ名前である必要があります。",
+      "D. ガードレールは API では使えません。"
+    ],
+    answer: 0,
+    explanation: "現状、API呼び出しで指定できるガードレールIDは一つですが、そのガードレール内に複数のルールを定義して一括適用します。"
+  },
+  {
+    id: 191,
+    question: "Amazon Bedrock でプロビジョンドスループットを使用する際、関連付けるモデルとして『基盤モデルのベースバージョン』ではなく『特定のカスタムモデルバージョン』を指定することはできますか。",
+    options: [
+      "A. はい、カスタマイズ済みの特定のモデル ARN を指定してプロビジョニングできます。",
+      "B. いいえ、ベースモデルしか指定できません。",
+      "C. はい、ただし追加のライセンス費用がかかります。",
+      "D. モデルの指定は不要です。"
+    ],
+    answer: 0,
+    explanation: "独自の学習を施したカスタムモデルを活用するには、専用のプロビジョンドスループットが必要です。"
+  },
+  {
+    id: 192,
+    question: "RAG において、ユーザーの質問が曖昧な場合に、いきなり検索を行わずにユーザーに問い直すプロセスを実装するのに最適な機能はどれですか。",
+    options: ["A. Amazon Bedrock エージェント", "B. S3 バケットポリシー", "C. AWS Glue", "D. Amazon CloudFront"],
+    answer: 0,
+    explanation: "エージェントのオーケストレーション機能により、「情報が足りない場合に聞き返す」という高度な対話制御が可能になります。"
+  },
+  {
+    id: 193,
+    question: "Amazon Bedrock モデル評価において、評価ジョブの実行中に、中間結果をリアルタイムで確認することはできますか。",
+    options: [
+      "A. いいえ、ジョブが完全に完了（Completed）するまでレポートは生成されません。",
+      "B. はい、1 秒ごとに更新されるグラフが見られます。",
+      "C. はい、ただし評価者が 1 人の場合に限ります。",
+      "D. ジョブの実行中はコンソールにアクセスできません。"
+    ],
+    answer: 0,
+    explanation: "評価結果はジョブ完了後に S3 にまとめて出力されるため、完了を待ってから分析を行います。"
+  },
+  {
+    id: 194,
+    question: "Amazon Bedrock で使用される Amazon Titan Text モデルのバリエーション（Express, Lite など）を選択する際の基準は何ですか。",
+    options: [
+      "A. タスクの複雑さと、必要な推論速度およびコストのバランス。",
+      "B. モデルのロゴの色。",
+      "C. 自分の誕生日の星座。",
+      "D. サーバーの重さ。"
+    ],
+    answer: 0,
+    explanation: "Lite は高速・低コスト、Express は汎用・高機能といった特性があり、用途に合わせて選択します。"
+  },
+  {
+    id: 195,
+    question: "Amazon Bedrock ナレッジベースで、ドキュメントのメタデータを使用して『特定の日付以降の記事のみ』を検索対象にする手法を何と呼びますか。",
+    options: ["A. メタデータフィルタリング", "B. データの暗号化", "C. パスワード保護", "D. 履歴削除"],
+    answer: 0,
+    explanation: "検索時にフィルタ条件を指定することで、膨大なデータから必要な属性を持つものだけを効率的に絞り込めます。"
+  },
+  {
+    id: 196,
+    question: "Amazon Bedrock エージェントが Lambda 関数から受け取るエラーメッセージをカスタマイズして、ユーザーに分かりやすく伝えるための設定場所はどこですか。",
+    options: [
+      "A. Lambda 関数のコード内、およびエージェントのオーケストレーション・プロンプト",
+      "B. IAM ロールの名前",
+      "C. VPC のセキュリティグループ",
+      "D. S3 のバケット名"
+    ],
+    answer: 0,
+    explanation: "システムエラーをそのまま見せるのではなく、エージェントを通じて適切な言葉に変換して伝えることが UX 上重要です。"
+  },
+  {
+    id: 197,
+    question: "Amazon Bedrock モデル評価において、自動評価メトリクスの『Exact Match (完全一致)』が適しているタスクはどれですか。",
+    options: [
+      "A. 数学の問題や、特定の短いキーワードを答えるタスク",
+      "B. 長い小説の執筆",
+      "C. 抽象的な絵の解説",
+      "D. 雑談"
+    ],
+    answer: 0,
+    explanation: "答えが一意に決まる（数値や特定の用語など）タスクの評価には、完全一致が最も正確な指標となります。"
+  },
+  {
+    id: 198,
+    question: "Amazon Bedrock でプロンプトエンジニアリングを行う際、『あなたはプロのエンジニアです』といった役割を最初に与える手法を何と呼びますか。",
+    options: ["A. ペルソナ設定 (Persona prompting)", "B. データの削除", "C. ファイルの圧縮", "D. ログイン設定"],
+    answer: 0,
+    explanation: "役割（ペルソナ）を定義することで、モデルの回答の専門性やトーンを劇的に改善できます。"
+  },
+  {
+    id: 199,
+    question: "Amazon Bedrock のガードレールにおいて、社会保障番号 (SSN) などの PII を検出した際、『削除』するのではなく『別の文字列に置換』する動作を選択することは可能ですか。",
+    options: [
+      "A. はい、PII リダクションの設定で、どのようにマスクするかを選択可能です。",
+      "B. いいえ、削除しかできません。",
+      "C. はい、ただし日本語のみ対応しています。",
+      "D. 置換は不可能です。"
+    ],
+    answer: 0,
+    explanation: "設定により、機密情報を伏せ字（[SSN]など）に置き換え、文脈を損なわずに保護できます。"
+  },
+  {
+    id: 200,
+    question: "Amazon Bedrock で、独自のデータセットを使用して、特定のタスク（例えば、特定のブランドボイスの調整、特定のドメインの要約、または特定のデータ形式での応答）に対してモデルを適応させるプロセスを、一般に何と呼びますか。",
+    options: [
+      "A. フルファインチューニング",
+      "B. 継続的プリトレーニング",
+      "C. カスタムモデルの作成（ファインチューニング）",
+      "D. 検索拡張生成 (RAG)"
+    ],
+    answer: 2,
+    explanation: "ラベル付きデータを使用して特定のタスクやトーンに合わせてモデルを微調整することを、Bedrockではカスタムモデル作成（ファインチューニング）と呼びます。"
+  }
 ];
