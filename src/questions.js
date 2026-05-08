@@ -479,7 +479,7 @@ export const questions = [
     ],
     answer: 1,
     explanation: "Word Filters を使用すると、特定の単語やフレーズを禁止リストとして登録できます。"
-  }
+  },
     {
     id: 41,
     question: "Amazon Bedrock エージェントにおいて、エージェントがユーザーとの対話履歴をどのくらいの期間保持するか（セッションの有効期限）を調整する設定はどれですか。",
@@ -959,7 +959,7 @@ export const questions = [
     ],
     answer: 0,
     explanation: "緊急性の低い大量のデータを非同期でまとめて処理することで、コストを抑えて大規模な推論を行えます。"
-  }
+  },
     {
     id: 81,
     question: "Amazon Bedrock でプロビジョンドスループット（Provisioned Throughput）を使用する場合、モデル評価の結果に基づいてスループットを調整する際の主な指標は何ですか。",
@@ -1078,7 +1078,7 @@ export const questions = [
       "D. AWS の認定試験に合格するため。"
     ],
     answer: 0,
-    explanation: "ビジネス要件を満たしつつ、ユーザーエクスペリエンスを最大化するための標準的な選択基準です。"
+    explanation: "正確性と応答速度を両立させることで、実用性の高いAIアプリケーションを構築できます。"
   },
   {
     id: 91,
@@ -1318,7 +1318,7 @@ export const questions = [
       "D. 共有は不可能である。"
     ],
     answer: 1,
-    explanation: "AWS RAM を使用することで、他のアカウントからでも特定のカスタムモデルを利用できるようになります。"
+    explanation: "AWS RAM を使用することで、組織内の他のアカウントと確保したスループットを効率的に共有・利用できます。"
   },
   {
     id: 111,
@@ -1439,7 +1439,7 @@ export const questions = [
     ],
     answer: 1,
     explanation: "各モデルはリージョンごとに利用可否が異なるため、公式ドキュメントやコンソールでの確認が必要です。"
-  }
+  },
     {
     id: 121,
     question: "Amazon Bedrock モデル評価ジョブを開始する前に、評価に使用する入力データセットを配置する必要がある場所はどこですか。",
@@ -1919,7 +1919,7 @@ export const questions = [
     ],
     answer: 1,
     explanation: "セッション属性を使用することで、エージェントは会話をまたいで一時的な情報を保持し続けることができます。"
-  }
+  },
     {
     id: 161,
     question: "Amazon Bedrock のガードレールで設定できる「Sensitive Information Filters」を使用してブロックできる情報の例はどれですか。",
@@ -2011,7 +2011,8 @@ export const questions = [
       "A. S3 からファイルを削除した後に、ナレッジベースの『同期 (Sync)』ボタンを押していない。",
       "B. ブラウザを再起動していない。",
       "C. モデルアクセス権限が失効している。",
-      "D. AWS のリージョン障害が発生している。"
+      "D. AWS のリージョン障害が発生している。",
+      "E. AとDの両方"
     ],
     answer: 0,
     explanation: "S3側の変更を反映させるには、必ずナレッジベース側で同期操作を実行する必要があります。"
@@ -2091,7 +2092,12 @@ export const questions = [
   {
     id: 175,
     question: "Amazon Bedrock エージェントの『セッション（Session）』の状態を保持するために、開発者がクライアント側（フロントエンド）で管理する必要がある最低限の情報は何ですか。",
-    options: ["A. sessionID (セッション ID)", "B. AWS ルートユーザーのパスワード", "C. S3 の全オブジェクト名", "D. Lambda 関数のソースコード"],
+    options: [
+      "A. sessionID (セッション ID)",
+      "B. AWS ルートユーザーのパスワード",
+      "C. S3 の全オブジェクト名",
+      "D. Lambda 関数のソースコード"
+    ],
     answer: 0,
     explanation: "セッション ID を一貫して使用することで、エージェントは一連の会話の流れを正しく認識できます。"
   },
@@ -2122,7 +2128,12 @@ export const questions = [
   {
     id: 178,
     question: "Amazon Bedrock で Stable Diffusion モデル（Stability AI社）を使用して画像を生成する際、画像の縦横比を変更するために調整すべきパラメータはどれですか。",
-    options: ["A. Width と Height", "B. Temperature", "C. Top-P", "D. Max Tokens"],
+    options: [
+      "A. Width と Height",
+      "B. Temperature",
+      "C. Top-P",
+      "D. Max Tokens"
+    ],
     answer: 0,
     explanation: "画像モデルでは幅と高さをピクセル単位で指定することで、アスペクト比をコントロールします。"
   },
@@ -2189,7 +2200,12 @@ export const questions = [
   {
     id: 184,
     question: "Amazon Bedrock でプロビジョンドスループットを使用している場合、モデルが正常に動作しているか（ヘルスチェック）を確認するために使用できる CloudWatch メトリクスはどれですか。",
-    options: ["A. InvocationFailures", "B. CPUUtilization", "C. FreeStorageSpace", "D. NetworkIn"],
+    options: [
+      "A. InvocationFailures",
+      "B. CPUUtilization",
+      "C. FreeStorageSpace",
+      "D. NetworkIn"
+    ],
     answer: 0,
     explanation: "呼び出し失敗数（InvocationFailures）を監視することで、サービスの中断やエラーの発生を検知できます。"
   },
@@ -2232,7 +2248,12 @@ export const questions = [
   {
     id: 188,
     question: "Amazon Bedrock で Mistral モデルを使用する場合、非常に高速なレスポンスが求められるリアルタイム・アプリケーションに適したモデルタイプはどれですか。",
-    options: ["A. Mistral 7B または Mixtral 8x7B", "B. Titan Image Generator", "C. 埋め込みモデル", "D. 手動評価モデル"],
+    options: [
+      "A. Mistral 7B または Mixtral 8x7B",
+      "B. Titan Image Generator",
+      "C. 埋め込みモデル",
+      "D. 手動評価モデル"
+    ],
     answer: 0,
     explanation: "Mistral シリーズは軽量かつ高速な推論が特徴であり、チャットボットなどの対話型アプリに適しています。"
   },
@@ -2287,7 +2308,12 @@ export const questions = [
   {
     id: 193,
     question: "RAG システムで回答の根拠となった元の文書（ソース）を特定するために、各チャンクに関連付けられている情報を何と呼びますか。",
-    options: ["A. Metadata (メタデータ)", "B. ユーザー名", "C. プロンプト名", "D. モデル ID"],
+    options: [
+      "A. Metadata (メタデータ)",
+      "B. ユーザー名",
+      "C. プロンプト名",
+      "D. モデル ID"
+    ],
     answer: 0,
     explanation: "メタデータにはファイルパスや ID が含まれており、これを参照することで出典を表示できます。"
   },
@@ -2306,14 +2332,24 @@ export const questions = [
   {
     id: 195,
     question: "Amazon Bedrock エージェントにおいて、各ユーザーの会話コンテキストを管理するために API リクエスト時に一貫して送信すべきパラメータは何ですか。",
-    options: ["A. sessionID (セッション ID)", "B. AWS_SECRET_ACCESS_KEY", "C. クライアントの MAC アドレス", "D. 現在の気温"],
+    options: [
+      "A. sessionID (セッション ID)",
+      "B. AWS_SECRET_ACCESS_KEY",
+      "C. クライアントの MAC アドレス",
+      "D. 現在の気温"
+    ],
     answer: 0,
     explanation: "セッション ID によって会話が紐付けられ、文脈を考慮した応答が可能になります。"
   },
   {
     id: 196,
-    question: "Amazon Bedrock でプロビジョンドスループットを購入した後、そのスループットを使用して実際に推論を行う際に使用する識別子（ARN）は何と呼ばりますか。",
-    options: ["A. Provisioned model ARN", "B. S3 bucket ARN", "C. Lambda function ARN", "D. IAM role ARN"],
+    question: "Amazon Bedrock でプロビジョンドスループットを購入した後、そのスループットを使用して実際に推論を行う際に使用する識別子（ARN）は何呼ばりますか。",
+    options: [
+      "A. Provisioned model ARN",
+      "B. S3 bucket ARN",
+      "C. Lambda function ARN",
+      "D. IAM role ARN"
+    ],
     answer: 0,
     explanation: "推論 API 呼び出し時に、通常のモデル ID ではなくこのプロビジョンドモデルの ARN を指定します。"
   },
@@ -2363,6 +2399,6 @@ export const questions = [
       "D. マウスのクリック回数。"
     ],
     answer: 0,
-        explanation: "大量の文書をベクトル化する際、モデルの処理能力や API の制限が全体の処理時間に影響します。"
+    explanation: "大量の文書をベクトル化する際、モデルの処理能力や API の制限が全体の処理時間に影響します。"
   }
 ];
