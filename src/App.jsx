@@ -23,10 +23,23 @@ const App = () => {
   const startQuiz = (mode) => {
     try {
       let qList = [...originalQuestions];
-      if (mode === 'random') {
-        qList = qList.sort(() => Math.random() - 0.5);
-      }
-      setQuestions(qList);
+if (mode === 'random') {
+  qList = qList.sort(() => Math.random() - 0.5);
+}
+// 選択肢をシャッフルして正答位置を均等化
+　qList = qList.map(q => {
+  const indexed = q.options.map((opt, i) => ({ opt, isCorrect: i === q.answer }));
+  for (let i = indexed.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexed[i], indexed[j]] = [indexed[j], indexed[i]];
+  }
+  return {
+    ...q,
+    options: indexed.map(x => x.opt),
+    answer: indexed.findIndex(x => x.isCorrect),
+  };
+});
+setQuestions(qList);
       setQuizMode(mode);
     } catch (e) {
       console.error(e);
