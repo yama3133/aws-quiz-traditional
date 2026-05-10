@@ -145,7 +145,7 @@ setQuestions(qList);
               }
               return (
                 <button key={index} onClick={() => handleAnswer(index)} disabled={showResult} style={{ textAlign: 'left', padding: '16px', borderRadius: '12px', border: isSelected ? '2px solid #2563eb' : '1px solid #e2e8f0', backgroundColor: bgColor, cursor: showResult ? 'default' : 'pointer' }}>
-                  {option}
+                  {['A', 'B', 'C', 'D'][index]}. {option.replace(/^[A-D]\.\s*/, '')}
                 </button>
               );
             })}
